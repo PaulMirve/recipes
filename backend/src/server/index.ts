@@ -38,6 +38,7 @@ export default class Server {
                 ApolloServerPluginDrainHttpServer({ httpServer }),
                 ApolloServerPluginLandingPageGraphQLPlayground
             ],
+            context: ({ req }) => ({ headers: req.headers })
         });
         await server.start();
         server.applyMiddleware({ app });
