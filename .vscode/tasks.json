@@ -34,6 +34,7 @@
         {
             "label": "Backend",
             "type": "process",
+            "command": "",
             "problemMatcher": [],
             "presentation": {
                 "echo": false,
@@ -56,6 +57,7 @@
             "label": "Global",
             "type": "process",
             "problemMatcher": [],
+            "command": "",
             "presentation": {
                 "echo": false,
                 "focus": true,
