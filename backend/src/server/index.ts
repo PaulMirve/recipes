@@ -2,7 +2,7 @@ import express, { Express } from 'express';
 import connect from '../db';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
-import { UserResolver } from '../schema/user/user.resolver';
+import path from 'path';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core/dist/plugin/drainHttpServer';
 import http from 'http';
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core/dist/plugin/landingPage/graphqlPlayground';
@@ -30,7 +30,9 @@ export default class Server {
         const httpServer = http.createServer(app);
         const server = new ApolloServer({
             schema: await buildSchema({
-                resolvers: [UserResolver]
+                resolvers: [
+                    path.join(__dirname, '../schema/**/*.resolver.ts')
+                ]
             }),
             plugins: [
                 ApolloServerPluginDrainHttpServer({ httpServer }),
