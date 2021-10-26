@@ -1,0 +1,74 @@
+{
+    "version": "2.0.0",
+    "presentation": {
+        "echo": false,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": true
+    },
+    "tasks": [{
+            "label": "Create terminals",
+            "dependsOn": [
+                "Node",
+                "Backend",
+                "Global"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "runOptions": {
+                "runOn": "folderOpen"
+            }
+        },
+        {
+            "label": "Node",
+            "type": "shell",
+            "command": "npm run dev",
+            "options": {
+                "cwd": "./backend"
+            },
+            "isBackground": true
+        },
+        {
+            "label": "Backend",
+            "type": "process",
+            "problemMatcher": [],
+            "presentation": {
+                "echo": false,
+                "focus": true,
+                "group": "build",
+                "panel": "dedicated"
+            },
+            "windows": {
+                "command": "powershell"
+            },
+            "osx": {
+                "command": "/bin/bash"
+            },
+            "isBackground": true,
+            "options": {
+                "cwd": "./backend"
+            },
+        },
+        {
+            "label": "Global",
+            "type": "process",
+            "problemMatcher": [],
+            "presentation": {
+                "echo": false,
+                "focus": true,
+                "group": "build",
+                "panel": "dedicated"
+            },
+            "windows": {
+                "command": "powershell"
+            },
+            "osx": {
+                "command": "/bin/bash"
+            },
+            "isBackground": true,
+        }
+    ]
+}
