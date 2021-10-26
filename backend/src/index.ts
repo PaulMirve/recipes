@@ -1,4 +1,4 @@
-import { Migration } from "typeorm";
+import 'colors';
 import Server from "./server";
 console.clear();
 

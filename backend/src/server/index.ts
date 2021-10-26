@@ -14,7 +14,7 @@ export default class Server {
     constructor() {
         this.app = express();
         this.dbConnect();
-        this.port = 8080;
+        this.port = 8081;
     }
 
     async dbConnect() {
@@ -40,7 +40,7 @@ export default class Server {
         await server.start();
         server.applyMiddleware({ app });
         await new Promise<void>(resolve => httpServer.listen({ port: this.port }, resolve));
-        console.log(`Server ready at http://localhost:${this.port}${server.graphqlPath} 🦕`);
+        console.log(`Server ready at http://localhost:${this.port}${server.graphqlPath} 🦕`.blue);
 
     }
 }
