@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { CommentEntity } from "../comment/comment.entity";
 import { UserEntity } from "../user/user.entity";
 
@@ -31,4 +31,7 @@ export class RecipeEntity {
 
     @OneToMany(() => CommentEntity, comment => comment.recipe)
     comments: CommentEntity[];
+
+    @ManyToMany(() => UserEntity, user => user.bookmarks)
+    bookmarkedBy: UserEntity[];
 }

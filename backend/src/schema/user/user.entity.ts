@@ -1,4 +1,5 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { CommentEntity } from "../comment/comment.entity";
 import { RecipeEntity } from "../recipes/recipe.entity";
 import { RoleEntity } from "../role/role.entity";
 
@@ -29,6 +30,9 @@ export class UserEntity {
     @OneToMany(() => RecipeEntity, recipe => recipe.user)
     recipes: RecipeEntity[];
 
+    @OneToMany(() => CommentEntity, comment => comment.user)
+    comments: CommentEntity[];
+
     @ManyToMany(() => UserEntity, user => user.followers)
     @JoinTable({
         name: 'UserHasFollowers',
@@ -43,4 +47,16 @@ export class UserEntity {
 
     @ManyToMany(() => UserEntity, user => user.following)
     followers: UserEntity[]
+
+    @ManyToMany(() => RecipeEntity, recipe => recipe.bookmarkedBy)
+    @JoinTable({
+        name: 'UserHasBookmarks',
+        joinColumn: {
+            name: 'IdUser'
+        },
+        inverseJoinColumn: {
+            name: 'IdRecipe'
+        }
+    })
+    bookmarks: RecipeEntity[];
 }
