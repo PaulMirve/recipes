@@ -11,9 +11,10 @@ const connect = async () => {
             database: process.env.DB_DATABASE,
             entities: [
                 path.join(__dirname, '../schema/**/*.entity.ts')
-            ]
+            ],
+            synchronize: true
         });
-        console.log('Database is Connected ⚡'.blue);
+        console.log('Database is connected ⚡'.blue);
     } catch (err) {
         console.log("Failed to connect to dabatabase: ".red, err);
     }
