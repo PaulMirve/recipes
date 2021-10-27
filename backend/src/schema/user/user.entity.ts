@@ -59,4 +59,28 @@ export class UserEntity {
         }
     })
     bookmarks: RecipeEntity[];
+
+    @ManyToMany(() => RecipeEntity, recipe => recipe.likes)
+    @JoinTable({
+        name: 'UserHasLikedRecipe',
+        joinColumn: {
+            name: 'IdUser'
+        },
+        inverseJoinColumn: {
+            name: 'IdRecipe'
+        }
+    })
+    likedRecipes: RecipeEntity[];
+
+    @ManyToMany(() => CommentEntity, comment => comment.likes)
+    @JoinTable({
+        name: 'UserHasLikedComment',
+        joinColumn: {
+            name: 'IdUser'
+        },
+        inverseJoinColumn: {
+            name: 'IdComment'
+        }
+    })
+    likedComments: RecipeEntity[];
 }

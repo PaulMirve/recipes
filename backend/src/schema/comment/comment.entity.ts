@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { RecipeEntity } from "../recipes/recipe.entity";
 import { UserEntity } from "../user/user.entity";
 
@@ -26,4 +26,7 @@ export class CommentEntity {
     @ManyToOne(() => UserEntity, user => user.comments)
     @JoinColumn({ name: 'IdUser' })
     user: UserEntity;
+
+    @ManyToMany(() => UserEntity, user => user.likedComments)
+    likes: UserEntity[];
 }

@@ -34,4 +34,7 @@ export class RecipeEntity {
 
     @ManyToMany(() => UserEntity, user => user.bookmarks)
     bookmarkedBy: UserEntity[];
+
+    @ManyToMany(() => UserEntity, user => user.likedRecipes)
+    likes: UserEntity[];
 }
