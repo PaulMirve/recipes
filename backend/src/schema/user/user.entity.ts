@@ -1,10 +1,10 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { CommentEntity } from "../comment/comment.entity";
 import { RecipeEntity } from "../recipes/recipe.entity";
 import { RoleEntity } from "../role/role.entity";
 
 @Entity('Users')
-export class UserEntity {
+export class UserEntity extends BaseEntity {
     @PrimaryGeneratedColumn({ name: 'IdUser' })
     idUser: number;
 
@@ -20,7 +20,7 @@ export class UserEntity {
     @Column({ name: 'Password', nullable: false })
     password: string;
 
-    @Column({ name: 'IdRole', nullable: false })
+    @Column({ name: 'IdRole', nullable: false, default: 1 })
     idRole: number;
 
     @ManyToOne(() => RoleEntity, role => role.users)
