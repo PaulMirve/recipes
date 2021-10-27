@@ -1,4 +1,5 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { CommentEntity } from "../comment/comment.entity";
 import { UserEntity } from "../user/user.entity";
 
 @Entity('Recipes')
@@ -27,4 +28,7 @@ export class RecipeEntity {
     @ManyToOne(() => UserEntity, user => user.recipes)
     @JoinColumn({ name: 'IdUser' })
     user: UserEntity;
+
+    @OneToMany(() => CommentEntity, comment => comment.recipe)
+    comments: CommentEntity[];
 }
