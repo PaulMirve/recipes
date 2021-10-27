@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { RecipeEntity } from "../recipes/recipe.entity";
 import { RoleEntity } from "../role/role.entity";
 
@@ -28,4 +28,19 @@ export class UserEntity {
 
     @OneToMany(() => RecipeEntity, recipe => recipe.user)
     recipes: RecipeEntity[];
+
+    @ManyToMany(() => UserEntity, user => user.followers)
+    @JoinTable({
+        name: 'UserHasFollowers',
+        joinColumn: {
+            name: 'IdFollower'
+        },
+        inverseJoinColumn: {
+            name: 'IdUser'
+        }
+    })
+    following: UserEntity[];
+
+    @ManyToMany(() => UserEntity, user => user.following)
+    followers: UserEntity[]
 }
