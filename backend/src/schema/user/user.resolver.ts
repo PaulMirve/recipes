@@ -4,14 +4,13 @@ import { User, UserInput } from "./user.types";
 import bcrypt from 'bcrypt';
 import { AuthMiddleware } from "../../middlewares/auth.middleware";
 import { Context } from "apollo-server-core";
+import ValidRolesMiddleware from "../../middlewares/role.middleware";
 
 @Resolver()
 export class UserResolver {
     @Query(returns => [User])
-    @UseMiddleware(AuthMiddleware)
-    getUsers(
-        @Ctx("user") user: UserEntity
-    ) {
+    @UseMiddleware(AuthMiddleware, ValidRolesMiddleware(["ADMIN_ROLE"]))
+    getUsers() {
         return UserEntity.find();
     }
 
