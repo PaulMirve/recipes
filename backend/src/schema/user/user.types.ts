@@ -1,4 +1,5 @@
 import { Field, InputType, ObjectType } from "type-graphql";
+import { Role } from "../role/role.types";
 @ObjectType()
 export class User {
     @Field(of => String)
@@ -7,6 +8,8 @@ export class User {
     lastName: string;
     @Field(of => String)
     username: string;
+    @Field(of => Role)
+    role: Role;
 }
 
 @InputType()
