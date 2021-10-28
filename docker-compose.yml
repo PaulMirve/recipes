@@ -1,10 +1,12 @@
 version: '3'
 services:
   postgres:
+    container_name: postgresdb
     image: postgres:latest
     environment:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
   graphql:
+    container_name: graphql
     build:
       dockerfile: Dockerfile
       context: ./backend
