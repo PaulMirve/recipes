@@ -13,7 +13,7 @@ const connect = async () => {
             entities: [
                 path.join(__dirname, '../schema/**/*.entity{.ts,.js}')
             ],
-            synchronize: true
+            //synchronize: true
         });
         console.log('Database is connected ⚡'.blue);
     } catch (err) {
