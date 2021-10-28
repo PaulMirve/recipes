@@ -8,7 +8,7 @@ import {
 } from 'class-validator';
 
 @ValidatorConstraint({ async: true })
-export class IsUserAlreadyExistConstraint implements ValidatorConstraintInterface {
+class IsUserAlreadyExistConstraint implements ValidatorConstraintInterface {
     async validate(username: any, args: ValidationArguments) {
         const user = await UserEntity.findOne({ username });
         if (user) return false;
@@ -17,6 +17,12 @@ export class IsUserAlreadyExistConstraint implements ValidatorConstraintInterfac
 }
 
 export function IsUsernameExist(validationOptions?: ValidationOptions) {
+    if (!validationOptions) {
+        validationOptions = {
+            message: 'The username is already in use 😪'
+        }
+    }
+
     return function (object: Object, propertyName: string) {
         registerDecorator({
             target: object.constructor,

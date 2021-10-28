@@ -30,7 +30,7 @@ export class UserInput {
     @Field(of => String)
     @IsString()
     @IsNotEmpty()
-    @IsUsernameExist({ message: 'The username is already in use' })
+    @IsUsernameExist()
     username: string;
 
     @Field(of => String)
