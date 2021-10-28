@@ -1,5 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { RecipeEntity } from "../recipes/recipe.entity";
+import { UserEntity } from "../user/user.entity";
 
 @Entity('Comments')
 export class CommentEntity {
@@ -18,4 +19,14 @@ export class CommentEntity {
     @ManyToOne(() => RecipeEntity, recipe => recipe.comments)
     @JoinColumn({ name: 'IdRecipe' })
     recipe: RecipeEntity;
+
+    @Column({ name: 'IdUser', nullable: false })
+    idUser: number;
+
+    @ManyToOne(() => UserEntity, user => user.comments)
+    @JoinColumn({ name: 'IdUser' })
+    user: UserEntity;
+
+    @ManyToMany(() => UserEntity, user => user.likedComments)
+    likes: UserEntity[];
 }

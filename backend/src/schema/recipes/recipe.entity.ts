@@ -1,9 +1,9 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { CommentEntity } from "../comment/comment.entity";
 import { UserEntity } from "../user/user.entity";
 
 @Entity('Recipes')
-export class RecipeEntity {
+export class RecipeEntity extends BaseEntity {
     @PrimaryGeneratedColumn({ name: "IdRecipe" })
     idRecipe: number;
 
@@ -31,4 +31,10 @@ export class RecipeEntity {
 
     @OneToMany(() => CommentEntity, comment => comment.recipe)
     comments: CommentEntity[];
+
+    @ManyToMany(() => UserEntity, user => user.bookmarks)
+    bookmarkedBy: UserEntity[];
+
+    @ManyToMany(() => UserEntity, user => user.likedRecipes)
+    likes: UserEntity[];
 }
