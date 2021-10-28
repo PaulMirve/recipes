@@ -43,7 +43,7 @@ export default class Server {
         await server.start();
         server.applyMiddleware({ app });
         await new Promise<void>(resolve => httpServer.listen({ port: this.port }, resolve));
-        console.log(`Server ready at http://localhost:${this.port}${server.graphqlPath} 🦕`.blue);
+        console.log(`Server ready at port ${this.port} 🦕`.blue);
 
     }
 }
