@@ -31,7 +31,7 @@ export default class Server {
         const server = new ApolloServer({
             schema: await buildSchema({
                 resolvers: [
-                    path.join(__dirname, '../schema/**/*.resolver.ts')
+                    path.join(__dirname, '../schema/**/*.resolver{.ts,.js}')
                 ]
             }),
             plugins: [
