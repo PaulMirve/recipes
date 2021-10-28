@@ -1,5 +1,8 @@
+import { IsNotEmpty, IsString } from "class-validator";
 import { Field, InputType, ObjectType } from "type-graphql";
+import { IsUsernameExist } from "../../decorators/username.decorator";
 import { Role } from "../role/role.types";
+
 @ObjectType()
 export class User {
     @Field(of => String)
@@ -15,11 +18,23 @@ export class User {
 @InputType()
 export class UserInput {
     @Field(of => String)
+    @IsString()
+    @IsNotEmpty()
     name: string;
+
     @Field(of => String)
+    @IsString()
+    @IsNotEmpty()
     lastName: string;
+
     @Field(of => String)
+    @IsString()
+    @IsNotEmpty()
+    @IsUsernameExist({ message: 'The username is already in use' })
     username: string;
+
     @Field(of => String)
+    @IsString()
+    @IsNotEmpty()
     password: string;
 }
