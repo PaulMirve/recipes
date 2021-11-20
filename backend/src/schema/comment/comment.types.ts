@@ -12,6 +12,8 @@ export class Comment {
     comment: string;
     @Field(of => [User])
     likes: User[];
+    @Field(of => User)
+    user: User;
 }
 
 @InputType()

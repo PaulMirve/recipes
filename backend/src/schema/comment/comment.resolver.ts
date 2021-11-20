@@ -1,6 +1,7 @@
-import { Arg, Ctx, FieldResolver, Int, Mutation, Resolver, Root, UseMiddleware } from "type-graphql";
+import { Arg, Ctx, FieldResolver, Int, Mutation, Query, Resolver, Root, UseMiddleware } from "type-graphql";
 import { AuthMiddleware } from "../../middlewares/auth.middleware";
 import { ValidIdCommentMiddleware } from "../../middlewares/valid-idCommen.middleware";
+import { ValidIdRecipeMiddleware } from "../../middlewares/valid-idRecipe.middleware";
 import { UserEntity } from "../user/user.entity";
 import { CommentEntity } from "./comment.entity";
 import { Comment, CommentInput } from "./comment.types";
@@ -36,6 +37,14 @@ class CommentResolver {
         return CommentEntity.save(comment);
     }
 
+    @Query(of => [Comment])
+    @UseMiddleware(ValidIdRecipeMiddleware)
+    async getRecipeComments(
+        @Arg("idRecipe", of => Int) idRecipe: number
+    ) {
+        return await CommentEntity.find({ idRecipe });
+    }
+
     @FieldResolver()
     async likes(@Root() { idComment }: CommentEntity) {
         const comment = await CommentEntity.findOne({
@@ -43,5 +52,14 @@ class CommentResolver {
             relations: ["likes"]
         });
         return comment.likes;
+    }
+
+    @FieldResolver()
+    async user(@Root() { idComment }: CommentEntity) {
+        const comment = await CommentEntity.findOne({
+            where: { idComment },
+            relations: ["user"]
+        });
+        return comment.user;
     }
 }

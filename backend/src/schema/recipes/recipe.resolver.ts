@@ -67,4 +67,13 @@ class RecipeResolver {
         });
         return recipe.likes;
     }
+
+    @FieldResolver()
+    async user(@Root() { idUser }: RecipeEntity) {
+        const recipe = await RecipeEntity.findOne({
+            where: { idUser },
+            relations: ["user"]
+        });
+        return recipe.user;
+    }
 }
