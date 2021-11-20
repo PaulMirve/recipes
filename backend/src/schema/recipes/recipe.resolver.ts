@@ -6,6 +6,7 @@ import { UserEntity } from "../user/user.entity";
 import { uploadPhoto } from "../../helpers/upload-photo";
 import { IngredientEntity } from "../ingredient/ingredient.entity";
 import { StepEntity } from "../step/step.entity"; import { removeDuplicateTags } from "../../helpers/remove-duplicate-tags";
+import { ValidIdRecipeMiddleware } from "../../middlewares/valid-idRecipe.middleware";
 @Resolver(of => Recipe)
 class RecipeResolver {
     @Query(returns => [Recipe])
@@ -28,8 +29,8 @@ class RecipeResolver {
     }
 
     @Mutation(returns => Recipe)
-    @UseMiddleware(AuthMiddleware)
-    async addLikeToRecipe(
+    @UseMiddleware(AuthMiddleware, ValidIdRecipeMiddleware)
+    async likeRecipe(
         @Arg("idRecipe", () => Int) idRecipe: number,
         @Ctx("user") user: UserEntity
     ) {
