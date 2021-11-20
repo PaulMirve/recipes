@@ -1,4 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { RecipeEntity } from "../recipes/recipe.entity";
 import { UnitEntity } from "../unit/unit.entity";
 import { UserEntity } from "../user/user.entity";
 
@@ -20,10 +21,10 @@ export class IngredientEntity {
     @JoinColumn({ name: 'IdUnit' })
     unit: UnitEntity;
 
-    @Column({ name: 'IdUser', nullable: false })
-    idUser: number;
+    @Column({ name: 'IdRecipe', nullable: false })
+    idRecipe: number;
 
-    @ManyToOne(() => UserEntity, user => user.recipes)
-    @JoinColumn({ name: 'IdUser' })
-    user: UserEntity;
+    @ManyToOne(() => RecipeEntity, recipe => recipe.ingredients)
+    @JoinColumn({ name: "IdRecipe" })
+    recipe: RecipeEntity;
 }

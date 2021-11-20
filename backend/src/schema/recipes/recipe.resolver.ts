@@ -6,6 +6,8 @@ import { v2 as cloudinary } from 'cloudinary'
 import { AuthMiddleware } from "../../middlewares/auth.middleware";
 import { User } from "../user/user.types";
 import { UserEntity } from "../user/user.entity";
+import { IngredientEntity } from "../ingredient/ingredient.entity";
+import { uploadPhoto } from "../../helpers/upload-photo";
 
 @Resolver()
 class RecipeResolver {
@@ -20,23 +22,8 @@ class RecipeResolver {
         @Ctx("user") user: UserEntity
     ) {
         const { photo, ...rest } = recipeInput;
-        const { filename, createReadStream } = await photo;
-
-        cloudinary.config({
-            cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-            api_key: process.env.CLOUDINARY_API_KEY,
-            api_secret: process.env.CLOUDINARY_API_SECRET
-        });
-
-        await new Promise(async (resolve, reject) =>
-            createReadStream()
-                .pipe(createWriteStream(`./uploads/${filename}`))
-                .on('finish', () => resolve(true))
-                .on('error', () => reject(false))
-        );
-        const { secure_url } = await cloudinary.uploader.upload(`./uploads/${filename}`);
         const recipe = RecipeEntity.create(rest);
-        recipe.photo = secure_url;
+        recipe.photo = await uploadPhoto(photo);;
         recipe.idUser = user.idUser;
         return RecipeEntity.save(recipe);
     }

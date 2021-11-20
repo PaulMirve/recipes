@@ -78,3 +78,11 @@ create index "IDX_97020aab3a86c99434a9c656c4" on "UserHasLikedComment" ("IdComme
 insert into "Roles" ("Name")
 values ('USER_ROLE'),
     ('ADMIN_ROLE');
+insert into "Units" ("Name")
+values ('gr'),
+    ('k'),
+    ('ml'),
+    ('l'),
+    ('piece(s)'),
+    ('spoon(s)'),
+    ('cup(s)');

@@ -1,5 +1,7 @@
 import { BaseEntity, Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { CommentEntity } from "../comment/comment.entity";
+import { IngredientEntity } from "../ingredient/ingredient.entity";
+import { StepEntity } from "../step/step.entity";
 import { UserEntity } from "../user/user.entity";
 
 @Entity('Recipes')
@@ -37,4 +39,10 @@ export class RecipeEntity extends BaseEntity {
 
     @ManyToMany(() => UserEntity, user => user.likedRecipes)
     likes: UserEntity[];
+
+    @OneToMany(() => IngredientEntity, ingredient => ingredient.recipe, { cascade: true })
+    ingredients: IngredientEntity[];
+
+    @OneToMany(() => StepEntity, step => step.recipe, { cascade: true })
+    steps: StepEntity[];
 }
