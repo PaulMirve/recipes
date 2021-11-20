@@ -49,6 +49,27 @@ class RecipeResolver {
         return RecipeEntity.save(recipe);
     }
 
+    @Mutation(returns => Recipe)
+    @UseMiddleware(AuthMiddleware, ValidIdRecipeMiddleware)
+    async bookmarkRecipe(
+        @Arg("idRecipe", of => Int) idRecipe: number,
+        @Ctx("user") user: UserEntity
+    ) {
+        const recipe = await RecipeEntity.findOne({
+            where: { idRecipe },
+            relations: ["bookmarkedBy"]
+        });
+
+        const recipeExist = recipe.bookmarkedBy.find(usr => usr.idUser === user.idUser);
+        const indexOfRecipe = recipe.bookmarkedBy.indexOf(recipeExist);
+        if (indexOfRecipe > -1) {
+            recipe.bookmarkedBy.splice(indexOfRecipe, 1);
+        } else {
+            recipe.bookmarkedBy.push(user);
+        }
+        return RecipeEntity.save(recipe);
+    }
+
     @FieldResolver()
     ingredients(@Root() { idRecipe }: RecipeEntity) {
         return IngredientEntity.find({ idRecipe });
@@ -75,5 +96,14 @@ class RecipeResolver {
             relations: ["user"]
         });
         return recipe.user;
+    }
+
+    @FieldResolver()
+    async bookmarkedBy(@Root() { idUser }: RecipeEntity) {
+        const recipe = await RecipeEntity.findOne({
+            where: { idUser },
+            relations: ["bookmarkedBy"]
+        });
+        return recipe.bookmarkedBy;
     }
 }

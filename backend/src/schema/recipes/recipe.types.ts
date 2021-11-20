@@ -26,6 +26,8 @@ export class Recipe {
     likes: User[];
     @Field(of => User)
     user: User;
+    @Field(of => [User])
+    bookmarkedBy: User[];
 }
 
 @InputType()
