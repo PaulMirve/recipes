@@ -1,18 +1,15 @@
 import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { RecipeEntity } from "./recipe.entity";
 import { Recipe, RecipeInput } from "./recipe.types";
-import { createWriteStream } from 'fs';
-import { v2 as cloudinary } from 'cloudinary'
 import { AuthMiddleware } from "../../middlewares/auth.middleware";
-import { User } from "../user/user.types";
 import { UserEntity } from "../user/user.entity";
-import { IngredientEntity } from "../ingredient/ingredient.entity";
 import { uploadPhoto } from "../../helpers/upload-photo";
 
 @Resolver()
 class RecipeResolver {
-    @Query(returns => String)
-    getRecipes() {
+    @Query(returns => [Recipe])
+    async getRecipes() {
+        return RecipeEntity.find();
     }
 
     @Mutation(returns => Recipe)
