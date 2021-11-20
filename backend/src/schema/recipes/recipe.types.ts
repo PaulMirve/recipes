@@ -4,6 +4,7 @@ import { Ingredient, IngredientInput } from "../ingredient/ingredient.types";
 import { Step, StepInput } from "../step/step.types";
 import { IsInt, IsNotEmpty } from "class-validator";
 import { TagInput } from "../tag/tag.types";
+import { User } from "../user/user.types";
 
 @ObjectType()
 export class Recipe {
@@ -21,6 +22,8 @@ export class Recipe {
     ingredients: Ingredient[];
     @Field(of => [Step])
     steps: Step[];
+    @Field(of => [User])
+    likes: User[];
 }
 
 @InputType()

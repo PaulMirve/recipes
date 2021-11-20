@@ -2,6 +2,7 @@ import { IsNotEmpty } from "class-validator";
 import { Field, InputType, Int, ObjectType } from "type-graphql";
 import { IsRecipeExist } from "../../decorators/idRecipe.decorator";
 import { IsUserExist } from "../../decorators/idUser.decorator";
+import { User } from "../user/user.types";
 
 @ObjectType()
 export class Comment {
@@ -9,6 +10,8 @@ export class Comment {
     idComment: number;
     @Field(of => String)
     comment: string;
+    @Field(of => [User])
+    likes: User[];
 }
 
 @InputType()

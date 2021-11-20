@@ -1,4 +1,4 @@
-import { Arg, Ctx, Int, Mutation, Resolver, UseMiddleware } from "type-graphql";
+import { Arg, Ctx, FieldResolver, Int, Mutation, Resolver, Root, UseMiddleware } from "type-graphql";
 import { AuthMiddleware } from "../../middlewares/auth.middleware";
 import { ValidIdCommentMiddleware } from "../../middlewares/valid-idCommen.middleware";
 import { UserEntity } from "../user/user.entity";
@@ -34,5 +34,14 @@ class CommentResolver {
             comment.likes.push(user);
         }
         return CommentEntity.save(comment);
+    }
+
+    @FieldResolver()
+    async likes(@Root() { idComment }: CommentEntity) {
+        const comment = await CommentEntity.findOne({
+            where: { idComment },
+            relations: ["likes"]
+        });
+        return comment.likes;
     }
 }

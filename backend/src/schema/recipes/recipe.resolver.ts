@@ -58,4 +58,13 @@ class RecipeResolver {
     steps(@Root() { idRecipe }: RecipeEntity) {
         return StepEntity.find({ idRecipe });
     }
+
+    @FieldResolver()
+    async likes(@Root() { idRecipe }: RecipeEntity) {
+        const recipe = await RecipeEntity.findOne({
+            where: { idRecipe },
+            relations: ["likes"]
+        });
+        return recipe.likes;
+    }
 }
