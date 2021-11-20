@@ -6,6 +6,7 @@ import path from 'path';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core/dist/plugin/drainHttpServer';
 import http from 'http';
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core/dist/plugin/landingPage/graphqlPlayground';
+import { graphqlUploadExpress } from 'graphql-upload';
 
 export default class Server {
     app: Express;
@@ -27,6 +28,7 @@ export default class Server {
 
     async start() {
         const app = express();
+        app.use(graphqlUploadExpress());
         const httpServer = http.createServer(app);
         const server = new ApolloServer({
             schema: await buildSchema({
