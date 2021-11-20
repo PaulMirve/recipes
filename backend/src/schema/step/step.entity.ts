@@ -1,8 +1,8 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { RecipeEntity } from "../recipes/recipe.entity";
 
 @Entity("Steps")
-export class StepEntity {
+export class StepEntity extends BaseEntity {
     @PrimaryGeneratedColumn({ name: 'IdStep' })
     idStep: number;
 

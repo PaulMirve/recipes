@@ -1,7 +1,7 @@
 import { Field, InputType, Int, ObjectType } from "type-graphql";
 import { FileUpload, GraphQLUpload } from 'graphql-upload';
-import { IngredientInput } from "../ingredient/ingredient.types";
-import { StepInput } from "../step/step.types";
+import { Ingredient, IngredientInput } from "../ingredient/ingredient.types";
+import { Step, StepInput } from "../step/step.types";
 import { IsInt, IsNotEmpty } from "class-validator";
 
 @ObjectType()
@@ -16,6 +16,10 @@ export class Recipe {
     numberOfPeople: number;
     @Field(of => String)
     photo: string;
+    @Field(of => [Ingredient])
+    ingredients: Ingredient[];
+    @Field(of => [Step])
+    steps: Step[];
 }
 
 @InputType()

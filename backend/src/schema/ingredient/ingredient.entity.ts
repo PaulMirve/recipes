@@ -1,10 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { RecipeEntity } from "../recipes/recipe.entity";
 import { UnitEntity } from "../unit/unit.entity";
 import { UserEntity } from "../user/user.entity";
 
 @Entity('Ingredients')
-export class IngredientEntity {
+export class IngredientEntity extends BaseEntity {
     @PrimaryGeneratedColumn({ name: 'IdIngredient' })
     idIngredient: number;
 
