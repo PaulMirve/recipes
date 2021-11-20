@@ -1,7 +1,8 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { CommentEntity } from "../comment/comment.entity";
 import { IngredientEntity } from "../ingredient/ingredient.entity";
 import { StepEntity } from "../step/step.entity";
+import { TagEntity } from "../tag/tag.entity";
 import { UserEntity } from "../user/user.entity";
 
 @Entity('Recipes')
@@ -39,6 +40,18 @@ export class RecipeEntity extends BaseEntity {
 
     @ManyToMany(() => UserEntity, user => user.likedRecipes)
     likes: UserEntity[];
+
+    @ManyToMany(() => TagEntity, tag => tag.recipes, { cascade: true })
+    @JoinTable({
+        name: 'RecipeHasTags',
+        joinColumn: {
+            name: 'IdRecipe'
+        },
+        inverseJoinColumn: {
+            name: 'IdTag'
+        }
+    })
+    tags: TagEntity[];
 
     @OneToMany(() => IngredientEntity, ingredient => ingredient.recipe, { cascade: true })
     ingredients: IngredientEntity[];

@@ -3,6 +3,7 @@ import { FileUpload, GraphQLUpload } from 'graphql-upload';
 import { Ingredient, IngredientInput } from "../ingredient/ingredient.types";
 import { Step, StepInput } from "../step/step.types";
 import { IsInt, IsNotEmpty } from "class-validator";
+import { TagInput } from "../tag/tag.types";
 
 @ObjectType()
 export class Recipe {
@@ -38,5 +39,7 @@ export class RecipeInput {
     @Field(of => [IngredientInput])
     ingredients: IngredientInput[];
     @Field(of => [StepInput])
-    steps: StepInput[]
+    steps: StepInput[];
+    @Field(of => [TagInput])
+    tags: TagInput[];
 }

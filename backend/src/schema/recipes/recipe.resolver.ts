@@ -6,6 +6,7 @@ import { UserEntity } from "../user/user.entity";
 import { uploadPhoto } from "../../helpers/upload-photo";
 import { IngredientEntity } from "../ingredient/ingredient.entity";
 import { StepEntity } from "../step/step.entity";
+import { RemoveDuplicateTags, RemoveDuplicateTagsMiddleware } from "../../middlewares/tags.middleware";
 
 @Resolver(of => Recipe)
 class RecipeResolver {
@@ -20,9 +21,10 @@ class RecipeResolver {
         @Arg("recipe") recipeInput: RecipeInput,
         @Ctx("user") user: UserEntity
     ) {
-        const { photo, ...rest } = recipeInput;
+        const { photo, tags, ...rest } = recipeInput;
         const recipe = RecipeEntity.create(rest);
-        recipe.photo = await uploadPhoto(photo);;
+        recipe.tags = await RemoveDuplicateTags(tags);
+        recipe.photo = await uploadPhoto(photo);
         recipe.idUser = user.idUser;
         return RecipeEntity.save(recipe);
     }
