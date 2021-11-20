@@ -5,9 +5,7 @@ import { AuthMiddleware } from "../../middlewares/auth.middleware";
 import { UserEntity } from "../user/user.entity";
 import { uploadPhoto } from "../../helpers/upload-photo";
 import { IngredientEntity } from "../ingredient/ingredient.entity";
-import { StepEntity } from "../step/step.entity";
-import { RemoveDuplicateTags, RemoveDuplicateTagsMiddleware } from "../../middlewares/tags.middleware";
-
+import { StepEntity } from "../step/step.entity"; import { removeDuplicateTags } from "../../helpers/remove-duplicate-tags";
 @Resolver(of => Recipe)
 class RecipeResolver {
     @Query(returns => [Recipe])
@@ -23,7 +21,7 @@ class RecipeResolver {
     ) {
         const { photo, tags, ...rest } = recipeInput;
         const recipe = RecipeEntity.create(rest);
-        recipe.tags = await RemoveDuplicateTags(tags);
+        recipe.tags = await removeDuplicateTags(tags);
         recipe.photo = await uploadPhoto(photo);
         recipe.idUser = user.idUser;
         return RecipeEntity.save(recipe);
