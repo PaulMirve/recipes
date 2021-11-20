@@ -13,6 +13,10 @@ export class User {
     username: string;
     @Field(of => Role)
     role: Role;
+    @Field(of => [User])
+    following: User[];
+    @Field(of => [User])
+    followers: User[];
 }
 
 @InputType()
