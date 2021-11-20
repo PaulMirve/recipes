@@ -1,4 +1,4 @@
-import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root, UseMiddleware } from "type-graphql";
+import { Arg, Args, Ctx, FieldResolver, Int, Mutation, Query, Resolver, Root, UseMiddleware } from "type-graphql";
 import { RecipeEntity } from "./recipe.entity";
 import { Recipe, RecipeInput } from "./recipe.types";
 import { AuthMiddleware } from "../../middlewares/auth.middleware";
@@ -24,6 +24,27 @@ class RecipeResolver {
         recipe.tags = await removeDuplicateTags(tags);
         recipe.photo = await uploadPhoto(photo);
         recipe.idUser = user.idUser;
+        return RecipeEntity.save(recipe);
+    }
+
+    @Mutation(returns => Recipe)
+    @UseMiddleware(AuthMiddleware)
+    async addLikeToRecipe(
+        @Arg("idRecipe", () => Int) idRecipe: number,
+        @Ctx("user") user: UserEntity
+    ) {
+        const recipe = await RecipeEntity.findOne({
+            where: { idRecipe },
+            relations: ['likes']
+        });
+
+        const existentUser = recipe.likes.find(u => u.idUser === user.idUser);
+        const userIndex = recipe.likes.indexOf(existentUser);
+        if (userIndex > -1) {
+            recipe.likes.splice(userIndex, 1);
+        } else {
+            recipe.likes.push(user);
+        }
         return RecipeEntity.save(recipe);
     }
 
