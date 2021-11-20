@@ -1,0 +1,19 @@
+.btn {
+    background-color: $color-primary;
+    border: none;
+    padding: 0.5em 2em;
+    border-radius: 5px;
+    font-size: 1.6rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform .2s ease;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+
+    &:active {
+        transform: scale(1.02);
+    }
+}

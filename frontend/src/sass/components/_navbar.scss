@@ -1,0 +1,25 @@
+.navbar {
+    padding: 1rem 12rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: $font-headings;
+    font-size: 1.8rem;
+    font-weight: 400;
+
+    a {
+        text-decoration: none;
+        color: $color-black;
+    }
+
+    &__links {
+        display: flex;
+        gap: 4.5rem;
+    }
+
+    &__actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+}

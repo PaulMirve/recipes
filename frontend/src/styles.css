@@ -1,0 +1,130 @@
+/*
+    $breakpoint argument choices:
+        - phone
+        - tab-port
+        - tab-land
+        - big-desktop
+        1em = 16px
+*/
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+}
+@media (max-width: 75em) {
+  html {
+    font-size: 56.25%;
+  }
+}
+@media (max-width: 56.25em) {
+  html {
+    font-size: 50%;
+  }
+}
+@media (min-width: 112.5em) {
+  html {
+    font-size: 76%;
+  }
+}
+
+body {
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  line-height: 1;
+  margin: 0;
+  font-family: "PT Sans Narrow", sans-serif;
+}
+
+.mb-lg {
+  margin-bottom: 10rem !important;
+}
+
+.mb-md {
+  margin-bottom: 5rem !important;
+}
+
+.mb-sm {
+  margin-bottom: 2rem !important;
+}
+
+.mt-lg {
+  margin-top: 10rem !important;
+}
+
+.mt-md {
+  margin-top: 5rem !important;
+}
+
+.mt-sm {
+  margin-top: 2rem !important;
+}
+
+.tap {
+  text-align: center !important;
+}
+
+.fullwidth {
+  width: 100% !important;
+}
+
+.navbar {
+  padding: 1rem 12rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: "PT Sans Narrow", sans-serif;
+  font-size: 1.8rem;
+  font-weight: 400;
+}
+.navbar a {
+  text-decoration: none;
+  color: #000;
+}
+.navbar__links {
+  display: flex;
+  gap: 4.5rem;
+}
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn {
+  background-color: #72EFDD;
+  border: none;
+  padding: 0.5em 2em;
+  border-radius: 5px;
+  font-size: 1.6rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.btn:hover {
+  transform: scale(1.1);
+}
+.btn:active {
+  transform: scale(1.02);
+}
+
+/*# sourceMappingURL=styles.css.map */
