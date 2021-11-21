@@ -78,7 +78,7 @@ h5 {
   margin-top: 2rem !important;
 }
 
-.tap {
+.tac {
   text-align: center !important;
 }
 
@@ -125,6 +125,35 @@ h5 {
 }
 .btn:active {
   transform: scale(1.02);
+}
+
+.heading--h1 {
+  font-size: 6rem;
+}
+.heading--h2 {
+  font-size: 4rem;
+}
+.heading--uppercase {
+  text-transform: uppercase;
+}
+
+.paragraph {
+  font-size: 1.8rem;
+}
+
+.food-category svg {
+  color: #72EFDD;
+  width: 20rem;
+  height: 20rem;
+}
+
+.landing header {
+  padding: 6rem 12rem;
+  display: grid;
+  grid-template-columns: 65% 35%;
+}
+.landing header img {
+  width: 100%;
 }
 
 /*# sourceMappingURL=styles.css.map */

@@ -4,7 +4,7 @@ import { Button } from "../Button/Button"
 export const Navbar = () => {
     return (
         <nav className="navbar">
-            <NavLink to="/"> <img src="./logo.png" alt="logo" ></img></NavLink>
+            <NavLink to="/"> <img src="./logo.png" alt="logo" /></NavLink>
             <div className="navbar__links">
                 <NavLink to="/recipes">Recipes</NavLink>
                 <NavLink to="/">About</NavLink>

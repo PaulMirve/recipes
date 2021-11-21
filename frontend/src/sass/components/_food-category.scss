@@ -1,0 +1,7 @@
+.food-category {
+    & svg {
+        color: $color-primary;
+        width: 20rem;
+        height: 20rem;
+    }
+}

@@ -1,0 +1,11 @@
+.landing {
+    header {
+        padding: 6rem 12rem;
+        display: grid;
+        grid-template-columns: 65% 35%;
+
+        & img{
+            width: 100%;
+        }
+    }
+}
