@@ -1,0 +1,10 @@
+.footer {
+    margin-top: 15rem;
+    background-color: $color-primary;
+    padding: 4rem 12rem;
+
+    &__logo_wrapper {
+        display: flex;
+        justify-content: center;
+    }
+}

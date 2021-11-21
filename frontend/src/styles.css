@@ -120,6 +120,10 @@ h5 {
   cursor: pointer;
   transition: transform 0.2s ease;
 }
+.btn--outlined {
+  border: 2px solid #000;
+  background-color: transparent;
+}
 .btn:hover {
   transform: scale(1.1);
 }
@@ -141,10 +145,36 @@ h5 {
   font-size: 1.8rem;
 }
 
+.food-category {
+  padding: 4rem;
+  background-color: #F4F4F4;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  width: 32rem;
+  min-width: 32rem;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+}
 .food-category svg {
   color: #72EFDD;
-  width: 20rem;
-  height: 20rem;
+  width: 15rem;
+  aspect-ratio: 1;
+}
+.food-category__name {
+  font-size: 2.8rem;
+  text-align: center;
+}
+
+.footer {
+  margin-top: 15rem;
+  background-color: #72EFDD;
+  padding: 4rem 12rem;
+}
+.footer__logo_wrapper {
+  display: flex;
+  justify-content: center;
 }
 
 .landing header {
@@ -154,6 +184,46 @@ h5 {
 }
 .landing header img {
   width: 100%;
+}
+.landing__discover {
+  padding: 0 12rem;
+}
+.landing__discover__categories {
+  display: flex;
+  gap: 4rem;
+  overflow-x: scroll;
+  padding: 4rem;
+}
+.landing__share {
+  margin-top: 20rem;
+  background-color: #72EFDD;
+  padding: 15rem 12rem;
+  clip-path: polygon(0 0, 100% 10%, 100% 90%, 0% 100%);
+}
+.landing__share__content {
+  display: grid;
+  grid-template-columns: 55% 40%;
+  gap: 5rem;
+}
+.landing__share__content img {
+  width: 100%;
+}
+.landing__share__content p {
+  font-size: 2.2rem;
+  line-height: 1.8;
+}
+.landing__about {
+  margin-top: 15rem;
+  padding: 0 12rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+}
+.landing__about img {
+  border: 6px solid #000;
+  border-radius: 50%;
+  width: 70%;
+  justify-self: center;
 }
 
 /*# sourceMappingURL=styles.css.map */
