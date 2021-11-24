@@ -27,7 +27,7 @@ describe('Tests for User Resolver', () => {
       }
     `
     it("create a user", async () => {
-        console.log(await graphCall({
+        const response = await graphCall({
             source: saveUserMutation,
             variableValues: {
                 user: {
@@ -37,6 +37,19 @@ describe('Tests for User Resolver', () => {
                     password: 'password'
                 }
             }
-        }))
+        })
+
+        expect(response).toMatchObject({
+            data: {
+                saveUser: {
+                    name: 'Test',
+                    lastName: 'Tester',
+                    username: 'tester',
+                    role: {
+                        name: 'USER_ROLE'
+                    }
+                }
+            }
+        });
     })
 })
