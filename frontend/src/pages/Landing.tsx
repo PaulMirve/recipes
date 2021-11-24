@@ -22,7 +22,7 @@ export const Landing = () => {
             </header>
             <section className="landing__discover">
                 <Heading centered>Share your favorite recipes</Heading>
-                <FoodCategory />
+                <FoodCategory icon="usa" />
             </section>
         </div>
     )

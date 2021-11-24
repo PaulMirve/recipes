@@ -11,6 +11,9 @@
             "label": "Create terminals",
             "dependsOn": [
                 "Node",
+                "React",
+                "Sass",
+                "Frontend",
                 "Backend",
                 "Global"
             ],
@@ -28,6 +31,24 @@
             "command": "npm run dev",
             "options": {
                 "cwd": "./backend"
+            },
+            "isBackground": true
+        },
+        {
+            "label": "React",
+            "type": "shell",
+            "command": "npm start",
+            "options": {
+                "cwd": "./frontend"
+            },
+            "isBackground": true
+        },
+        {
+            "label": "Sass",
+            "type": "shell",
+            "command": "npm run compile:sass",
+            "options": {
+                "cwd": "./frontend"
             },
             "isBackground": true
         },
@@ -50,6 +71,27 @@
             "isBackground": true,
             "options": {
                 "cwd": "./backend"
+            },
+        },
+        {
+            "label": "Frontend",
+            "type": "process",
+            "command": "",
+            "problemMatcher": [],
+            "presentation": {
+                "echo": false,
+                "focus": true,
+                "panel": "dedicated"
+            },
+            "windows": {
+                "command": "powershell"
+            },
+            "osx": {
+                "command": "zsh"
+            },
+            "isBackground": true,
+            "options": {
+                "cwd": "./frontend"
             },
         },
         {
