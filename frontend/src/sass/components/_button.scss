@@ -9,6 +9,11 @@
     cursor: pointer;
     transition: transform .2s ease;
 
+    &--outlined {
+        border: 2px solid $color-black;
+        background-color: transparent;
+    }
+
     &:hover {
         transform: scale(1.1);
     }

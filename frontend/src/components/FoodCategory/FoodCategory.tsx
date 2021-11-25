@@ -1,13 +1,16 @@
 import { Icon } from '../Icon'
 
-interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-    icon: "usa" | "italy" | "mexico" | "india"
-}
+export type Countries = "mexico" | "india" | "japan" | "greece" | "china" | "italy"
 
-export const FoodCategory = ({ icon, ...rest }: Props) => {
+interface Props {
+    icon: Countries,
+    name: string
+}
+export const FoodCategory = ({ icon, name }: Props) => {
     return (
-        <div className="food-category" {...rest}>
+        <div className="food-category">
             <Icon icon={icon} />
+            <div className="food-category__name">{name}</div>
         </div>
     )
 }
