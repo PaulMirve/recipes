@@ -1,5 +1,6 @@
+import { JwtPayload } from "jsonwebtoken";
 import { Connection } from "typeorm";
-import { RoleEntity } from "../schema/role/role.entity";
+import validateJWT from '../helpers/validate-jwt';
 import { graphCall } from "../test_utils/graphCall";
 import { createTestConnection } from "../test_utils/testConnection";
 
@@ -14,19 +15,20 @@ afterAll(async () => {
 });
 
 describe('Tests for User Resolver', () => {
-    const saveUserMutation = `
-    mutation SaveUser($user:UserInput!){
-        saveUser(user: $user){
-          name
-          lastName
-          username
-          role{
-            name
-          }
-        }
-      }
-    `
     it("create a user", async () => {
+        const saveUserMutation = `
+        mutation SaveUser($user:UserInput!){
+            saveUser(user: $user){
+              name
+              lastName
+              username
+              role{
+                name
+              }
+            }
+          }
+        `
+
         const response = await graphCall({
             source: saveUserMutation,
             variableValues: {
@@ -52,4 +54,41 @@ describe('Tests for User Resolver', () => {
             }
         });
     })
+    test('login', async () => {
+        const loginMutation = `
+        mutation Login($username: String!, $password: String!) {
+            login(username: $username, password: $password) {
+              user {
+                name
+                lastName
+                username
+                role {
+                  name
+                }
+              }
+              jwt
+            }
+          }`
+
+        const { data } = await graphCall({
+            source: loginMutation,
+            variableValues: {
+                username: 'tester',
+                password: 'password'
+            }
+        })
+
+        expect(data.login.user).toMatchObject({
+            name: 'Test',
+            lastName: 'Tester',
+            username: 'tester',
+            role: {
+                name: 'USER_ROLE'
+            }
+        });
+
+        expect((validateJWT(data.login.jwt) as JwtPayload).username).toBe("tester");
+
+    })
+
 })
