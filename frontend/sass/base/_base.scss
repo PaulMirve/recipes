@@ -1,0 +1,30 @@
+@use '@sass/abstract/mixins' as *;
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html {
+    //This defines what one rem is
+    font-size: 62.5%;
+
+    @include respond(tab-land) {
+        font-size: 56.25%;
+    }
+
+    @include respond(tab-port) {
+        font-size: 50%;
+    }
+
+    // @include respond(big-desktop) {
+    //     font-size: 76%;
+    // }
+}
+
+body {
+    box-sizing: border-box;
+}

@@ -1,0 +1,26 @@
+@use '../abstract/variables'as *;
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 12rem;
+    font-size: 1.8rem;
+    position: fixed;
+    width: 100%;
+
+    & a {
+        text-decoration: none;
+    }
+}
+
+.actions {
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+}
+
+.links {
+    display: flex;
+    gap: 3rem;
+}

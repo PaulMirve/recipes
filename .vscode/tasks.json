@@ -11,8 +11,7 @@
             "label": "Create terminals",
             "dependsOn": [
                 "Node",
-                "React",
-                "Sass",
+                "Next",
                 "Frontend",
                 "Backend",
                 "Global"
@@ -35,18 +34,9 @@
             "isBackground": true
         },
         {
-            "label": "React",
+            "label": "Next",
             "type": "shell",
-            "command": "npm start",
-            "options": {
-                "cwd": "./frontend"
-            },
-            "isBackground": true
-        },
-        {
-            "label": "Sass",
-            "type": "shell",
-            "command": "npm run compile:sass",
+            "command": "npm run dev",
             "options": {
                 "cwd": "./frontend"
             },
