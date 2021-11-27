@@ -13,6 +13,7 @@
 
     & a {
         text-decoration: none;
+        color: $color-black;
     }
 
     @include respond(tab-land) {

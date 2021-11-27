@@ -11,8 +11,9 @@
     padding: 10rem;
     border-radius: 10px;
     min-height: 60rem;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
 
-    
+
     @include respond(tab-land) {
         padding: 5rem;
     }
