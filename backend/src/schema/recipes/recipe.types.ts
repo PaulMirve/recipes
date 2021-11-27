@@ -3,7 +3,7 @@ import { FileUpload, GraphQLUpload } from 'graphql-upload';
 import { Ingredient, IngredientInput } from "../ingredient/ingredient.types";
 import { Step, StepInput } from "../step/step.types";
 import { IsInt, IsNotEmpty } from "class-validator";
-import { TagInput } from "../tag/tag.types";
+import { Tag, TagInput } from "../tag/tag.types";
 import { User } from "../user/user.types";
 
 @ObjectType()
@@ -28,6 +28,8 @@ export class Recipe {
     user: User;
     @Field(of => [User])
     bookmarkedBy: User[];
+    @Field(of => [Tag])
+    tags: Tag[];
 }
 
 @InputType()

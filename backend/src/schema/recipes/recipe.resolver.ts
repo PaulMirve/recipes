@@ -1,4 +1,4 @@
-import { Arg, Args, Ctx, FieldResolver, Int, Mutation, Query, Resolver, Root, UseMiddleware } from "type-graphql";
+import { Arg, Ctx, FieldResolver, Int, Mutation, Query, Resolver, Root, UseMiddleware } from "type-graphql";
 import { RecipeEntity } from "./recipe.entity";
 import { Recipe, RecipeInput } from "./recipe.types";
 import { AuthMiddleware } from "../../middlewares/auth.middleware";
@@ -12,6 +12,14 @@ class RecipeResolver {
     @Query(returns => [Recipe])
     async getRecipes() {
         return RecipeEntity.find();
+    }
+
+    @Query(returns => Recipe)
+    @UseMiddleware(ValidIdRecipeMiddleware)
+    async getRecipe(
+        @Arg("idRecipe", () => Int) idRecipe: number
+    ) {
+        return RecipeEntity.findOne({ idRecipe });
     }
 
     @Mutation(returns => Recipe)
@@ -105,5 +113,14 @@ class RecipeResolver {
             relations: ["bookmarkedBy"]
         });
         return recipe.bookmarkedBy;
+    }
+
+    @FieldResolver()
+    async tags(@Root() { idRecipe }: RecipeEntity) {
+        const recipe = await RecipeEntity.findOne({
+            where: { idRecipe },
+            relations: ["tags"]
+        });
+        return recipe.tags;
     }
 }
