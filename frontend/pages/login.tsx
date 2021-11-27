@@ -5,6 +5,7 @@ import Button from 'components/Button'
 import Form from 'components/Form'
 import Heading from 'components/Heading'
 import TextInput from 'components/TextInput'
+import { useLoginMutation } from 'generated/graphql'
 import { loginMutation, LoginResponse, LoginResponseParams } from 'graphql/auth.resolver'
 import { useRouter } from 'next/dist/client/router'
 import Image from 'next/image'
@@ -14,7 +15,7 @@ const Login = () => {
     const router = useRouter();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [login, { error }] = useMutation<LoginResponse, LoginResponseParams>(loginMutation, {
+    const [login, { error }] = useLoginMutation({
         variables: {
             username,
             password
