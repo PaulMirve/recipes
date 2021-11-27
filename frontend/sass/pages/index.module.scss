@@ -1,3 +1,5 @@
-.main{
-    padding: 12rem;
+@use '@sass/abstract/mixins'as *;
+
+.main {
+    @include padding;
 }

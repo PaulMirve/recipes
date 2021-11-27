@@ -1,0 +1,26 @@
+@use '@sass/abstract/variables'as *;
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.label {
+    font-weight: light;
+    font-size: 1.8rem;
+}
+
+.textInput {
+    background-color: white;
+    border: 1px solid $color-black;
+    border-radius: 5px;
+    height: 4rem;
+    outline: none;
+    padding: 0 1rem;
+    font-size: 1.8rem;
+    
+    &:focus{
+        border-bottom: 4px solid $color-primary;
+    }
+}

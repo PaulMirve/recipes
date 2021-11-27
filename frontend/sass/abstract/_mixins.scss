@@ -1,3 +1,7 @@
+@mixin padding {
+    padding: 12rem;
+}
+
 @mixin clearfix {
     &::after {
         content: "";

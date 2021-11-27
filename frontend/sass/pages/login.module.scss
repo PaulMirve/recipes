@@ -1,0 +1,28 @@
+@use '@sass/abstract/mixins'as *;
+@use '@sass/abstract/mixins'as *;
+
+.main {
+    @include padding;
+    background-image: url('../../public/images/food-2.jpg');
+    height: 100vh;
+    background-size: cover;
+    position: relative;
+
+    @include respond(tab-land) {
+        padding: 1rem;
+    }
+}
+
+.form {
+    position: absolute;
+    top: 50%;
+    right: 120px;
+    transform: translateY(-50%);
+    width: 55rem;
+
+    @include respond(tab-port) {
+        width: auto;
+        right: 1rem;
+        left: 1rem;
+    }
+}

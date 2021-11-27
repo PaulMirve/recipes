@@ -394,6 +394,8 @@
                 d="M55.1562 19.8437V23.4375L57.3438 20.4688L60.9375 21.25L58.75 18.4375L60.7813 15.4687L57.3438 16.875L55 14.0625V17.6563L51.5625 19.0625L55.1562 19.8437Z"
                 fill="#FFE62E" />
         </symbol>
-
+        <symbol id="icon-menu" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </symbol>
     </defs>
 </svg>

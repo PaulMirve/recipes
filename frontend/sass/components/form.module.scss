@@ -1,0 +1,19 @@
+@use '@sass/abstract/variables'as *;
+@use '@sass/abstract/mixins'as *;
+
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    background-color: $color-white;
+    padding: 10rem;
+    border-radius: 10px;
+    min-height: 60rem;
+
+    
+    @include respond(tab-land) {
+        padding: 5rem;
+    }
+}
