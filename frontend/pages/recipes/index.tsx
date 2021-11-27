@@ -24,7 +24,7 @@ const Recipes = ({ recipes }: Props) => {
     return (
         <div className={styles.recipes}>
             <Heading variant='h2' fontWeight='bold'>DISCOVER</Heading>
-            <div className={styles.discover}>
+            <div className={`${styles.discover} mt-sm`}>
                 {
                     recipes.map((recipe) => {
                         return (

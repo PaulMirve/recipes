@@ -2,11 +2,33 @@
 @use '@sass/abstract/mixins'as *;
 
 .card {
+    display: grid;
     background-color: $color-bone;
     position: relative;
     border-radius: 10px;
     overflow: hidden;
     cursor: pointer;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    grid-template-areas:
+        "photo"
+        "content";
+
+    @include respond(tab-land) {
+        grid-template-areas:
+            "photo content";
+    }
+
+    @include respond(phone) {
+        grid-template-areas:
+            "photo"
+            "content";
+    }
+
+    &:hover {
+        transform: scale(1.02);
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.4);
+    }
 }
 
 .username {
@@ -21,7 +43,16 @@
     border-bottom-right-radius: 5px;
 }
 
+.photo {
+    grid-area: photo;
+}
+
+
+
 .content {
+    grid-area: content;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
     padding: 1em 2em 2em 2em;
 }
 
