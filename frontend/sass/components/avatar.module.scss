@@ -1,0 +1,9 @@
+@use '@sass/abstract/variables' as *;
+
+.avatar{
+    background-color: $color-primary;
+    border-radius: 50%;
+    padding: 0.5em;
+    font-weight: 600;
+    cursor: pointer;
+}

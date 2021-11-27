@@ -3,12 +3,14 @@ import Button from 'components/Button'
 import Form from 'components/Form'
 import Heading from 'components/Heading'
 import TextInput from 'components/TextInput'
-import { useLoginMutation } from 'generated/graphql'
+import { GlobalContext } from 'context/GlobalContext'
+import { useLoginMutation, User } from 'generated/graphql'
 import { useRouter } from 'next/dist/client/router'
 import Image from 'next/image'
-import { FormEvent, useState } from 'react'
+import { FormEvent, useContext, useState } from 'react'
 
 const Login = () => {
+    const { setUser } = useContext(GlobalContext);
     const router = useRouter();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -24,6 +26,7 @@ const Login = () => {
         try {
             const { data } = await login();
             localStorage.setItem('token', data?.login.jwt || "");
+            setUser(data?.login.user as User)
             router.push('/recipes');
         } catch (err) { }
     }

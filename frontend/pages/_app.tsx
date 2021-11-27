@@ -6,6 +6,7 @@ import client from 'client'
 import { useRouter } from 'next/dist/client/router'
 import { useEffect, useState } from 'react'
 import Loading from 'components/Loading'
+import { GlobalContextProvider } from 'context/GlobalContext'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -18,19 +19,21 @@ function MyApp({ Component, pageProps }: AppProps) {
     router.events.on('routeChangeStart', handleStart);
     router.events.on('routeChangeComplete', handleComplete);
     router.events.on('routeChangeError', handleComplete);
-  })
+  });
 
   return (
     <ApolloProvider client={client}>
-      {
-        loading ?
-          <Loading />
-          :
-          <>
-            <Navbar />
-            <Component {...pageProps} />
-          </>
-      }
+      <GlobalContextProvider>
+        {
+          loading ?
+            <Loading />
+            :
+            <>
+              <Navbar />
+              <Component {...pageProps} />
+            </>
+        }
+      </GlobalContextProvider>
     </ApolloProvider>
   )
 }
