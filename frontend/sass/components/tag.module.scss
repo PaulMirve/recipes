@@ -1,0 +1,10 @@
+@use '@sass/abstract/variables'as *;
+
+.tag {
+    display: inline;
+    background-color: $color-primary;
+    height: 2.5rem;
+    padding: 0 2em;
+    border-radius: 50px;
+    font-size: 1.6rem;
+}

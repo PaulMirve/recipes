@@ -1,0 +1,20 @@
+@use '@sass/abstract/mixins'as *;
+
+.recipes {
+    @include padding;
+
+    @include respond(tab-land) {
+        padding: 12rem 1rem;
+    }
+}
+
+.discover {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4rem;
+
+    @include respond(tab-land) {
+        grid-template-columns: 1fr;
+        justify-items: center;
+    }
+}

@@ -1,0 +1,40 @@
+@use '@sass/abstract/variables'as *;
+@use '@sass/abstract/mixins'as *;
+
+.card {
+    background-color: $color-bone;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.username {
+    background-color: $color-primary;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    font-size: 1.8rem;
+    font-weight: 600;
+    padding: 0.4em 2em 0.4em 0.5em;
+    border-bottom-right-radius: 5px;
+}
+
+.content {
+    padding: 1em 2em 2em 2em;
+}
+
+.name {
+    font-size: 2.4rem;
+    font-weight: 500;
+}
+
+.description {
+    font-size: 1.8rem;
+}
+
+.tags {
+    display: flex;
+    gap: 1rem;
+}
