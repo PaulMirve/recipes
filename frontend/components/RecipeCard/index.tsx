@@ -11,7 +11,7 @@ interface Props extends ComponentPropsWithoutRef<'div'> {
 }
 
 const RecipeCard = ({ className = "", recipe, onClick, ...rest }: Props) => {
-    const { idRecipe, name, description, photo, user: { username } } = recipe;
+    const { idRecipe, name, description, tags, photo, user: { username } } = recipe;
     const router = useRouter();
     return (
         <div
@@ -24,8 +24,9 @@ const RecipeCard = ({ className = "", recipe, onClick, ...rest }: Props) => {
                 <p className={styles.name}>{name}</p>
                 <p className={styles.description}>{description}</p>
                 <div className={styles.tags}>
-                    <Tag title='Breakfast' />
-                    <Tag title='Tasty' />
+                    {
+                        tags.map(({ name }) => <Tag key={name} title={name} />)
+                    }
                 </div>
             </div>
         </div>
