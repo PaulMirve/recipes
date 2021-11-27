@@ -1,0 +1,5 @@
+@use '@sass/abstract/mixins'as *;
+
+.recipe {
+    @include padding;
+}

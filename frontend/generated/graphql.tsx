@@ -104,10 +104,16 @@ export type MutationSaveUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  getRecipe: Recipe;
   getRecipeComments: Array<Comment>;
   getRecipes: Array<Recipe>;
   getUnits: Array<Unit>;
   getUsers: Array<User>;
+};
+
+
+export type QueryGetRecipeArgs = {
+  idRecipe: Scalars['Int'];
 };
 
 
@@ -126,6 +132,7 @@ export type Recipe = {
   numberOfPeople: Scalars['Int'];
   photo: Scalars['String'];
   steps: Array<Step>;
+  tags: Array<Tag>;
   user: User;
 };
 
@@ -197,7 +204,19 @@ export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'Lo
 export type GetRecipesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetRecipesQuery = { __typename?: 'Query', getRecipes: Array<{ __typename?: 'Recipe', idRecipe: number, name: string, description: string, numberOfPeople: number, photo: string, likes: Array<{ __typename?: 'User', name: string }>, user: { __typename?: 'User', username: string } }> };
+export type GetRecipesQuery = { __typename?: 'Query', getRecipes: Array<{ __typename?: 'Recipe', idRecipe: number, name: string, description: string, numberOfPeople: number, photo: string, likes: Array<{ __typename?: 'User', name: string }>, user: { __typename?: 'User', username: string }, tags: Array<{ __typename?: 'Tag', name: string }> }> };
+
+export type GetRecipeIdsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetRecipeIdsQuery = { __typename?: 'Query', getRecipes: Array<{ __typename?: 'Recipe', idRecipe: number }> };
+
+export type GetRecipeQueryVariables = Exact<{
+  idRecipe: Scalars['Int'];
+}>;
+
+
+export type GetRecipeQuery = { __typename?: 'Query', getRecipe: { __typename?: 'Recipe', idRecipe: number, name: string, description: string, numberOfPeople: number, photo: string, likes: Array<{ __typename?: 'User', name: string }>, user: { __typename?: 'User', username: string }, tags: Array<{ __typename?: 'Tag', name: string }> } };
 
 
 export const LoginDocument = gql`
@@ -256,6 +275,9 @@ export const GetRecipesDocument = gql`
     user {
       username
     }
+    tags {
+      name
+    }
   }
 }
     `;
@@ -286,3 +308,85 @@ export function useGetRecipesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type GetRecipesQueryHookResult = ReturnType<typeof useGetRecipesQuery>;
 export type GetRecipesLazyQueryHookResult = ReturnType<typeof useGetRecipesLazyQuery>;
 export type GetRecipesQueryResult = Apollo.QueryResult<GetRecipesQuery, GetRecipesQueryVariables>;
+export const GetRecipeIdsDocument = gql`
+    query getRecipeIds {
+  getRecipes {
+    idRecipe
+  }
+}
+    `;
+
+/**
+ * __useGetRecipeIdsQuery__
+ *
+ * To run a query within a React component, call `useGetRecipeIdsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRecipeIdsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRecipeIdsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetRecipeIdsQuery(baseOptions?: Apollo.QueryHookOptions<GetRecipeIdsQuery, GetRecipeIdsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetRecipeIdsQuery, GetRecipeIdsQueryVariables>(GetRecipeIdsDocument, options);
+      }
+export function useGetRecipeIdsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRecipeIdsQuery, GetRecipeIdsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetRecipeIdsQuery, GetRecipeIdsQueryVariables>(GetRecipeIdsDocument, options);
+        }
+export type GetRecipeIdsQueryHookResult = ReturnType<typeof useGetRecipeIdsQuery>;
+export type GetRecipeIdsLazyQueryHookResult = ReturnType<typeof useGetRecipeIdsLazyQuery>;
+export type GetRecipeIdsQueryResult = Apollo.QueryResult<GetRecipeIdsQuery, GetRecipeIdsQueryVariables>;
+export const GetRecipeDocument = gql`
+    query getRecipe($idRecipe: Int!) {
+  getRecipe(idRecipe: $idRecipe) {
+    idRecipe
+    name
+    description
+    numberOfPeople
+    photo
+    likes {
+      name
+    }
+    user {
+      username
+    }
+    tags {
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetRecipeQuery__
+ *
+ * To run a query within a React component, call `useGetRecipeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRecipeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRecipeQuery({
+ *   variables: {
+ *      idRecipe: // value for 'idRecipe'
+ *   },
+ * });
+ */
+export function useGetRecipeQuery(baseOptions: Apollo.QueryHookOptions<GetRecipeQuery, GetRecipeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetRecipeQuery, GetRecipeQueryVariables>(GetRecipeDocument, options);
+      }
+export function useGetRecipeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRecipeQuery, GetRecipeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetRecipeQuery, GetRecipeQueryVariables>(GetRecipeDocument, options);
+        }
+export type GetRecipeQueryHookResult = ReturnType<typeof useGetRecipeQuery>;
+export type GetRecipeLazyQueryHookResult = ReturnType<typeof useGetRecipeLazyQuery>;
+export type GetRecipeQueryResult = Apollo.QueryResult<GetRecipeQuery, GetRecipeQueryVariables>;

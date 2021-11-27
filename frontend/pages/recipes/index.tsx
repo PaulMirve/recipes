@@ -1,6 +1,6 @@
 import client from "client"
 import { GetRecipesQuery, Recipe } from "generated/graphql"
-import { getRecipesQuery } from "graphql/auth.resolver"
+import { getRecipesQuery } from "graphql/recipe.resolver"
 import { GetStaticProps } from "next"
 import styles from '@sass/pages/recipes.module.scss'
 import RecipeCard from "components/RecipeCard"

@@ -15,21 +15,3 @@ mutation Login($username: String!, $password: String!) {
   }
 }
 `;
-
-export const getRecipesQuery = gql`
-query getRecipes{
-  getRecipes{
-    idRecipe
-    name
-    description
-    numberOfPeople
-    photo
-    likes{
-        name
-    }
-    user{
-        username
-    }
-  }
-}
-`
