@@ -1,5 +1,6 @@
 import styles from '@sass/pages/add-recipe.module.scss'
 import Button from 'components/Button'
+import { FloatingButton } from 'components/FloatingButton'
 import Heading from 'components/Heading'
 import Icon from 'components/Icon'
 import { ListItem } from 'components/ListItem'
@@ -101,6 +102,9 @@ const AddRecipe = () => {
                     <ListItem bullet text="Carrots" />
                 </div>
             </div>
+            <FloatingButton tooltip="Add new recipe">
+                <Icon.Plus />
+            </FloatingButton>
         </div>
     )
 }
