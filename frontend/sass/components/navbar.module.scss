@@ -27,6 +27,18 @@
     gap: 3rem;
     align-items: center;
 
+    & span{
+        display: flex;
+        gap: 1rem;
+    }
+
+    & svg {
+        height: 4rem;
+        aspect-ratio: 1;
+        cursor: pointer;
+        color: $color-primary;
+    }
+
     @include respond(tab-port) {
         display: none;
     }

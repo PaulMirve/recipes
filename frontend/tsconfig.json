@@ -16,7 +16,8 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@sass/*": ["sass/*"]
+      "@sass/*": ["sass/*"],
+      "@svg/*": ["public/svg/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
