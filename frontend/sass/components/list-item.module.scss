@@ -1,0 +1,44 @@
+@use '@sass/abstract/variables'as *;
+
+.wrapper {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.listItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: $color-bone;
+    padding: 0.5em 2em;
+    border-radius: 5px;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+    width: 100%;
+    font-size: 1.8rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+        transform: scale(1.02);
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
+    }
+}
+
+.bullet {
+    width: 2rem;
+    height: 2rem;
+    background-color: $color-black;
+    border-radius: 50%;
+}
+
+
+.actions {
+    display: flex;
+    gap: 1rem;
+
+    & svg {
+        cursor: pointer;
+        width: 3rem;
+        aspect-ratio: 1;
+    }
+}

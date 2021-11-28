@@ -1,0 +1,19 @@
+@use '@sass/abstract/variables'as *;
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.textarea {
+    border-radius: 5px;
+    border: 2px solid $color-black;
+    resize: none;
+    font-size: 1.8rem;
+    padding: 1em;
+    font-family: $font-body;
+}
+
+.label {
+    font-size: 1.8rem;
+}

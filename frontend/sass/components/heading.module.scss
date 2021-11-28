@@ -1,9 +1,27 @@
+@use '@sass/abstract/variables'as *;
+
 .heading {
     font-weight: 400;
 }
 
+.fontBody {
+    font-family: $font-body;
+}
+
+.fontHeadings {
+    font-family: $font-headings;
+}
+
 .bold {
     font-weight: 700;
+}
+
+.medium {
+    font-weight: 500;
+}
+
+.semiBold {
+    font-weight: 600;
 }
 
 .h1 {
@@ -16,4 +34,8 @@
 
 .h3 {
     font-size: 4rem;
+}
+
+.h5 {
+    font-size: 2.4rem;
 }

@@ -1,0 +1,118 @@
+@use '@sass/abstract/mixins'as *;
+@use '@sass/abstract/variables'as *;
+
+.main {
+    @include padding;
+
+    @include respond(phone) {
+        padding: 12rem 2rem;
+    }
+}
+
+.info {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    margin-top: 4rem;
+    gap: 2rem;
+
+    @include respond(tab-land) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.frame {
+    border: 2px solid $color-black;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+
+    & svg {
+        width: 25rem;
+        aspect-ratio: 1;
+        color: $color-primary;
+    }
+}
+
+.frame:hover .addPhoto {
+    visibility: visible;
+}
+
+.addPhoto {
+    visibility: hidden;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: grid;
+    place-items: center;
+    font-size: 2.4rem;
+    color: $color-primary;
+}
+
+.doubleGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+
+    @include respond(phone) {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
+
+.ingredients {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: 2rem;
+
+    @include respond(tab-land) {
+        grid-template-columns: 1fr;
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        height: 26rem;
+        overflow-y: scroll;
+        padding: 2rem 4rem;
+
+        @include respond(tab-land) {
+            padding: 0;
+            margin-top: 2rem;
+        }
+    }
+}
+
+.steps {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 3rem;
+    margin-top: 2rem;
+
+    @include respond(tab-land) {
+        grid-template-columns: 1fr;
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem;
+        height: 40rem;
+        overflow-y: scroll;
+
+        @include respond(tab-land) {
+            padding: 0;
+        }
+    }
+}
+
+.ingredient {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 4rem 0 0;
+}

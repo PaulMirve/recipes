@@ -26,7 +26,7 @@ const Navbar = () => {
                 user ?
                     <div className={styles.actions}>
                         <span>
-                            <Icon.PlusCircle />
+                            <Icon.PlusCircle onClick={() => router.push('/recipes/add')} />
                             <Icon.Bell />
                         </span>
                         <Avatar className={styles.avatar} name={`${user.name} ${user.lastName}`} />

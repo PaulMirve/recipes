@@ -1,18 +1,30 @@
 import styles from '@sass/components/heading.module.scss'
 import { ComponentPropsWithoutRef } from 'react'
 interface Props extends ComponentPropsWithoutRef<'h1'> {
-    variant?: 'h1' | 'h2' | 'h3',
-    fontWeight?: 'regular' | 'bold',
+    variant?: 'h1' | 'h2' | 'h3' | 'h5',
+    fontWeight?: 'regular' | 'bold' | 'semi-bold' | 'medium',
+    fontFamily?: 'body' | 'headings',
     centered?: boolean
 }
 
-const Heading = ({ children, centered, fontWeight, variant, className = "", ...rest }: Props) => {
+const Heading = ({ fontFamily, children, centered, fontWeight, variant, className = "", ...rest }: Props) => {
+    const getFontFamily = () => {
+        switch (fontFamily) {
+            case 'body':
+                return styles.fontBody;
+            default:
+                return "";
+        }
+    }
+
     const getVariant = () => {
         switch (variant) {
             case 'h1':
                 return styles.h1;
             case 'h2':
                 return styles.h2;
+            case "h5":
+                return styles.h5;
             default:
                 return styles.h3;
         }
@@ -22,13 +34,17 @@ const Heading = ({ children, centered, fontWeight, variant, className = "", ...r
         switch (fontWeight) {
             case 'bold':
                 return styles.bold;
+            case 'semi-bold':
+                return styles.semiBold;
+            case 'medium':
+                return styles.medium;
             default:
                 return "";
         }
     }
 
     return (
-        <h1 className={`${styles.heading} ${getVariant()} ${centered ? "tac" : ""} ${getFontWeight()} ${className}`} {...rest}>
+        <h1 className={`${styles.heading} ${getVariant()} ${getFontFamily()} ${centered ? "tac" : ""} ${getFontWeight()} ${className}`} {...rest}>
             {children}
         </h1>
     )
