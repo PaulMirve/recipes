@@ -1,8 +1,10 @@
-import { Arg, Mutation, Resolver } from "type-graphql";
+import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { UserEntity } from "../user/user.entity";
 import { Login } from "./auth.types";
 import bcrypt from 'bcrypt';
 import GenerateJWT from "../../helpers/generate-jwt";
+import { User } from "../user/user.types";
+import { AuthMiddleware } from "../../middlewares/auth.middleware";
 
 @Resolver()
 export class AuthResolver {
@@ -19,10 +21,18 @@ export class AuthResolver {
         if (!validPassword) {
             throw new Error('Invalid password');
         }
-    
+
         return {
             jwt: await GenerateJWT(username),
             user
         }
+    }
+
+    @Query(returns => User)
+    @UseMiddleware(AuthMiddleware)
+    isAuthenticated(
+        @Ctx("user") user: UserEntity
+    ) {
+        return user;
     }
 }
