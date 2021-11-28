@@ -109,6 +109,7 @@ export type Query = {
   getRecipes: Array<Recipe>;
   getUnits: Array<Unit>;
   getUsers: Array<User>;
+  isAuthenticated: User;
 };
 
 
@@ -201,6 +202,11 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'Login', jwt: string, user: { __typename?: 'User', name: string, lastName: string, username: string, role: { __typename?: 'Role', name: string } } } };
 
+export type IsAuthenticatedQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type IsAuthenticatedQuery = { __typename?: 'Query', isAuthenticated: { __typename?: 'User', name: string, lastName: string, username: string, role: { __typename?: 'Role', name: string } } };
+
 export type GetRecipesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -261,6 +267,45 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const IsAuthenticatedDocument = gql`
+    query IsAuthenticated {
+  isAuthenticated {
+    name
+    lastName
+    username
+    role {
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useIsAuthenticatedQuery__
+ *
+ * To run a query within a React component, call `useIsAuthenticatedQuery` and pass it any options that fit your needs.
+ * When your component renders, `useIsAuthenticatedQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useIsAuthenticatedQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useIsAuthenticatedQuery(baseOptions?: Apollo.QueryHookOptions<IsAuthenticatedQuery, IsAuthenticatedQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<IsAuthenticatedQuery, IsAuthenticatedQueryVariables>(IsAuthenticatedDocument, options);
+      }
+export function useIsAuthenticatedLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IsAuthenticatedQuery, IsAuthenticatedQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<IsAuthenticatedQuery, IsAuthenticatedQueryVariables>(IsAuthenticatedDocument, options);
+        }
+export type IsAuthenticatedQueryHookResult = ReturnType<typeof useIsAuthenticatedQuery>;
+export type IsAuthenticatedLazyQueryHookResult = ReturnType<typeof useIsAuthenticatedLazyQuery>;
+export type IsAuthenticatedQueryResult = Apollo.QueryResult<IsAuthenticatedQuery, IsAuthenticatedQueryVariables>;
 export const GetRecipesDocument = gql`
     query getRecipes {
   getRecipes {

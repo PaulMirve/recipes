@@ -15,3 +15,17 @@ mutation Login($username: String!, $password: String!) {
   }
 }
 `;
+
+export const isAuthenticatedMutation = gql`
+query IsAuthenticated {
+  isAuthenticated {
+    name
+    lastName
+    username
+    role {
+      name
+    }
+  }
+}
+
+`;

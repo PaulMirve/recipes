@@ -7,6 +7,7 @@ import { useRouter } from 'next/dist/client/router'
 import { useEffect, useState } from 'react'
 import Loading from 'components/Loading'
 import { GlobalContextProvider } from 'context/GlobalContext'
+import AuthWrapper from 'components/AuthWrapper'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -28,10 +29,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           loading ?
             <Loading />
             :
-            <>
+            <AuthWrapper>
               <Navbar />
               <Component {...pageProps} />
-            </>
+            </AuthWrapper>
         }
       </GlobalContextProvider>
     </ApolloProvider>
