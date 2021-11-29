@@ -6,10 +6,11 @@ import Heading from 'components/Heading'
 import Icon from 'components/Icon'
 import { ListItem } from 'components/ListItem'
 import { FormikSelect } from 'components/Select'
-import TextArea from 'components/TextArea'
+import { TextArea } from 'components/TextArea'
+import { FormikTextArea } from 'components/TextArea/FormikTextArea'
 import { FormikTextInput, TextInput } from 'components/TextInput'
 import { Form, Formik } from 'formik'
-import { GetUnitsQuery, Ingredient, Unit } from 'generated/graphql'
+import { GetUnitsQuery, Ingredient, Step, Unit } from 'generated/graphql'
 import { getUnits } from 'graphql/unit.resolver'
 import { GetStaticProps } from 'next'
 import { useState } from 'react'
@@ -33,11 +34,18 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 const AddRecipe = ({ units }: Props) => {
 
     const [ingredients, setIngredients] = useState<Ingredient[]>([])
+    const [steps, setSteps] = useState<Step[]>([])
 
     const onIngredientDelete = (index: number) => {
         const _ingredients = [...ingredients];
         _ingredients.splice(index, 1);
         setIngredients(_ingredients);
+    }
+
+    const onStepDelete = (index: number) => {
+        const _steps = [...steps];
+        _steps.splice(index, 1);
+        setSteps(_steps);
     }
 
     return (
@@ -60,7 +68,7 @@ const AddRecipe = ({ units }: Props) => {
                         <TextInput name="numberOfPeople" label="Number of people" />
                         <TextInput name="tags" label="Tags" />
                     </div>
-                    <TextArea label="Description" cols={30} rows={10}></TextArea>
+                    <TextArea name="description" label="Description" cols={30} rows={10}></TextArea>
                 </div>
             </div>
             <Heading className="mt-sm" variant='h5' fontWeight='medium' fontFamily='body'>Ingredients</Heading>
@@ -72,9 +80,10 @@ const AddRecipe = ({ units }: Props) => {
                             quantity: 0,
                             idUnit: 0
                         }}
-                        onSubmit={({ name, quantity, idUnit }) => {
+                        onSubmit={({ name, quantity, idUnit }, { resetForm }) => {
                             const unit = units.find(u => u.idUnit === idUnit.toString())!;
                             setIngredients(prev => [...prev, { name, quantity, unit }]);
+                            resetForm();
                         }}
                         validationSchema={Yup.object({
                             name: Yup.string().required('The ingredient name is required'),
@@ -116,20 +125,34 @@ const AddRecipe = ({ units }: Props) => {
             <Heading className="mt-sm" variant='h5' fontWeight='medium' fontFamily='body'>Steps</Heading>
             <div className={styles.steps}>
                 <div className={styles.steps__form}>
-                    <TextArea label="Step" placeholder="Write the steps for your recipe" rows={10} />
-                    <Button fullWidth className="mt-sm">Add step</Button>
+                    <Formik
+                        initialValues={{
+                            description: ''
+                        }}
+                        validationSchema={Yup.object({
+                            description: Yup.string().required('A step description is required')
+                        })}
+                        onSubmit={({ description }, { resetForm }) => {
+                            setSteps(prev => [...prev, { description }]);
+                            resetForm();
+                        }}>
+                        {
+                            formik => (
+                                <Form>
+                                    <FormikTextArea name="description" label="Step" placeholder="Write the steps for your recipe" rows={10} />
+                                    <Button type="submit" fullWidth className="mt-sm">Add step</Button>
+                                </Form>
+                            )
+                        }
+                    </Formik>
+
                 </div>
                 <div className={styles.steps__list}>
-                    <ListItem bullet text="Potatoes" />
-                    <ListItem bullet text="Carrots" />
-                    <ListItem bullet text="Potatoes" />
-                    <ListItem bullet text="Carrots" />
-                    <ListItem bullet text="Potatoes" />
-                    <ListItem bullet text="Carrots" />
-                    <ListItem bullet text="Carrots" />
-                    <ListItem bullet text="Carrots" />
-                    <ListItem bullet text="Carrots" />
-                    <ListItem bullet text="Carrots" />
+                    {
+                        steps.map((ingredient, index) => (
+                            <ListItem key={index} bullet onDelete={() => onStepDelete(index)} text={ingredient.description} />
+                        ))
+                    }
                 </div>
             </div>
             <FloatingButton tooltip="Add new recipe">
