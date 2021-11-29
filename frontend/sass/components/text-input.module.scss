@@ -19,8 +19,13 @@
     outline: none;
     padding: 0 1rem;
     font-size: 1.8rem;
-    
-    &:focus{
+
+    &:focus {
         border-bottom: 4px solid $color-primary;
     }
+}
+
+.error {
+    color: red;
+    font-size: 1.6rem
 }

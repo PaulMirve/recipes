@@ -5,7 +5,9 @@ import Heading from 'components/Heading'
 import Icon from 'components/Icon'
 import { ListItem } from 'components/ListItem'
 import TextArea from 'components/TextArea'
-import TextInput from 'components/TextInput'
+import { FormikTextInput, TextInput } from 'components/TextInput'
+import { Form, Formik } from 'formik'
+import * as Yup from 'yup'
 
 const AddRecipe = () => {
     return (
@@ -22,10 +24,11 @@ const AddRecipe = () => {
                     <Icon.Photograph />
                 </div>
                 <div>
-                    <TextInput label="Recipe name" />
+                    <TextInput name="recipeName" label="Recipe name" />
+                    <TextInput name="recipeName" label="Recipe name" />
                     <div className={styles.doubleGrid}>
-                        <TextInput label="Number of people" />
-                        <TextInput label="Tags" />
+                        <TextInput name="numberOfPeople" label="Number of people" />
+                        <TextInput name="tags" label="Tags" />
                     </div>
                     <TextArea label="Description" cols={30} rows={10}></TextArea>
                 </div>
@@ -33,9 +36,9 @@ const AddRecipe = () => {
             <Heading className="mt-sm" variant='h5' fontWeight='medium' fontFamily='body'>Ingredients</Heading>
             <div className={styles.ingredients}>
                 <div className={styles.ingredients__form}>
-                    <TextInput label="Name" />
-                    <TextInput label="Quantity" />
-                    <TextInput label="Unit" />
+                    <TextInput name="ingredientName" label="Name" />
+                    <TextInput name="ingredientQuantity" label="Quantity" />
+                    <TextInput name="ingredientUnit" label="Unit" />
                     <Button fullWidth className="mt-sm">Add ingredient</Button>
                 </div>
                 <div className={styles.ingredients__list}>
