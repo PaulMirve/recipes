@@ -70,20 +70,23 @@ const AddRecipe = ({ units }: Props) => {
                         initialValues={{
                             name: '',
                             quantity: 0,
-                            unit: ''
+                            idUnit: 0
                         }}
-                        onSubmit={({ name, quantity }) => setIngredients(prev => [...prev, { name, quantity }])}
+                        onSubmit={({ name, quantity, idUnit }) => {
+                            const unit = units.find(u => u.idUnit === idUnit.toString())!;
+                            setIngredients(prev => [...prev, { name, quantity, unit }]);
+                        }}
                         validationSchema={Yup.object({
                             name: Yup.string().required('The ingredient name is required'),
                             quantity: Yup.number().required('The ingredient is required').min(1, 'The quantity has to be greater than 0'),
-                            unit: Yup.number().notOneOf([0], 'Please select a unit').required('Please select a unit')
+                            idUnit: Yup.number().notOneOf([0], 'Please select a unit').required('Please select a unit')
                         })}>
                         {
                             formik => (
                                 <Form>
                                     <FormikTextInput name="name" label="Name" />
                                     <FormikTextInput name="quantity" label="Quantity" />
-                                    <FormikSelect label="Unit:" name="unit">
+                                    <FormikSelect label="Unit:" name="idUnit">
                                         <option value={0}>Select a unit</option>
                                         {
                                             units.map(unit => (
@@ -103,7 +106,7 @@ const AddRecipe = ({ units }: Props) => {
                             <ListItem onDelete={() => onIngredientDelete(index)} key={index}>
                                 <span className={styles.ingredient}>
                                     {ingredient.name}
-                                    <b>{ingredient.quantity}</b>
+                                    <b>{ingredient.quantity} {ingredient.unit.name}</b>
                                 </span>
                             </ListItem>
                         ))

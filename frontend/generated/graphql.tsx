@@ -35,6 +35,7 @@ export type Ingredient = {
   __typename?: 'Ingredient';
   name: Scalars['String'];
   quantity: Scalars['Int'];
+  unit: Unit;
 };
 
 export type IngredientInput = {
