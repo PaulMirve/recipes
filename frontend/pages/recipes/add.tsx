@@ -12,6 +12,7 @@ import { FormikTextInput, TextInput } from 'components/TextInput'
 import { Form, Formik } from 'formik'
 import { GetUnitsQuery, Ingredient, Step, Unit } from 'generated/graphql'
 import { getUnits } from 'graphql/unit.resolver'
+import _ from 'lodash'
 import { GetStaticProps } from 'next'
 import { useState } from 'react'
 import * as Yup from 'yup'
@@ -40,7 +41,12 @@ const AddRecipe = ({ units }: Props) => {
     const [selectedIngredient, setSelectedIngredient] = useState<Ingredient | null>(null)
     const [ingredients, setIngredients] = useState<Ingredient[]>([])
     const [updateIngredients, setUpdateIngredients] = useState<boolean>(false)
+    const [stepsInitialValues, setStepsInitialValues] = useState({
+        description: ''
+    })
     const [steps, setSteps] = useState<Step[]>([])
+    const [updateSteps, setUpdateSteps] = useState<boolean>(false)
+    const [selectedStep, setSelectedStep] = useState<Step | null>(null)
 
     const onIngredientDelete = (index: number) => {
         const _ingredients = [...ingredients];
@@ -63,6 +69,14 @@ const AddRecipe = ({ units }: Props) => {
         const _steps = [...steps];
         _steps.splice(index, 1);
         setSteps(_steps);
+    }
+
+    const onStepUpdate = (step: Step) => {
+        setUpdateSteps(true);
+        setSelectedStep(step);
+        setStepsInitialValues({
+            description: step.description
+        });
     }
 
     return (
@@ -107,6 +121,8 @@ const AddRecipe = ({ units }: Props) => {
                                     quantity: 0,
                                     idUnit: 0
                                 });
+                                setUpdateIngredients(false);
+                                setSelectedIngredient(null);
                             }
                             resetForm();
                         }}
@@ -152,16 +168,27 @@ const AddRecipe = ({ units }: Props) => {
             <div className={styles.steps}>
                 <div className={styles.steps__form}>
                     <Formik
-                        initialValues={{
-                            description: ''
-                        }}
+                        initialValues={stepsInitialValues}
                         validationSchema={Yup.object({
                             description: Yup.string().required('A step description is required')
                         })}
                         onSubmit={({ description }, { resetForm }) => {
-                            setSteps(prev => [...prev, { description }]);
+                            if (!updateSteps) {
+                                setSteps(prev => [...prev, { description }]);
+                            } else {
+                                const _steps = [...steps];
+                                const stepIndex = steps.indexOf(selectedStep!);
+                                _steps[stepIndex] = { description };
+                                setSteps(_steps);
+                                setStepsInitialValues({
+                                    description: ''
+                                });
+                                setUpdateSteps(false);
+                                setSelectedStep(null);
+                            }
                             resetForm();
-                        }}>
+                        }}
+                        enableReinitialize>
                         {
                             formik => (
                                 <Form>
@@ -175,8 +202,8 @@ const AddRecipe = ({ units }: Props) => {
                 </div>
                 <div className={styles.steps__list}>
                     {
-                        steps.map((ingredient, index) => (
-                            <ListItem key={index} bullet onDelete={() => onStepDelete(index)} text={ingredient.description} />
+                        steps.map((step, index) => (
+                            <ListItem key={index} bullet onDelete={() => onStepDelete(index)} onEdit={() => onStepUpdate(step)} text={step.description} />
                         ))
                     }
                 </div>
