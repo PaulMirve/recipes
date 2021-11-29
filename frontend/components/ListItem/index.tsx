@@ -25,7 +25,7 @@ export const ListItem = ({ bullet, text, children, className = "", onEdit, onDel
                     {
                         onEdit &&
                         <Tooltip text="Edit">
-                            <Icon.Edit />
+                            <Icon.Edit onClick={onEdit} />
                         </Tooltip>
                     }
 

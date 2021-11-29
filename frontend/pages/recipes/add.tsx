@@ -32,14 +32,31 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 }
 
 const AddRecipe = ({ units }: Props) => {
-
+    const [ingredientsInitialValues, setIngredientsInitialValues] = useState({
+        name: '',
+        quantity: 0,
+        idUnit: 0
+    })
+    const [selectedIngredient, setSelectedIngredient] = useState<Ingredient | null>(null)
     const [ingredients, setIngredients] = useState<Ingredient[]>([])
+    const [updateIngredients, setUpdateIngredients] = useState<boolean>(false)
     const [steps, setSteps] = useState<Step[]>([])
 
     const onIngredientDelete = (index: number) => {
         const _ingredients = [...ingredients];
         _ingredients.splice(index, 1);
         setIngredients(_ingredients);
+    }
+
+    const onIngredientUpdate = (ingredient: Ingredient) => {
+        const { name, quantity, unit: { idUnit } } = ingredient;
+        setUpdateIngredients(true);
+        setSelectedIngredient(ingredient);
+        setIngredientsInitialValues({
+            name,
+            quantity,
+            idUnit: Number(idUnit)
+        });
     }
 
     const onStepDelete = (index: number) => {
@@ -75,21 +92,30 @@ const AddRecipe = ({ units }: Props) => {
             <div className={styles.ingredients}>
                 <div className={styles.ingredients__form}>
                     <Formik
-                        initialValues={{
-                            name: '',
-                            quantity: 0,
-                            idUnit: 0
-                        }}
+                        initialValues={ingredientsInitialValues}
                         onSubmit={({ name, quantity, idUnit }, { resetForm }) => {
                             const unit = units.find(u => u.idUnit === idUnit.toString())!;
-                            setIngredients(prev => [...prev, { name, quantity, unit }]);
+                            if (!updateIngredients) {
+                                setIngredients(prev => [...prev, { name, quantity, unit }]);
+                            } else {
+                                const ingredientIndex = ingredients.indexOf(selectedIngredient!);
+                                const _ingredients = [...ingredients];
+                                _ingredients[ingredientIndex] = { name, quantity, unit };
+                                setIngredients(_ingredients);
+                                setIngredientsInitialValues({
+                                    name: '',
+                                    quantity: 0,
+                                    idUnit: 0
+                                });
+                            }
                             resetForm();
                         }}
                         validationSchema={Yup.object({
                             name: Yup.string().required('The ingredient name is required'),
                             quantity: Yup.number().required('The ingredient is required').min(1, 'The quantity has to be greater than 0'),
                             idUnit: Yup.number().notOneOf([0], 'Please select a unit').required('Please select a unit')
-                        })}>
+                        })}
+                        enableReinitialize>
                         {
                             formik => (
                                 <Form>
@@ -112,7 +138,7 @@ const AddRecipe = ({ units }: Props) => {
                 <div className={styles.ingredients__list}>
                     {
                         ingredients.map((ingredient, index) => (
-                            <ListItem onDelete={() => onIngredientDelete(index)} key={index}>
+                            <ListItem onDelete={() => onIngredientDelete(index)} onEdit={() => onIngredientUpdate(ingredient)} key={index}>
                                 <span className={styles.ingredient}>
                                     {ingredient.name}
                                     <b>{ingredient.quantity} {ingredient.unit.name}</b>
