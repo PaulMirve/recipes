@@ -1,15 +1,45 @@
 import styles from '@sass/pages/add-recipe.module.scss'
+import client from 'client'
 import Button from 'components/Button'
 import { FloatingButton } from 'components/FloatingButton'
 import Heading from 'components/Heading'
 import Icon from 'components/Icon'
 import { ListItem } from 'components/ListItem'
+import { FormikSelect } from 'components/Select'
 import TextArea from 'components/TextArea'
 import { FormikTextInput, TextInput } from 'components/TextInput'
 import { Form, Formik } from 'formik'
+import { GetUnitsQuery, Ingredient, Unit } from 'generated/graphql'
+import { getUnits } from 'graphql/unit.resolver'
+import { GetStaticProps } from 'next'
+import { useState } from 'react'
 import * as Yup from 'yup'
 
-const AddRecipe = () => {
+interface Props {
+    units: Unit[]
+}
+
+export const getStaticProps: GetStaticProps<Props> = async () => {
+    const { data } = await client.query<GetUnitsQuery>({
+        query: getUnits
+    });
+    return {
+        props: {
+            units: data.getUnits
+        }
+    }
+}
+
+const AddRecipe = ({ units }: Props) => {
+
+    const [ingredients, setIngredients] = useState<Ingredient[]>([])
+
+    const onIngredientDelete = (index: number) => {
+        const _ingredients = [...ingredients];
+        _ingredients.splice(index, 1);
+        setIngredients(_ingredients);
+    }
+
     return (
         <div className={styles.main}>
             <Heading variant="h1" fontWeight='bold'>Add new recipe</Heading>
@@ -36,54 +66,48 @@ const AddRecipe = () => {
             <Heading className="mt-sm" variant='h5' fontWeight='medium' fontFamily='body'>Ingredients</Heading>
             <div className={styles.ingredients}>
                 <div className={styles.ingredients__form}>
-                    <TextInput name="ingredientName" label="Name" />
-                    <TextInput name="ingredientQuantity" label="Quantity" />
-                    <TextInput name="ingredientUnit" label="Unit" />
-                    <Button fullWidth className="mt-sm">Add ingredient</Button>
+                    <Formik
+                        initialValues={{
+                            name: '',
+                            quantity: 0,
+                            unit: ''
+                        }}
+                        onSubmit={({ name, quantity }) => setIngredients(prev => [...prev, { name, quantity }])}
+                        validationSchema={Yup.object({
+                            name: Yup.string().required('The ingredient name is required'),
+                            quantity: Yup.number().required('The ingredient is required').min(1, 'The quantity has to be greater than 0'),
+                            unit: Yup.number().notOneOf([0], 'Please select a unit').required('Please select a unit')
+                        })}>
+                        {
+                            formik => (
+                                <Form>
+                                    <FormikTextInput name="name" label="Name" />
+                                    <FormikTextInput name="quantity" label="Quantity" />
+                                    <FormikSelect label="Unit:" name="unit">
+                                        <option value={0}>Select a unit</option>
+                                        {
+                                            units.map(unit => (
+                                                <option key={unit.idUnit} value={unit.idUnit}>{unit.name}</option>
+                                            ))
+                                        }
+                                    </FormikSelect>
+                                    <Button type="submit" fullWidth className="mt-sm">Add ingredient</Button>
+                                </Form>
+                            )
+                        }
+                    </Formik>
                 </div>
                 <div className={styles.ingredients__list}>
-                    <ListItem>
-                        <span className={styles.ingredient}>
-                            Potato
-                            <b>5 piece(s)</b>
-                        </span>
-                    </ListItem>
-                    <ListItem>
-                        <span className={styles.ingredient}>
-                            Potato
-                            <b>5 piece(s)</b>
-                        </span>
-                    </ListItem>
-                    <ListItem>
-                        <span className={styles.ingredient}>
-                            Potato
-                            <b>5 piece(s)</b>
-                        </span>
-                    </ListItem>
-                    <ListItem>
-                        <span className={styles.ingredient}>
-                            Potato
-                            <b>5 piece(s)</b>
-                        </span>
-                    </ListItem>
-                    <ListItem>
-                        <span className={styles.ingredient}>
-                            Potato
-                            <b>5 piece(s)</b>
-                        </span>
-                    </ListItem>
-                    <ListItem>
-                        <span className={styles.ingredient}>
-                            Potato
-                            <b>5 piece(s)</b>
-                        </span>
-                    </ListItem>
-                    <ListItem>
-                        <span className={styles.ingredient}>
-                            Potato
-                            <b>5 piece(s)</b>
-                        </span>
-                    </ListItem>
+                    {
+                        ingredients.map((ingredient, index) => (
+                            <ListItem onDelete={() => onIngredientDelete(index)} key={index}>
+                                <span className={styles.ingredient}>
+                                    {ingredient.name}
+                                    <b>{ingredient.quantity}</b>
+                                </span>
+                            </ListItem>
+                        ))
+                    }
                 </div>
             </div>
             <Heading className="mt-sm" variant='h5' fontWeight='medium' fontFamily='body'>Steps</Heading>

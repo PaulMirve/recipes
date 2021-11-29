@@ -224,6 +224,11 @@ export type GetRecipeQueryVariables = Exact<{
 
 export type GetRecipeQuery = { __typename?: 'Query', getRecipe: { __typename?: 'Recipe', idRecipe: number, name: string, description: string, numberOfPeople: number, photo: string, likes: Array<{ __typename?: 'User', name: string }>, user: { __typename?: 'User', username: string }, tags: Array<{ __typename?: 'Tag', name: string }> } };
 
+export type GetUnitsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUnitsQuery = { __typename?: 'Query', getUnits: Array<{ __typename?: 'Unit', idUnit: string, name: string }> };
+
 
 export const LoginDocument = gql`
     mutation Login($username: String!, $password: String!) {
@@ -435,3 +440,38 @@ export function useGetRecipeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type GetRecipeQueryHookResult = ReturnType<typeof useGetRecipeQuery>;
 export type GetRecipeLazyQueryHookResult = ReturnType<typeof useGetRecipeLazyQuery>;
 export type GetRecipeQueryResult = Apollo.QueryResult<GetRecipeQuery, GetRecipeQueryVariables>;
+export const GetUnitsDocument = gql`
+    query getUnits {
+  getUnits {
+    idUnit
+    name
+  }
+}
+    `;
+
+/**
+ * __useGetUnitsQuery__
+ *
+ * To run a query within a React component, call `useGetUnitsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUnitsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUnitsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetUnitsQuery(baseOptions?: Apollo.QueryHookOptions<GetUnitsQuery, GetUnitsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUnitsQuery, GetUnitsQueryVariables>(GetUnitsDocument, options);
+      }
+export function useGetUnitsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUnitsQuery, GetUnitsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUnitsQuery, GetUnitsQueryVariables>(GetUnitsDocument, options);
+        }
+export type GetUnitsQueryHookResult = ReturnType<typeof useGetUnitsQuery>;
+export type GetUnitsLazyQueryHookResult = ReturnType<typeof useGetUnitsLazyQuery>;
+export type GetUnitsQueryResult = Apollo.QueryResult<GetUnitsQuery, GetUnitsQueryVariables>;

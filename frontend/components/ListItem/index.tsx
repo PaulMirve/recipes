@@ -17,12 +17,18 @@ export const ListItem = ({ bullet, text, children, className = "", onEdit, onDel
             <div className={`${styles.listItem} ${className}`} {...rest}>
                 {text ? text : children}
                 <div className={styles.actions}>
-                    <Tooltip text="Delete">
-                        <Icon.Delete />
-                    </Tooltip>
-                    <Tooltip text="Edit">
-                        <Icon.Edit />
-                    </Tooltip>
+                    {onDelete &&
+                        <Tooltip text="Delete">
+                            <Icon.Delete onClick={onDelete} />
+                        </Tooltip>
+                    }
+                    {
+                        onEdit &&
+                        <Tooltip text="Edit">
+                            <Icon.Edit />
+                        </Tooltip>
+                    }
+
                 </div>
             </div>
         </div>

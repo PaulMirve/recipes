@@ -1,0 +1,20 @@
+@use '../abstract/variables'as *;
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    font-size: 1.8rem;
+}
+
+.select {
+    height: 4rem;
+    font-size: 1.8rem;
+    border: 2px solid $color-black;
+    border-radius: 5px;
+    padding: 0 1rem;
+}
+
+.error {}
