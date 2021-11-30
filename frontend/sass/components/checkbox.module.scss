@@ -1,10 +1,15 @@
 @use '@sass/abstract/variables'as *;
+@use '@sass/abstract/mixins'as *;
 
 .wrapper {
     font-size: 1.8rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+
+    @include respond(tab-port) {
+        justify-content: center;
+    }
 }
 
 .checkbox {

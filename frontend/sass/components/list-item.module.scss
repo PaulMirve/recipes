@@ -1,9 +1,14 @@
 @use '@sass/abstract/variables'as *;
+@use '@sass/abstract/mixins'as *;
 
 .wrapper {
     display: flex;
     gap: 1.5rem;
     align-items: center;
+
+    @include respond(tab-port) {
+        justify-content: center;
+    }
 }
 
 .listItem {
@@ -51,6 +56,10 @@
     &:hover {
         transform: scale(1);
         box-shadow: none;
+    }
+
+    @include respond(tab-port) {
+        width: auto;
     }
 }
 

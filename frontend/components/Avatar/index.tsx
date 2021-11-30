@@ -11,7 +11,7 @@ const Avatar = ({ name, className = "", ...rest }: Props) => {
         return `${splitName[0][0]}${splitName[1][0]}`
     }
     return (
-        <div className={`${styles.avatar} ${className}`}>
+        <div className={`${styles.avatar} ${className}`} {...rest}>
             {getInitials()}
         </div>
     )

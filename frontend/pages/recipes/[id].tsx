@@ -12,8 +12,9 @@ import { ListItem } from 'components/ListItem';
 import Checkbox from 'components/Checkbox';
 import React, { useState } from 'react';
 import { showAlert } from 'helpers/show-alert';
-import styles2 from '@sass/components/alert.module.scss'
 import Tooltip from 'components/Tooltip';
+import { TextArea } from 'components/TextArea';
+import Comment from 'components/Comment';
 interface Props {
     recipe: Recipe
 }
@@ -57,7 +58,9 @@ const Recipe = ({ recipe }: Props) => {
     return (
         <div className={styles.recipe}>
             <div className={styles.info}>
-                <Image src={photo} height={600} width={600} />
+                <span className={styles.frame}>
+                    <Image src={photo} height={600} width={600} />
+                </span>
                 <div className={styles.infoContainer}>
                     <span className={styles.title}>
                         <Heading variant='h1' fontWeight='bold'>{name}</Heading>
@@ -103,6 +106,15 @@ const Recipe = ({ recipe }: Props) => {
                         <Checkbox onChange={(e) => onCheckboxChange(e, index)} key={index} name={index.toString()} label={description} />
                     ))
                 }
+            </div>
+            <div className={styles.comments}>
+                <Heading className="mb-sm" variant="h5" fontFamily="body" fontWeight="bold">Comments</Heading>
+                <TextArea name="comment" placeholder="Leave a comment" />
+                <div className={styles.commentsBox}>
+                    <Comment likes={2} username="Paul Miranda">
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eos est maxime inventore delectus quaerat veritatis, dolor praesentium autem doloremque illo aliquam, sit dolore odio minima placeat assumenda? Nostrum, provident fuga.
+                    </Comment>
+                </div>
             </div>
         </div>
     )

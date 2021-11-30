@@ -1,0 +1,40 @@
+@use '@sass/abstract/variables'as *;
+@use '@sass/abstract/mixins'as *;
+
+.comment {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 2rem;
+    align-items: center;
+    font-size: 1.8rem;
+    background-color: $color-bone;
+    padding: 1em;
+    border-bottom: 4px solid $color-primary;
+
+    @include respond(tab-port) {
+        padding: 2em;
+        grid-template-columns: 1fr;
+    }
+}
+
+.likes {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    & svg {
+        width: 3rem;
+        aspect-ratio: 1;
+    }
+}
+
+.username {
+    display: block;
+    cursor: pointer;
+}
+
+.avatar {
+    @include respond(tab-port) {
+        display: none;
+    }
+}

@@ -4,6 +4,16 @@ $font-size: 1.8rem;
 
 .recipe {
     @include padding;
+
+    @include respond(tab-port) {
+        padding: 12rem 4rem;
+    }
+}
+
+.frame {
+    @include respond(tab-port) {
+        display: none;
+    }
 }
 
 .title {
@@ -16,18 +26,32 @@ $font-size: 1.8rem;
         aspect-ratio: 1;
         cursor: pointer;
     }
+
+    @include respond(tab-port) {
+        justify-content: center;
+    }
 }
 
 .info {
     display: grid;
     grid-template-columns: auto 2fr;
     gap: 3rem;
+
+    @include respond(tab-port) {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
 }
 
 .tags {
     display: flex;
     gap: 1.5rem;
     margin-top: 1rem;
+
+    @include respond(tab-port) {
+        overflow-x: scroll;
+        justify-content: center;
+    }
 }
 
 .metadata {
@@ -47,6 +71,10 @@ $font-size: 1.8rem;
             aspect-ratio: 1;
         }
     }
+
+    @include respond(tab-port) {
+        justify-content: center;
+    }
 }
 
 .description {
@@ -59,5 +87,14 @@ $font-size: 1.8rem;
 }
 
 .steps {
+    margin-top: 4rem;
+    text-align: center;
+}
+
+.comments {
+    margin-top: 6rem;
+}
+
+.commentsBox{
     margin-top: 4rem;
 }

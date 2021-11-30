@@ -1,9 +1,12 @@
-@use '@sass/abstract/variables' as *;
+@use '@sass/abstract/variables'as *;
 
-.avatar{
+.avatar {
     background-color: $color-primary;
     border-radius: 50%;
-    padding: 0.5em;
     font-weight: 600;
     cursor: pointer;
+    width: 5rem;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
 }
