@@ -39,6 +39,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
 const AddRecipe = ({ units }: Props) => {
     const router = useRouter();
+    const [photo, setPhoto] = useState<string | undefined>();
     const [ingredientsInitialValues, setIngredientsInitialValues] = useState({
         name: '',
         quantity: 0,
@@ -85,6 +86,16 @@ const AddRecipe = ({ units }: Props) => {
         });
     }
 
+    const handlePhotoSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files) {
+            try {
+                const url = URL.createObjectURL(event.target.files[0]);
+                setPhoto(url);
+            } catch {
+            }
+        }
+    }
+
     return (
         <div className={styles.main}>
             <Heading variant="h1" fontWeight='bold'>Add new recipe</Heading>
@@ -92,11 +103,14 @@ const AddRecipe = ({ units }: Props) => {
                 <div className={styles.frame}>
                     <div className={styles.addPhoto}>
                         <span>
-                            <Icon.Plus />
-                            <p className="tac">Add photo</p>
+                            <label htmlFor="file">
+                                <Icon.Plus />
+                                <p className="tac">Add photo</p>
+                            </label>
+                            <input onChange={handlePhotoSelection} type="file" id="file" />
                         </span>
                     </div>
-                    <Icon.Photograph />
+                    {photo ? <img src={photo} alt="Selected photo" className={styles.photo} /> : <Icon.Photograph />}
                 </div>
                 <div>
                     <TextInput name="recipeName" label="Recipe name" />
