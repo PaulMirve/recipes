@@ -1,39 +1,38 @@
 import styles from '@sass/pages/add-recipe.module.scss'
+import axios from 'axios'
 import { FloatingButton } from 'components/FloatingButton'
 import Heading from 'components/Heading'
 import Icon from 'components/Icon'
+import TagInput from 'components/TagInput'
 import { FormikTextArea } from 'components/TextArea/FormikTextArea'
 import { FormikTextInput } from 'components/TextInput'
 import { Form, Formik } from 'formik'
-import { Ingredient, Step, Unit } from 'generated/graphql'
+import { Ingredient, Step, useGetUnitsQuery } from 'generated/graphql'
+import { useRouter } from 'next/dist/client/router'
 import { useState } from 'react'
-import * as Yup from 'yup'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import { useRouter } from 'next/dist/client/router'
-import TagInput from 'components/TagInput'
-import axios from 'axios';
+import * as Yup from 'yup'
 import { IngredientsForm } from './IngredientsForm'
 import { StepsForms } from './StepsForms'
 
 const MySwal = withReactContent(Swal);
 
 interface Props {
-    units: Unit[],
     tags?: string[],
     ingredients?: Ingredient[],
     steps?: Step[]
 }
 
-const RecipeForm = ({ units }: Props) => {
+const RecipeForm = ({ tags: _tags = [], ingredients: _ingredients = [], steps: _steps = [] }: Props) => {
     const router = useRouter();
     const [photo, setPhoto] = useState<string | undefined>();
     const [photoFile, setPhotoFile] = useState<Blob>()
-    const [tags, setTags] = useState<string[]>([])
+    const [tags, setTags] = useState<string[]>(_tags)
+    const [ingredients, setIngredients] = useState<Ingredient[]>(_ingredients)
+    const [steps, setSteps] = useState<Step[]>(_steps)
 
-    const [ingredients, setIngredients] = useState<Ingredient[]>([])
-    const [steps, setSteps] = useState<Step[]>([])
-
+    const { data } = useGetUnitsQuery();
 
     const handlePhotoSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
@@ -54,7 +53,8 @@ const RecipeForm = ({ units }: Props) => {
             title: 'Loading...',
             customClass: {
                 popup: styles.alert
-            }
+            },
+            allowOutsideClick: false
         });
         Swal.showLoading();
         const errors = [];
@@ -192,7 +192,7 @@ const RecipeForm = ({ units }: Props) => {
                 }
             </Formik>
             <Heading className="mt-sm" variant='h5' fontWeight='medium' fontFamily='body'>Ingredients</Heading>
-            <IngredientsForm setIngredients={setIngredients} ingredients={ingredients} units={units} />
+            <IngredientsForm setIngredients={setIngredients} ingredients={ingredients} units={data?.getUnits ? data.getUnits : []} />
             <Heading className="mt-sm" variant='h5' fontWeight='medium' fontFamily='body'>Steps</Heading>
             <StepsForms steps={steps} setSteps={setSteps} />
         </div>
