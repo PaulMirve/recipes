@@ -4,19 +4,44 @@ $font-size: 1.8rem;
 
 .recipe {
     @include padding;
+    display: grid;
 
     @include respond(tab-port) {
         padding: 12rem 4rem;
     }
 }
 
-.frame {
+.info {
+    display: grid;
+    grid-template-columns: auto 2fr;
+    grid-template-rows: auto auto auto auto 1fr;
+    column-gap: 3rem;
+    grid-template-areas:
+        "frame title"
+        "frame tags"
+        "frame metadata"
+        "frame description"
+        "frame ingredients";
+
     @include respond(tab-port) {
-        display: none;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "title"
+            "tags"
+            "metadata"
+            "frame"
+            "description"
+            "ingredients";
+        text-align: center;
     }
 }
 
+.frame {
+    grid-area: frame;
+}
+
 .title {
+    grid-area: title;
     display: flex;
     gap: 2rem;
     align-items: flex-end;
@@ -32,18 +57,9 @@ $font-size: 1.8rem;
     }
 }
 
-.info {
-    display: grid;
-    grid-template-columns: auto 2fr;
-    gap: 3rem;
-
-    @include respond(tab-port) {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-}
 
 .tags {
+    grid-area: tags;
     display: flex;
     gap: 1.5rem;
     margin-top: 1rem;
@@ -51,10 +67,15 @@ $font-size: 1.8rem;
     @include respond(tab-port) {
         overflow-x: scroll;
         justify-content: center;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
 }
 
 .metadata {
+    grid-area: metadata;
     font-size: $font-size;
     display: flex;
     align-items: center;
@@ -78,23 +99,28 @@ $font-size: 1.8rem;
 }
 
 .description {
+    grid-area: description;
     font-size: $font-size;
     margin-top: 0.5rem;
 }
 
 .ingredients {
+    grid-area: ingredients;
     margin-top: 4rem;
 }
 
 .steps {
     margin-top: 4rem;
-    text-align: center;
+
+    @include respond(tab-port) {
+        text-align: center;
+    }
 }
 
 .comments {
     margin-top: 6rem;
 }
 
-.commentsBox{
+.commentsBox {
     margin-top: 4rem;
 }

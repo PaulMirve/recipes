@@ -61,42 +61,40 @@ const Recipe = ({ recipe }: Props) => {
                 <span className={styles.frame}>
                     <Image src={photo} height={600} width={600} />
                 </span>
-                <div className={styles.infoContainer}>
-                    <span className={styles.title}>
-                        <Heading variant='h1' fontWeight='bold'>{name}</Heading>
-                        <Tooltip text='Bookmark'>
-                            <Icon.BookmarkOutline />
-                        </Tooltip>
+                <span className={styles.title}>
+                    <Heading variant='h1' fontWeight='bold'>{name}</Heading>
+                    <Tooltip text='Bookmark'>
+                        <Icon.BookmarkOutline />
+                    </Tooltip>
+                </span>
+                <div className={styles.tags}>
+                    {
+                        tags.map(({ name }) => (
+                            <Tag key={name} title={name} />
+                        ))
+                    }
+                </div>
+                <div className={styles.metadata}>
+                    <span>
+                        <Icon.ThumbUpOutline style={{ cursor: 'pointer' }} />
+                        <p>{likes.length}</p>
                     </span>
-                    <div className={styles.tags}>
-                        {
-                            tags.map(({ name }) => (
-                                <Tag key={name} title={name} />
-                            ))
-                        }
-                    </div>
-                    <div className={styles.metadata}>
-                        <span>
-                            <Icon.ThumbUpOutline style={{ cursor: 'pointer' }} />
-                            <p>{likes.length}</p>
-                        </span>
-                        <span>
-                            <Icon.Calendar />
-                            {dateCreated}
-                        </span>
-                        <b>{username}</b>
-                    </div>
-                    <p className={styles.description}>{description}</p>
-                    <div className={styles.ingredients}>
-                        <Heading className="mb-sm" variant="h5" fontFamily='body' fontWeight='bold'>Ingredients</Heading>
-                        {
-                            ingredients.map(({ name, unit, quantity }, index) => (
-                                <ListItem key={index} bullet bulletColor='primary' background={false}>
-                                    <span>{name} - <b>{quantity} {unit.name}</b></span>
-                                </ListItem>
-                            ))
-                        }
-                    </div>
+                    <span>
+                        <Icon.Calendar />
+                        {dateCreated}
+                    </span>
+                    <b>{username}</b>
+                </div>
+                <p className={styles.description}>{description}</p>
+                <div className={styles.ingredients}>
+                    <Heading className="mb-sm" variant="h5" fontFamily='body' fontWeight='bold'>Ingredients</Heading>
+                    {
+                        ingredients.map(({ name, unit, quantity }, index) => (
+                            <ListItem key={index} bullet bulletColor='primary' background={false}>
+                                <span>{name} - <b>{quantity} {unit.name}</b></span>
+                            </ListItem>
+                        ))
+                    }
                 </div>
             </div>
             <div className={styles.steps}>
