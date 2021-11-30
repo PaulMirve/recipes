@@ -131,6 +131,10 @@
 
 .photo {
     width: 100%;
-    aspect-ratio: 1;
+    height: 100%;
     object-fit: cover;
+}
+
+.errors {
+    font-size: 1.4rem;
 }

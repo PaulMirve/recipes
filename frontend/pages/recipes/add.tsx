@@ -94,8 +94,7 @@ const AddRecipe = ({ units }: Props) => {
             try {
                 const url = URL.createObjectURL(event.target.files[0]);
                 setPhoto(url);
-            } catch {
-            }
+            } catch { }
         }
     }
 
@@ -104,7 +103,57 @@ const AddRecipe = ({ units }: Props) => {
         people: number;
         description: string;
     }) => {
+        const errors = [];
+        if (!photo) {
+            errors.push('The recipe needs a photo.');
+        }
+        if (steps.length === 0) {
+            errors.push('The recipe needs one or more steps.');
+        }
+        if (ingredients.length === 0) {
+            errors.push('The recipe needs one or more ingredients.');
+        }
+        if (tags.length === 0) {
+            errors.push('The recipe needs one or more tags.');
+        }
 
+        if (errors.length === 0) {
+            MySwal.fire({
+                title: 'Recipe added successfully!',
+                text: 'The recipe has been added successfully, please press continue to see the recipes.',
+                icon: 'success',
+                allowOutsideClick: false,
+                customClass: {
+                    popup: styles.alert
+                },
+                confirmButtonText: 'Continue',
+                willClose() {
+                    router.push('/recipes');
+                }
+            })
+        } else {
+            MySwal.fire({
+                title: 'Recipe incomplete!',
+                html: (
+                    <span>
+                        <h4 style={{ marginBottom: '1rem' }}>The information of the recipe is incomplete:</h4>
+                        <ul>
+                            {
+                                errors.map(error => (
+                                    <li className={styles.errors}>{error}</li>
+                                ))
+                            }
+                        </ul>
+                    </span>
+                ),
+                icon: 'error',
+                allowOutsideClick: false,
+                customClass: {
+                    popup: styles.alert
+                },
+                confirmButtonText: 'Accept'
+            })
+        }
     }
 
     return (
@@ -119,7 +168,7 @@ const AddRecipe = ({ units }: Props) => {
                 validationSchema={Yup.object({
                     name: Yup.string().required('The name of the recipe is required'),
                     people: Yup.number().min(1, 'The recipe can not be for less than one people'),
-                    description: Yup.string().required('The name of the recipe is required')
+                    description: Yup.string().required('The description of the recipe is required')
                 })}
                 onSubmit={onFormSubmit}>
                 {
