@@ -16,6 +16,11 @@ import _ from 'lodash'
 import { GetStaticProps } from 'next'
 import { useState } from 'react'
 import * as Yup from 'yup'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import { useRouter } from 'next/dist/client/router'
+
+const MySwal = withReactContent(Swal);
 
 interface Props {
     units: Unit[]
@@ -33,6 +38,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 }
 
 const AddRecipe = ({ units }: Props) => {
+    const router = useRouter();
     const [ingredientsInitialValues, setIngredientsInitialValues] = useState({
         name: '',
         quantity: 0,
@@ -208,7 +214,31 @@ const AddRecipe = ({ units }: Props) => {
                     }
                 </div>
             </div>
-            <FloatingButton tooltip="Add new recipe">
+            <FloatingButton onClick={() => {
+                MySwal.fire({
+                    title: 'Recipe added successfully!',
+                    text: 'The recipe has been added successfully, please press continue to see the recipes.',
+                    icon: 'success',
+                    allowOutsideClick: false,
+                    customClass: {
+                        popup: styles.alert
+                    },
+                    confirmButtonText: 'Continue',
+                    willClose() {
+                        router.push('/recipes');
+                    }
+                })
+                // MySwal.fire({
+                //     title: 'Something happened!',
+                //     text: 'The next fields need to be filled.',
+                //     icon: 'error',
+                //     allowOutsideClick: false,
+                //     customClass: {
+                //         popup: styles.alert
+                //     },
+                //     confirmButtonText: 'Accept'
+                // })
+            }} tooltip="Add new recipe">
                 <Icon.Plus />
             </FloatingButton>
         </div>

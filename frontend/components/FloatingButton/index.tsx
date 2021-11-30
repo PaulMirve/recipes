@@ -8,7 +8,7 @@ interface Props extends ComponentPropsWithoutRef<'button'> {
 
 export const FloatingButton = ({ className = "", children, tooltip, ...rest }: Props) => {
     return (
-        <button className={`${styles.floatingButton} ${className}`}>
+        <button className={`${styles.floatingButton} ${className}`} {...rest}>
             {
                 tooltip ?
                     <Tooltip text="Add new recipe">
