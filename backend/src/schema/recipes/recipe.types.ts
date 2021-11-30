@@ -30,6 +30,8 @@ export class Recipe {
     bookmarkedBy: User[];
     @Field(of => [Tag])
     tags: Tag[];
+    @Field(of => String)
+    dateCreated: string;
 }
 
 @InputType()

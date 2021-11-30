@@ -123,4 +123,9 @@ class RecipeResolver {
         });
         return recipe.tags;
     }
+
+    @FieldResolver()
+    dateCreated(@Root() { dateCreated }: RecipeEntity) {
+        return new Date(Number(dateCreated)).toLocaleDateString();
+    }
 }
