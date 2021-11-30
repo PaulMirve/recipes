@@ -104,6 +104,13 @@ const AddRecipe = ({ units }: Props) => {
         people: number;
         description: string;
     }) => {
+        Swal.fire({
+            title: 'Loading...',
+            customClass: {
+                popup: styles.alert
+            }
+        });
+        Swal.showLoading();
         const errors = [];
         if (!photo) {
             errors.push('The recipe needs a photo.');
@@ -139,11 +146,12 @@ const AddRecipe = ({ units }: Props) => {
             formData.append("map", `{ "0": ["variables.recipe.photo"] }`);
             formData.append("0", photoFile!);
             try {
-                const { data } = await axios.post('http://localhost:8081/graphql', formData, {
+                await axios.post('http://localhost:8081/graphql', formData, {
                     headers: {
                         authorization: localStorage.getItem('token') || ""
                     }
                 });
+                Swal.hideLoading();
                 MySwal.fire({
                     title: 'Recipe added successfully!',
                     text: 'The recipe has been added successfully, please press continue to see the recipes.',
@@ -159,10 +167,12 @@ const AddRecipe = ({ units }: Props) => {
                     }
                 })
             } catch (err) {
+                Swal.hideLoading();
                 alert(err);
             }
 
         } else {
+            Swal.hideLoading();
             MySwal.fire({
                 title: 'Recipe incomplete!',
                 html: (
