@@ -11,10 +11,10 @@ interface Props extends ComponentPropsWithoutRef<'input'> {
 export const FormikTextInput = ({ ...props }: Props & FieldHookConfig<string>) => {
     const [field] = useField(props)
     return (
-        <>
+        <span>
             <TextInput {...field} {...props} />
             <ErrorMessage className={styles.error} name={props.name} component="span" />
-        </>
+        </span>
     )
 }
 

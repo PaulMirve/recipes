@@ -99,29 +99,51 @@ const AddRecipe = ({ units }: Props) => {
     return (
         <div className={styles.main}>
             <Heading variant="h1" fontWeight='bold'>Add new recipe</Heading>
-            <div className={styles.info}>
-                <div className={styles.frame}>
-                    <div className={styles.addPhoto}>
-                        <span>
-                            <label htmlFor="file">
+            <Formik
+                initialValues={{
+                    name: '',
+                    people: 1,
+                    description: ''
+                }}
+                validationSchema={Yup.object({
+                    name: Yup.string().required('The name of the recipe is required'),
+                    people: Yup.number().min(1, 'The recipe can not be for less than one people'),
+                    description: Yup.string().required('The name of the recipe is required')
+                })}
+                onSubmit={(values) => { console.log(values) }}>
+                {
+                    formik => (
+                        <Form>
+                            <div className={styles.info}>
+                                <div className={styles.frame}>
+                                    <div className={styles.addPhoto}>
+                                        <span>
+                                            <label htmlFor="file">
+                                                <Icon.Plus />
+                                                <p className="tac">Add photo</p>
+                                            </label>
+                                            <input onChange={handlePhotoSelection} type="file" id="file" />
+                                        </span>
+                                    </div>
+                                    {photo ? <img src={photo} alt="Selected photo" className={styles.photo} /> : <Icon.Photograph />}
+                                </div>
+                                <div>
+                                    <FormikTextInput name="name" label="Recipe name" />
+                                    <div className={styles.doubleGrid}>
+                                        <FormikTextInput name="people" label="Number of people" />
+                                        <FormikTextInput name="tags" label="Tags" />
+                                    </div>
+                                    <FormikTextArea name="description" label="Description" cols={30} rows={10}></FormikTextArea>
+                                </div>
+                            </div>
+
+                            <FloatingButton type="submit" tooltip="Add new recipe">
                                 <Icon.Plus />
-                                <p className="tac">Add photo</p>
-                            </label>
-                            <input onChange={handlePhotoSelection} type="file" id="file" />
-                        </span>
-                    </div>
-                    {photo ? <img src={photo} alt="Selected photo" className={styles.photo} /> : <Icon.Photograph />}
-                </div>
-                <div>
-                    <TextInput name="recipeName" label="Recipe name" />
-                    <TextInput name="recipeName" label="Recipe name" />
-                    <div className={styles.doubleGrid}>
-                        <TextInput name="numberOfPeople" label="Number of people" />
-                        <TextInput name="tags" label="Tags" />
-                    </div>
-                    <TextArea name="description" label="Description" cols={30} rows={10}></TextArea>
-                </div>
-            </div>
+                            </FloatingButton>
+                        </Form>
+                    )
+                }
+            </Formik>
             <Heading className="mt-sm" variant='h5' fontWeight='medium' fontFamily='body'>Ingredients</Heading>
             <div className={styles.ingredients}>
                 <div className={styles.ingredients__form}>
@@ -228,7 +250,7 @@ const AddRecipe = ({ units }: Props) => {
                     }
                 </div>
             </div>
-            <FloatingButton onClick={() => {
+            {/* <FloatingButton onClick={() => {
                 MySwal.fire({
                     title: 'Recipe added successfully!',
                     text: 'The recipe has been added successfully, please press continue to see the recipes.',
@@ -254,7 +276,7 @@ const AddRecipe = ({ units }: Props) => {
                 // })
             }} tooltip="Add new recipe">
                 <Icon.Plus />
-            </FloatingButton>
+            </FloatingButton> */}
         </div>
     )
 }
