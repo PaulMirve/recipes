@@ -1,0 +1,30 @@
+@use '@sass/abstract/variables'as *;
+
+.wrapper {
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.checkbox {
+    display: none;
+}
+
+.checkbox:checked~.label>.check {
+    visibility: visible;
+}
+
+.check {
+    visibility: hidden;
+}
+
+.label {
+    border: 2px solid $color-primary;
+    border-radius: 5px;
+    height: 2rem;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+}

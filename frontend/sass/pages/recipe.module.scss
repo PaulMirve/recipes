@@ -1,5 +1,63 @@
 @use '@sass/abstract/mixins'as *;
 
+$font-size: 1.8rem;
+
 .recipe {
     @include padding;
+}
+
+.title {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-end;
+
+    & svg {
+        width: 5rem;
+        aspect-ratio: 1;
+        cursor: pointer;
+    }
+}
+
+.info {
+    display: grid;
+    grid-template-columns: auto 2fr;
+    gap: 3rem;
+}
+
+.tags {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.metadata {
+    font-size: $font-size;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 1rem;
+
+    & span {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+
+        & svg {
+            width: 3rem;
+            aspect-ratio: 1;
+        }
+    }
+}
+
+.description {
+    font-size: $font-size;
+    margin-top: 0.5rem;
+}
+
+.ingredients {
+    margin-top: 4rem;
+}
+
+.steps {
+    margin-top: 4rem;
 }

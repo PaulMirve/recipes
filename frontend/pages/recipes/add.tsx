@@ -1,10 +1,12 @@
-const MySwal = withReactContent(Swal);
+
 import styles from '@sass/pages/add-recipe.module.scss';
 import axios from 'axios';
 import RecipeForm, { RecipeFormSubmitArgs } from 'layout/RecipeForm';
 import { useRouter } from 'next/dist/client/router';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
 
 const AddRecipe = () => {
     const router = useRouter();

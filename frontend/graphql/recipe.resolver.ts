@@ -36,6 +36,17 @@ query getRecipe($idRecipe: Int!) {
     description
     numberOfPeople
     photo
+    dateCreated
+    ingredients{
+      name
+      quantity
+      unit{
+        name
+      }
+    }
+    steps{
+      description
+    }
     likes {
       name
     }

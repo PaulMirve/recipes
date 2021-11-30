@@ -42,3 +42,18 @@
         aspect-ratio: 1;
     }
 }
+
+.transparent {
+    background-color: transparent;
+    box-shadow: none;
+    padding: 0;
+
+    &:hover {
+        transform: scale(1);
+        box-shadow: none;
+    }
+}
+
+.bulletPrimary {
+    background-color: $color-primary;
+}

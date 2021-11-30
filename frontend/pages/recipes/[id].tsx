@@ -1,11 +1,19 @@
-import client from 'client'
+import styles from '@sass/pages/recipe.module.scss';
+import client from 'client';
 import Heading from 'components/Heading';
 import { GetRecipeIdsQuery, GetRecipeQuery, GetRecipeQueryVariables, Recipe } from 'generated/graphql';
 import { getRecipeIdsQuery, getRecipeQuery } from 'graphql/recipe.resolver';
-import { GetStaticPaths, GetStaticProps, PreviewData } from 'next';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import { ParsedUrlQuery } from 'querystring';
-import styles from '@sass/pages/recipe.module.scss'
-
+import Image from 'next/image'
+import Tag from 'components/Tag';
+import Icon from 'components/Icon';
+import { ListItem } from 'components/ListItem';
+import Checkbox from 'components/Checkbox';
+import React, { useState } from 'react';
+import { showAlert } from 'helpers/show-alert';
+import styles2 from '@sass/components/alert.module.scss'
+import Tooltip from 'components/Tooltip';
 interface Props {
     recipe: Recipe
 }
@@ -30,9 +38,72 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ({ params }) 
 }
 
 const Recipe = ({ recipe }: Props) => {
+    const { photo, tags, name, likes, user: { username }, dateCreated, description, ingredients, steps } = recipe;
+    const [stepsChecked, setStepsChecked] = useState<boolean[]>([])
+
+    const onCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
+        const stepsCheck = [...stepsChecked];
+        stepsCheck[index] = event.target.checked;
+        setStepsChecked(stepsCheck);
+        if (stepsCheck.filter(step => step === true).length === steps.length) {
+            showAlert({
+                title: 'Recipe completed!',
+                text: 'Did you like it? Lave a comment and a like!',
+                icon: 'success'
+            });
+        }
+    }
+
     return (
         <div className={styles.recipe}>
-            <Heading variant='h1'>{recipe.name}</Heading>
+            <div className={styles.info}>
+                <Image src={photo} height={600} width={600} />
+                <div className={styles.infoContainer}>
+                    <span className={styles.title}>
+                        <Heading variant='h1' fontWeight='bold'>{name}</Heading>
+                        <Tooltip text='Bookmark'>
+                            <Icon.BookmarkOutline />
+                        </Tooltip>
+                    </span>
+                    <div className={styles.tags}>
+                        {
+                            tags.map(({ name }) => (
+                                <Tag key={name} title={name} />
+                            ))
+                        }
+                    </div>
+                    <div className={styles.metadata}>
+                        <span>
+                            <Icon.ThumbUpOutline style={{ cursor: 'pointer' }} />
+                            <p>{likes.length}</p>
+                        </span>
+                        <span>
+                            <Icon.Calendar />
+                            {dateCreated}
+                        </span>
+                        <b>{username}</b>
+                    </div>
+                    <p className={styles.description}>{description}</p>
+                    <div className={styles.ingredients}>
+                        <Heading className="mb-sm" variant="h5" fontFamily='body' fontWeight='bold'>Ingredients</Heading>
+                        {
+                            ingredients.map(({ name, unit, quantity }, index) => (
+                                <ListItem key={index} bullet bulletColor='primary' background={false}>
+                                    <span>{name} - <b>{quantity} {unit.name}</b></span>
+                                </ListItem>
+                            ))
+                        }
+                    </div>
+                </div>
+            </div>
+            <div className={styles.steps}>
+                <Heading className="mb-sm" variant="h5" fontFamily='body' fontWeight='bold'>Steps</Heading>
+                {
+                    steps.map(({ description }, index) => (
+                        <Checkbox onChange={(e) => onCheckboxChange(e, index)} key={index} name={index.toString()} label={description} />
+                    ))
+                }
+            </div>
         </div>
     )
 }

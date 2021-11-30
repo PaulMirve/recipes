@@ -126,6 +126,7 @@ export type QueryGetRecipeCommentsArgs = {
 export type Recipe = {
   __typename?: 'Recipe';
   bookmarkedBy: Array<User>;
+  dateCreated: Scalars['String'];
   description: Scalars['String'];
   idRecipe: Scalars['Int'];
   ingredients: Array<Ingredient>;
@@ -223,7 +224,7 @@ export type GetRecipeQueryVariables = Exact<{
 }>;
 
 
-export type GetRecipeQuery = { __typename?: 'Query', getRecipe: { __typename?: 'Recipe', idRecipe: number, name: string, description: string, numberOfPeople: number, photo: string, likes: Array<{ __typename?: 'User', name: string }>, user: { __typename?: 'User', username: string }, tags: Array<{ __typename?: 'Tag', name: string }> } };
+export type GetRecipeQuery = { __typename?: 'Query', getRecipe: { __typename?: 'Recipe', idRecipe: number, name: string, description: string, numberOfPeople: number, photo: string, dateCreated: string, ingredients: Array<{ __typename?: 'Ingredient', name: string, quantity: number, unit: { __typename?: 'Unit', name: string } }>, steps: Array<{ __typename?: 'Step', description: string }>, likes: Array<{ __typename?: 'User', name: string }>, user: { __typename?: 'User', username: string }, tags: Array<{ __typename?: 'Tag', name: string }> } };
 
 export type GetUnitsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -401,6 +402,17 @@ export const GetRecipeDocument = gql`
     description
     numberOfPeople
     photo
+    dateCreated
+    ingredients {
+      name
+      quantity
+      unit {
+        name
+      }
+    }
+    steps {
+      description
+    }
     likes {
       name
     }
