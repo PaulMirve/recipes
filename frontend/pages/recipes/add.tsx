@@ -19,6 +19,8 @@ import * as Yup from 'yup'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { useRouter } from 'next/dist/client/router'
+import TagInput from 'components/TagInput'
+
 
 const MySwal = withReactContent(Swal);
 
@@ -40,6 +42,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 const AddRecipe = ({ units }: Props) => {
     const router = useRouter();
     const [photo, setPhoto] = useState<string | undefined>();
+    const [tags, setTags] = useState<string[]>([])
     const [ingredientsInitialValues, setIngredientsInitialValues] = useState({
         name: '',
         quantity: 0,
@@ -96,6 +99,14 @@ const AddRecipe = ({ units }: Props) => {
         }
     }
 
+    const onFormSubmit = (values: {
+        name: string;
+        people: number;
+        description: string;
+    }) => {
+
+    }
+
     return (
         <div className={styles.main}>
             <Heading variant="h1" fontWeight='bold'>Add new recipe</Heading>
@@ -110,7 +121,7 @@ const AddRecipe = ({ units }: Props) => {
                     people: Yup.number().min(1, 'The recipe can not be for less than one people'),
                     description: Yup.string().required('The name of the recipe is required')
                 })}
-                onSubmit={(values) => { console.log(values) }}>
+                onSubmit={onFormSubmit}>
                 {
                     formik => (
                         <Form>
@@ -131,7 +142,7 @@ const AddRecipe = ({ units }: Props) => {
                                     <FormikTextInput name="name" label="Recipe name" />
                                     <div className={styles.doubleGrid}>
                                         <FormikTextInput name="people" label="Number of people" />
-                                        <FormikTextInput name="tags" label="Tags" />
+                                        <TagInput tags={tags} onChange={tags => setTags(tags)} />
                                     </div>
                                     <FormikTextArea name="description" label="Description" cols={30} rows={10}></FormikTextArea>
                                 </div>
