@@ -6,7 +6,6 @@ import Heading from 'components/Heading'
 import Icon from 'components/Icon'
 import { ListItem } from 'components/ListItem'
 import { FormikSelect } from 'components/Select'
-import { TextArea } from 'components/TextArea'
 import { FormikTextArea } from 'components/TextArea/FormikTextArea'
 import { FormikTextInput, TextInput } from 'components/TextInput'
 import { Form, Formik } from 'formik'
@@ -20,7 +19,7 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { useRouter } from 'next/dist/client/router'
 import TagInput from 'components/TagInput'
-
+import axios from 'axios';
 
 const MySwal = withReactContent(Swal);
 
@@ -42,6 +41,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 const AddRecipe = ({ units }: Props) => {
     const router = useRouter();
     const [photo, setPhoto] = useState<string | undefined>();
+    const [photoFile, setPhotoFile] = useState<Blob>()
     const [tags, setTags] = useState<string[]>([])
     const [ingredientsInitialValues, setIngredientsInitialValues] = useState({
         name: '',
@@ -93,12 +93,13 @@ const AddRecipe = ({ units }: Props) => {
         if (event.target.files) {
             try {
                 const url = URL.createObjectURL(event.target.files[0]);
+                setPhotoFile(event.target.files[0]);
                 setPhoto(url);
             } catch { }
         }
     }
 
-    const onFormSubmit = (values: {
+    const onFormSubmit = async ({ name, people, description }: {
         name: string;
         people: number;
         description: string;
@@ -118,19 +119,49 @@ const AddRecipe = ({ units }: Props) => {
         }
 
         if (errors.length === 0) {
-            MySwal.fire({
-                title: 'Recipe added successfully!',
-                text: 'The recipe has been added successfully, please press continue to see the recipes.',
-                icon: 'success',
-                allowOutsideClick: false,
-                customClass: {
-                    popup: styles.alert
-                },
-                confirmButtonText: 'Continue',
-                willClose() {
-                    router.push('/recipes');
+            let formData = new FormData();
+            formData.append("operations", `
+            {
+                "query": "mutation ($recipe: RecipeInput!) {saveRecipe(recipe: $recipe){name} }",
+                "variables": {
+                    "recipe": {
+                        "name": "${name}",
+                        "description": "${description}",
+                        "photo": null,
+                        "numberOfPeople": ${people},
+                        "ingredients": [${ingredients.map(({ name, quantity, unit: { idUnit } }) => JSON.stringify({ name, quantity: Number(quantity), idUnit: Number(idUnit) }))}],
+                        "steps": [${steps.map(({ description }) => JSON.stringify({ description }))}],
+                        "tags": [${tags.map((tag) => JSON.stringify({ name: tag, idRecipe: 0 }))}]
+                    }
                 }
-            })
+            }
+            `);
+            formData.append("map", `{ "0": ["variables.recipe.photo"] }`);
+            formData.append("0", photoFile!);
+            try {
+                const { data } = await axios.post('http://localhost:8081/graphql', formData, {
+                    headers: {
+                        authorization: localStorage.getItem('token') || ""
+                    }
+                });
+                MySwal.fire({
+                    title: 'Recipe added successfully!',
+                    text: 'The recipe has been added successfully, please press continue to see the recipes.',
+                    icon: 'success',
+                    allowOutsideClick: false,
+                    customClass: {
+                        popup: styles.alert
+                    },
+                    confirmButtonText: 'Continue'
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        router.push('/recipes');
+                    }
+                })
+            } catch (err) {
+                alert(err);
+            }
+
         } else {
             MySwal.fire({
                 title: 'Recipe incomplete!',
