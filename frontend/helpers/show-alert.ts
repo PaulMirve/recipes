@@ -23,3 +23,11 @@ export const loadingAlert = () => {
     });
     return MySwal;
 }
+
+export const showErrorAlert = () => {
+    showAlert({
+        title: 'Something has happened!',
+        text: 'An error has happened, please contact with the system administrator.',
+        icon: 'error'
+    });
+}

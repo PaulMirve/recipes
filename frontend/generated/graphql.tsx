@@ -234,6 +234,20 @@ export type GetRecipeQueryVariables = Exact<{
 
 export type GetRecipeQuery = { __typename?: 'Query', getRecipe: { __typename?: 'Recipe', idRecipe: number, name: string, description: string, numberOfPeople: number, photo: string, dateCreated: string, ingredients: Array<{ __typename?: 'Ingredient', name: string, quantity: number, unit: { __typename?: 'Unit', name: string } }>, steps: Array<{ __typename?: 'Step', description: string }>, likes: Array<{ __typename?: 'User', username: string }>, user: { __typename?: 'User', username: string }, tags: Array<{ __typename?: 'Tag', name: string }>, comments: Array<{ __typename?: 'Comment', idComment: number, comment: string, likes: Array<{ __typename?: 'User', username: string }>, user: { __typename?: 'User', username: string, name: string, lastName: string } }>, bookmarkedBy: Array<{ __typename?: 'User', username: string }> } };
 
+export type LikeRecipeMutationVariables = Exact<{
+  idRecipe: Scalars['Int'];
+}>;
+
+
+export type LikeRecipeMutation = { __typename?: 'Mutation', likeRecipe: { __typename?: 'Recipe', idRecipe: number } };
+
+export type BookmarkRecipeMutationVariables = Exact<{
+  idRecipe: Scalars['Int'];
+}>;
+
+
+export type BookmarkRecipeMutation = { __typename?: 'Mutation', bookmarkRecipe: { __typename?: 'Recipe', idRecipe: number } };
+
 export type GetUnitsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -519,6 +533,72 @@ export function useGetRecipeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type GetRecipeQueryHookResult = ReturnType<typeof useGetRecipeQuery>;
 export type GetRecipeLazyQueryHookResult = ReturnType<typeof useGetRecipeLazyQuery>;
 export type GetRecipeQueryResult = Apollo.QueryResult<GetRecipeQuery, GetRecipeQueryVariables>;
+export const LikeRecipeDocument = gql`
+    mutation LikeRecipe($idRecipe: Int!) {
+  likeRecipe(idRecipe: $idRecipe) {
+    idRecipe
+  }
+}
+    `;
+export type LikeRecipeMutationFn = Apollo.MutationFunction<LikeRecipeMutation, LikeRecipeMutationVariables>;
+
+/**
+ * __useLikeRecipeMutation__
+ *
+ * To run a mutation, you first call `useLikeRecipeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLikeRecipeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [likeRecipeMutation, { data, loading, error }] = useLikeRecipeMutation({
+ *   variables: {
+ *      idRecipe: // value for 'idRecipe'
+ *   },
+ * });
+ */
+export function useLikeRecipeMutation(baseOptions?: Apollo.MutationHookOptions<LikeRecipeMutation, LikeRecipeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LikeRecipeMutation, LikeRecipeMutationVariables>(LikeRecipeDocument, options);
+      }
+export type LikeRecipeMutationHookResult = ReturnType<typeof useLikeRecipeMutation>;
+export type LikeRecipeMutationResult = Apollo.MutationResult<LikeRecipeMutation>;
+export type LikeRecipeMutationOptions = Apollo.BaseMutationOptions<LikeRecipeMutation, LikeRecipeMutationVariables>;
+export const BookmarkRecipeDocument = gql`
+    mutation BookmarkRecipe($idRecipe: Int!) {
+  bookmarkRecipe(idRecipe: $idRecipe) {
+    idRecipe
+  }
+}
+    `;
+export type BookmarkRecipeMutationFn = Apollo.MutationFunction<BookmarkRecipeMutation, BookmarkRecipeMutationVariables>;
+
+/**
+ * __useBookmarkRecipeMutation__
+ *
+ * To run a mutation, you first call `useBookmarkRecipeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useBookmarkRecipeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [bookmarkRecipeMutation, { data, loading, error }] = useBookmarkRecipeMutation({
+ *   variables: {
+ *      idRecipe: // value for 'idRecipe'
+ *   },
+ * });
+ */
+export function useBookmarkRecipeMutation(baseOptions?: Apollo.MutationHookOptions<BookmarkRecipeMutation, BookmarkRecipeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<BookmarkRecipeMutation, BookmarkRecipeMutationVariables>(BookmarkRecipeDocument, options);
+      }
+export type BookmarkRecipeMutationHookResult = ReturnType<typeof useBookmarkRecipeMutation>;
+export type BookmarkRecipeMutationResult = Apollo.MutationResult<BookmarkRecipeMutation>;
+export type BookmarkRecipeMutationOptions = Apollo.BaseMutationOptions<BookmarkRecipeMutation, BookmarkRecipeMutationVariables>;
 export const GetUnitsDocument = gql`
     query getUnits {
   getUnits {

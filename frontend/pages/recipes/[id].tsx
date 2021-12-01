@@ -1,23 +1,25 @@
 import styles from '@sass/pages/recipe.module.scss';
 import client from 'client';
+import Button from 'components/Button';
+import Checkbox from 'components/Checkbox';
+import Comment from 'components/Comment';
 import Heading from 'components/Heading';
-import { Comment as CommentType, GetRecipeIdsQuery, GetRecipeQuery, GetRecipeQueryVariables, Recipe, useSaveCommentMutation } from 'generated/graphql';
-import { getRecipeIdsQuery, getRecipeQuery } from 'graphql/recipe.resolver';
-import { GetStaticPaths, GetStaticProps } from 'next';
-import { ParsedUrlQuery } from 'querystring';
-import Image from 'next/image'
-import Tag from 'components/Tag';
 import Icon from 'components/Icon';
 import { ListItem } from 'components/ListItem';
-import Checkbox from 'components/Checkbox';
-import React, { useState } from 'react';
-import { loadingAlert, showAlert } from 'helpers/show-alert';
-import Tooltip from 'components/Tooltip';
-import * as Yup from 'yup'
-import Comment from 'components/Comment';
-import Button from 'components/Button';
-import { Form, Formik } from 'formik';
+import Tag from 'components/Tag';
 import { FormikTextArea } from 'components/TextArea/FormikTextArea';
+import Tooltip from 'components/Tooltip';
+import { Form, Formik } from 'formik';
+import { Comment as CommentType, GetRecipeQuery, GetRecipeQueryVariables, Recipe, useSaveCommentMutation } from 'generated/graphql';
+import { getRecipeQuery } from 'graphql/recipe.resolver';
+import { loadingAlert, showAlert } from 'helpers/show-alert';
+import { useBookmark } from 'hooks/useBookmark';
+import { useLikes } from 'hooks/useLikes';
+import { GetServerSideProps } from 'next';
+import Image from 'next/image';
+import { ParsedUrlQuery } from 'querystring';
+import React, { useState } from 'react';
+import * as Yup from 'yup';
 interface Props {
     recipe: Recipe
 }
@@ -26,7 +28,7 @@ interface Params extends ParsedUrlQuery {
     id: string
 }
 
-export const getStaticProps: GetStaticProps<Props, Params> = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps<Props, Params> = async ({ params }) => {
     const { id } = params!;
     const { data } = await client.query<GetRecipeQuery, GetRecipeQueryVariables>({
         query: getRecipeQuery,
@@ -42,10 +44,12 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ({ params }) 
 }
 
 const Recipe = ({ recipe }: Props) => {
-    const { photo, tags, name, likes, user: { username }, dateCreated, description, ingredients, steps, comments, bookmarkedBy, idRecipe } = recipe;
+    const { photo, tags, name, user: { username }, dateCreated, description, ingredients, steps, comments, idRecipe } = recipe;
     const [stepsChecked, setStepsChecked] = useState<boolean[]>([])
-    const [commentsList, setCommentsList] = useState<CommentType[]>(comments.sort((a, b) => Date.parse(a.dateCreated) - Date.parse(b.dateCreated)))
+    const [commentsList, setCommentsList] = useState<CommentType[]>([...comments].sort((a, b) => Date.parse(a.dateCreated) - Date.parse(b.dateCreated)).reverse())
     const [saveComment] = useSaveCommentMutation();
+    const { onLikeRecipe, recipeIsLiked, likesCount } = useLikes(recipe)
+    const { bookmarkRecipe, isRecipeBookmarked } = useBookmark(recipe);
 
     const onCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
         const stepsCheck = [...stepsChecked];
@@ -98,7 +102,7 @@ const Recipe = ({ recipe }: Props) => {
                 <span className={styles.title}>
                     <Heading variant='h1' fontWeight='bold'>{name}</Heading>
                     <Tooltip text='Bookmark'>
-                        <Icon.BookmarkOutline />
+                        {isRecipeBookmarked ? <Icon.BookmarkFilled onClick={bookmarkRecipe} /> : <Icon.BookmarkOutline onClick={bookmarkRecipe} />}
                     </Tooltip>
                 </span>
                 <div className={styles.tags}>
@@ -110,8 +114,11 @@ const Recipe = ({ recipe }: Props) => {
                 </div>
                 <div className={styles.metadata}>
                     <span>
-                        <Icon.ThumbUpOutline style={{ cursor: 'pointer' }} />
-                        <p>{likes.length}</p>
+                        {recipeIsLiked ?
+                            <Icon.ThumbUpFilled style={{ cursor: 'pointer' }} onClick={onLikeRecipe} />
+                            :
+                            <Icon.ThumbUpOutline style={{ cursor: 'pointer' }} onClick={onLikeRecipe} />}
+                        <p>{likesCount}</p>
                     </span>
                     <span>
                         <Icon.Calendar />
@@ -177,19 +184,19 @@ const Recipe = ({ recipe }: Props) => {
     )
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-    const { data } = await client.query<GetRecipeIdsQuery>({
-        query: getRecipeIdsQuery
-    });
+// export const getStaticPaths: GetStaticPaths = async () => {
+//     const { data } = await client.query<GetRecipeIdsQuery>({
+//         query: getRecipeIdsQuery
+//     });
 
-    return {
-        paths: data.getRecipes.map(({ idRecipe }) => ({
-            params: {
-                id: idRecipe.toString()
-            }
-        })),
-        fallback: false
-    }
-}
+//     return {
+//         paths: data.getRecipes.map(({ idRecipe }) => ({
+//             params: {
+//                 id: idRecipe.toString()
+//             }
+//         })),
+//         fallback: false
+//     }
+// }
 
 export default Recipe

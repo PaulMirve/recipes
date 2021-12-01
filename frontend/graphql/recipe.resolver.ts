@@ -19,7 +19,7 @@ query getRecipes{
     }
   }
 }
-`
+`;
 export const getRecipeIdsQuery = gql`
 query getRecipeIds {
   getRecipes {
@@ -27,7 +27,6 @@ query getRecipeIds {
   }
 }
 `;
-
 export const getRecipeQuery = gql`
 query getRecipe($idRecipe: Int!) {
   getRecipe(idRecipe: $idRecipe) {
@@ -71,6 +70,20 @@ query getRecipe($idRecipe: Int!) {
     bookmarkedBy{
       username
     }
+  }
+}
+`;
+export const likeRecipeMutation = gql`
+mutation LikeRecipe($idRecipe: Int!) {
+  likeRecipe(idRecipe: $idRecipe) {
+    idRecipe
+  }
+}
+`;
+export const bookmarkRecipeMutation = gql`
+mutation BookmarkRecipe($idRecipe: Int!) {
+  bookmarkRecipe(idRecipe: $idRecipe) {
+    idRecipe
   }
 }
 `;
