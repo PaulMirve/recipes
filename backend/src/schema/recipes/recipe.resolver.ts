@@ -107,9 +107,9 @@ class RecipeResolver {
     }
 
     @FieldResolver()
-    async bookmarkedBy(@Root() { idUser }: RecipeEntity) {
+    async bookmarkedBy(@Root() { idRecipe }: RecipeEntity) {
         const recipe = await RecipeEntity.findOne({
-            where: { idUser },
+            where: { idRecipe },
             relations: ["bookmarkedBy"]
         });
         return recipe.bookmarkedBy;

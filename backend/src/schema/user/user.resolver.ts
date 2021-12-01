@@ -70,4 +70,13 @@ export class UserResolver {
         });
         return user.following;
     }
+
+    @FieldResolver()
+    async bookmarks(@Root() { idUser }: UserEntity) {
+        const user = await UserEntity.findOne({
+            where: { idUser },
+            relations: ["bookmarks"]
+        });
+        return user.bookmarks;
+    }
 }

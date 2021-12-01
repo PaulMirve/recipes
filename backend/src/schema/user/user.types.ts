@@ -1,6 +1,7 @@
 import { IsNotEmpty, IsString } from "class-validator";
 import { Field, InputType, ObjectType } from "type-graphql";
 import { IsUsernameExist } from "../../decorators/username.decorator";
+import { Recipe } from "../recipes/recipe.types";
 import { Role } from "../role/role.types";
 
 @ObjectType()
@@ -17,6 +18,8 @@ export class User {
     following: User[];
     @Field(of => [User])
     followers: User[];
+    @Field(of => [Recipe])
+    bookmarks: Recipe[]
 }
 
 @InputType()
