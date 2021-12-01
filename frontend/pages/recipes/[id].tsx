@@ -28,27 +28,14 @@ interface Params extends ParsedUrlQuery {
     id: string
 }
 
-export const getServerSideProps: GetServerSideProps<Props, Params> = async ({ params }) => {
-    const { id } = params!;
-    const { data } = await client.query<GetRecipeQuery, GetRecipeQueryVariables>({
-        query: getRecipeQuery,
-        variables: {
-            idRecipe: Number(id)
-        }
-    });
-    return {
-        props: {
-            recipe: data.getRecipe as Recipe
-        }
-    }
-}
+
 
 const Recipe = ({ recipe }: Props) => {
     const { photo, tags, name, user: { username }, dateCreated, description, ingredients, steps, comments, idRecipe } = recipe;
     const [stepsChecked, setStepsChecked] = useState<boolean[]>([])
     const [commentsList, setCommentsList] = useState<CommentType[]>([...comments].sort((a, b) => Date.parse(a.dateCreated) - Date.parse(b.dateCreated)).reverse())
     const [saveComment] = useSaveCommentMutation();
-    const { onLikeRecipe, recipeIsLiked, likesCount } = useLikes(recipe)
+    const { onLikeRecipe, isRecipeLiked, likesCount } = useLikes(recipe)
     const { bookmarkRecipe, isRecipeBookmarked } = useBookmark(recipe);
 
     const onCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
@@ -114,7 +101,7 @@ const Recipe = ({ recipe }: Props) => {
                 </div>
                 <div className={styles.metadata}>
                     <span>
-                        {recipeIsLiked ?
+                        {isRecipeLiked ?
                             <Icon.ThumbUpFilled style={{ cursor: 'pointer' }} onClick={onLikeRecipe} />
                             :
                             <Icon.ThumbUpOutline style={{ cursor: 'pointer' }} onClick={onLikeRecipe} />}
@@ -184,19 +171,20 @@ const Recipe = ({ recipe }: Props) => {
     )
 }
 
-// export const getStaticPaths: GetStaticPaths = async () => {
-//     const { data } = await client.query<GetRecipeIdsQuery>({
-//         query: getRecipeIdsQuery
-//     });
-
-//     return {
-//         paths: data.getRecipes.map(({ idRecipe }) => ({
-//             params: {
-//                 id: idRecipe.toString()
-//             }
-//         })),
-//         fallback: false
-//     }
-// }
+export const getServerSideProps: GetServerSideProps<Props, Params> = async ({ params }) => {
+    const { id } = params!;
+    const { data } = await client.query<GetRecipeQuery, GetRecipeQueryVariables>({
+        query: getRecipeQuery,
+        variables: {
+            idRecipe: Number(id)
+        },
+        fetchPolicy: 'no-cache'
+    });
+    return {
+        props: {
+            recipe: data.getRecipe as Recipe
+        }
+    }
+}
 
 export default Recipe

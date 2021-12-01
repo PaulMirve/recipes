@@ -217,6 +217,13 @@ export type SaveCommentMutationVariables = Exact<{
 
 export type SaveCommentMutation = { __typename?: 'Mutation', saveComment: { __typename?: 'Comment', idComment: number, comment: string, dateCreated: string, user: { __typename?: 'User', username: string, name: string, lastName: string }, likes: Array<{ __typename?: 'User', username: string }> } };
 
+export type GetRecipeCommentsQueryVariables = Exact<{
+  idRecipe: Scalars['Int'];
+}>;
+
+
+export type GetRecipeCommentsQuery = { __typename?: 'Query', getRecipeComments: Array<{ __typename?: 'Comment', idComment: number, comment: string, user: { __typename?: 'User', username: string } }> };
+
 export type GetRecipesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -378,6 +385,45 @@ export function useSaveCommentMutation(baseOptions?: Apollo.MutationHookOptions<
 export type SaveCommentMutationHookResult = ReturnType<typeof useSaveCommentMutation>;
 export type SaveCommentMutationResult = Apollo.MutationResult<SaveCommentMutation>;
 export type SaveCommentMutationOptions = Apollo.BaseMutationOptions<SaveCommentMutation, SaveCommentMutationVariables>;
+export const GetRecipeCommentsDocument = gql`
+    query GetRecipeComments($idRecipe: Int!) {
+  getRecipeComments(idRecipe: $idRecipe) {
+    idComment
+    comment
+    user {
+      username
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetRecipeCommentsQuery__
+ *
+ * To run a query within a React component, call `useGetRecipeCommentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRecipeCommentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRecipeCommentsQuery({
+ *   variables: {
+ *      idRecipe: // value for 'idRecipe'
+ *   },
+ * });
+ */
+export function useGetRecipeCommentsQuery(baseOptions: Apollo.QueryHookOptions<GetRecipeCommentsQuery, GetRecipeCommentsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetRecipeCommentsQuery, GetRecipeCommentsQueryVariables>(GetRecipeCommentsDocument, options);
+      }
+export function useGetRecipeCommentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRecipeCommentsQuery, GetRecipeCommentsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetRecipeCommentsQuery, GetRecipeCommentsQueryVariables>(GetRecipeCommentsDocument, options);
+        }
+export type GetRecipeCommentsQueryHookResult = ReturnType<typeof useGetRecipeCommentsQuery>;
+export type GetRecipeCommentsLazyQueryHookResult = ReturnType<typeof useGetRecipeCommentsLazyQuery>;
+export type GetRecipeCommentsQueryResult = Apollo.QueryResult<GetRecipeCommentsQuery, GetRecipeCommentsQueryVariables>;
 export const GetRecipesDocument = gql`
     query getRecipes {
   getRecipes {

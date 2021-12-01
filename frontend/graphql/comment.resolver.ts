@@ -17,3 +17,15 @@ mutation SaveComment($comment: CommentInput!) {
   }
 }
 `
+export const getRecipeCommentsQuery = gql`
+query GetRecipeComments($idRecipe: Int!) {
+  getRecipeComments(idRecipe: $idRecipe) {
+    idComment
+    comment
+    user {
+      username
+    }
+  }
+}
+
+`

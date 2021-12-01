@@ -1,12 +1,12 @@
 import { Recipe, useLikeRecipeMutation } from "generated/graphql";
 import { showErrorAlert } from "helpers/show-alert";
 import { useRouter } from "next/dist/client/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGlobalContext } from "./useGlobalContext";
 
 export const useLikes = ({ likes, idRecipe }: Recipe) => {
     const { user } = useGlobalContext();
-    const [recipeIsLiked, setRecipeIsLiked] = useState<boolean>(likes.find(u => u.username === user?.username) != null)
+    const [isRecipeLiked, setIsRecipeLiked] = useState<boolean>(false)
     const [likesCount, setLikesCount] = useState<number>(likes.length)
     const router = useRouter();
     const [likeRecipe] = useLikeRecipeMutation({
@@ -15,12 +15,16 @@ export const useLikes = ({ likes, idRecipe }: Recipe) => {
         }
     });
 
+    useEffect(() => {
+        setIsRecipeLiked(likes.find(u => u.username === user?.username) != null);
+    }, [user])
+
     const onLikeRecipe = async () => {
         if (user) {
             try {
                 await likeRecipe();
-                setLikesCount(prev => prev + 1);
-                setRecipeIsLiked(prev => !prev);
+                setLikesCount(prev => isRecipeLiked ? prev - 1 : prev + 1);
+                setIsRecipeLiked(prev => !prev);
             } catch (err) {
                 showErrorAlert();
             }
@@ -32,6 +36,6 @@ export const useLikes = ({ likes, idRecipe }: Recipe) => {
     return {
         likesCount,
         onLikeRecipe,
-        recipeIsLiked
+        isRecipeLiked
     }
 }
