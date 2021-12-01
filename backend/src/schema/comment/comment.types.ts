@@ -14,6 +14,8 @@ export class Comment {
     likes: User[];
     @Field(of => User)
     user: User;
+    @Field(of => String)
+    dateCreated: string;
 }
 
 @InputType()
@@ -25,8 +27,4 @@ export class CommentInput {
     @Field(of => Int)
     @IsRecipeExist()
     idRecipe: number;
-
-    @Field(of => Int)
-    @IsUserExist()
-    idUser: number;
 }

@@ -5,6 +5,7 @@ import { Step, StepInput } from "../step/step.types";
 import { IsInt, IsNotEmpty } from "class-validator";
 import { Tag, TagInput } from "../tag/tag.types";
 import { User } from "../user/user.types";
+import { Comment } from "../comment/comment.types";
 
 @ObjectType()
 export class Recipe {
@@ -32,6 +33,8 @@ export class Recipe {
     tags: Tag[];
     @Field(of => String)
     dateCreated: string;
+    @Field(of => [Comment])
+    comments: Comment[]
 }
 
 @InputType()

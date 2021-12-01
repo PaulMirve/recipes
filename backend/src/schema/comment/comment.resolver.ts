@@ -2,18 +2,26 @@ import { Arg, Ctx, FieldResolver, Int, Mutation, Query, Resolver, Root, UseMiddl
 import { AuthMiddleware } from "../../middlewares/auth.middleware";
 import { ValidIdCommentMiddleware } from "../../middlewares/valid-idCommen.middleware";
 import { ValidIdRecipeMiddleware } from "../../middlewares/valid-idRecipe.middleware";
+import { RecipeEntity } from "../recipes/recipe.entity";
 import { UserEntity } from "../user/user.entity";
 import { CommentEntity } from "./comment.entity";
 import { Comment, CommentInput } from "./comment.types";
 
 @Resolver(of => Comment)
-class CommentResolver {
+export class CommentResolver {
     @Mutation(returns => Comment)
+    @UseMiddleware(AuthMiddleware)
     saveComment(
-        @Arg("comment") commentInput: CommentInput
+        @Arg("comment") commentInput: CommentInput,
+        @Ctx('user') { idUser }: UserEntity
     ) {
-        const comment = CommentEntity.create(commentInput);
-        return CommentEntity.save(comment);
+        if (RecipeEntity.findOne({ idRecipe: commentInput.idRecipe })) {
+            const comment = CommentEntity.create({ ...commentInput, idUser });
+            return CommentEntity.save(comment);
+        } else {
+            throw new Error("The recipe doesn't exist");
+        }
+
     }
 
     @Mutation(returns => Comment)
@@ -61,5 +69,10 @@ class CommentResolver {
             relations: ["user"]
         });
         return comment.user;
+    }
+
+    @FieldResolver()
+    dateCreated(@Root() { dateCreated }: CommentEntity) {
+        return new Date(Number(dateCreated)).toLocaleString();
     }
 }

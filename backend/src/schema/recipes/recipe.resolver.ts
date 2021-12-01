@@ -128,4 +128,13 @@ class RecipeResolver {
     dateCreated(@Root() { dateCreated }: RecipeEntity) {
         return new Date(Number(dateCreated)).toLocaleDateString();
     }
+
+    @FieldResolver()
+    async comments(@Root() { idRecipe }: RecipeEntity) {
+        const recipe = await RecipeEntity.findOne({
+            where: { idRecipe },
+            relations: ["comments"]
+        });
+        return recipe.comments;
+    }
 }
