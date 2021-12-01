@@ -1,17 +1,18 @@
+import styles from '@sass/pages/recipes.module.scss'
 import client from "client"
+import Heading from "components/Heading"
+import RecipeCard from "components/RecipeCard"
 import { GetRecipesQuery, Recipe } from "generated/graphql"
 import { getRecipesQuery } from "graphql/recipe.resolver"
-import { GetStaticProps } from "next"
-import styles from '@sass/pages/recipes.module.scss'
-import RecipeCard from "components/RecipeCard"
-import Heading from "components/Heading"
+import { GetServerSideProps } from "next"
 interface Props {
     recipes: Recipe[]
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
     const { data } = await client.query<GetRecipesQuery>({
-        query: getRecipesQuery
+        query: getRecipesQuery,
+        fetchPolicy: 'no-cache'
     });
     return {
         props: {

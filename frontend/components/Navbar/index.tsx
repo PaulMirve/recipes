@@ -7,11 +7,24 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Icon from 'components/Icon'
 import { useContext } from 'react'
+import client from 'client'
+import { getRecipeIdsQuery } from 'graphql/recipe.resolver'
+import { GetRecipeIdsQuery } from 'generated/graphql'
 
 
 const Navbar = () => {
     const router = useRouter();
     const { user } = useContext(GlobalContext);
+
+    const onDiscover = async () => {
+        const { data } = await client.query<GetRecipeIdsQuery>({
+            query: getRecipeIdsQuery
+        });
+        const ids = data.getRecipes;
+        const randomIndex = Math.floor(Math.random() * (ids.length));
+        router.push(`/recipes/${ids[randomIndex].idRecipe}`)
+    }
+
     return (
         <nav className={styles.navbar}>
             <Link href='/recipes'>
@@ -20,7 +33,7 @@ const Navbar = () => {
             <div className={styles.links}>
                 <Link href='/recipes'><a>Recipes</a></Link>
                 <Link href='/'><a>About</a></Link>
-                <Link href='/'><a>Discover</a></Link>
+                <span onClick={onDiscover}><a>Discover</a></span>
             </div>
             {
                 user ?
