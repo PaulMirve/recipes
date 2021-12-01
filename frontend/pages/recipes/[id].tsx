@@ -44,7 +44,7 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ({ params }) 
 const Recipe = ({ recipe }: Props) => {
     const { photo, tags, name, likes, user: { username }, dateCreated, description, ingredients, steps, comments, bookmarkedBy, idRecipe } = recipe;
     const [stepsChecked, setStepsChecked] = useState<boolean[]>([])
-    const [commentsList, setCommentsList] = useState<CommentType[]>(comments)
+    const [commentsList, setCommentsList] = useState<CommentType[]>(comments.sort((a, b) => Date.parse(a.dateCreated) - Date.parse(b.dateCreated)))
     const [saveComment] = useSaveCommentMutation();
 
     const onCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {

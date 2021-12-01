@@ -38,6 +38,10 @@ $font-size: 1.8rem;
 
 .frame {
     grid-area: frame;
+
+    & img{
+        object-fit: cover;
+    }
 }
 
 .title {
