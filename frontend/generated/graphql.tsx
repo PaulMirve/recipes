@@ -20,6 +20,7 @@ export type Scalars = {
 export type Comment = {
   __typename?: 'Comment';
   comment: Scalars['String'];
+  dateCreated: Scalars['String'];
   idComment: Scalars['Int'];
   likes: Array<User>;
   user: User;
@@ -28,7 +29,6 @@ export type Comment = {
 export type CommentInput = {
   comment: Scalars['String'];
   idRecipe: Scalars['Int'];
-  idUser: Scalars['Int'];
 };
 
 export type Ingredient = {
@@ -126,6 +126,7 @@ export type QueryGetRecipeCommentsArgs = {
 export type Recipe = {
   __typename?: 'Recipe';
   bookmarkedBy: Array<User>;
+  comments: Array<Comment>;
   dateCreated: Scalars['String'];
   description: Scalars['String'];
   idRecipe: Scalars['Int'];
@@ -209,6 +210,13 @@ export type IsAuthenticatedQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type IsAuthenticatedQuery = { __typename?: 'Query', isAuthenticated: { __typename?: 'User', name: string, lastName: string, username: string, role: { __typename?: 'Role', name: string } } };
 
+export type SaveCommentMutationVariables = Exact<{
+  comment: CommentInput;
+}>;
+
+
+export type SaveCommentMutation = { __typename?: 'Mutation', saveComment: { __typename?: 'Comment', idComment: number, comment: string, dateCreated: string, user: { __typename?: 'User', username: string, name: string, lastName: string }, likes: Array<{ __typename?: 'User', username: string }> } };
+
 export type GetRecipesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -224,7 +232,7 @@ export type GetRecipeQueryVariables = Exact<{
 }>;
 
 
-export type GetRecipeQuery = { __typename?: 'Query', getRecipe: { __typename?: 'Recipe', idRecipe: number, name: string, description: string, numberOfPeople: number, photo: string, dateCreated: string, ingredients: Array<{ __typename?: 'Ingredient', name: string, quantity: number, unit: { __typename?: 'Unit', name: string } }>, steps: Array<{ __typename?: 'Step', description: string }>, likes: Array<{ __typename?: 'User', name: string }>, user: { __typename?: 'User', username: string }, tags: Array<{ __typename?: 'Tag', name: string }> } };
+export type GetRecipeQuery = { __typename?: 'Query', getRecipe: { __typename?: 'Recipe', idRecipe: number, name: string, description: string, numberOfPeople: number, photo: string, dateCreated: string, ingredients: Array<{ __typename?: 'Ingredient', name: string, quantity: number, unit: { __typename?: 'Unit', name: string } }>, steps: Array<{ __typename?: 'Step', description: string }>, likes: Array<{ __typename?: 'User', username: string }>, user: { __typename?: 'User', username: string }, tags: Array<{ __typename?: 'Tag', name: string }>, comments: Array<{ __typename?: 'Comment', idComment: number, comment: string, likes: Array<{ __typename?: 'User', username: string }>, user: { __typename?: 'User', username: string, name: string, lastName: string } }>, bookmarkedBy: Array<{ __typename?: 'User', username: string }> } };
 
 export type GetUnitsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -313,6 +321,49 @@ export function useIsAuthenticatedLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type IsAuthenticatedQueryHookResult = ReturnType<typeof useIsAuthenticatedQuery>;
 export type IsAuthenticatedLazyQueryHookResult = ReturnType<typeof useIsAuthenticatedLazyQuery>;
 export type IsAuthenticatedQueryResult = Apollo.QueryResult<IsAuthenticatedQuery, IsAuthenticatedQueryVariables>;
+export const SaveCommentDocument = gql`
+    mutation SaveComment($comment: CommentInput!) {
+  saveComment(comment: $comment) {
+    idComment
+    comment
+    dateCreated
+    user {
+      username
+      name
+      lastName
+    }
+    likes {
+      username
+    }
+  }
+}
+    `;
+export type SaveCommentMutationFn = Apollo.MutationFunction<SaveCommentMutation, SaveCommentMutationVariables>;
+
+/**
+ * __useSaveCommentMutation__
+ *
+ * To run a mutation, you first call `useSaveCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSaveCommentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [saveCommentMutation, { data, loading, error }] = useSaveCommentMutation({
+ *   variables: {
+ *      comment: // value for 'comment'
+ *   },
+ * });
+ */
+export function useSaveCommentMutation(baseOptions?: Apollo.MutationHookOptions<SaveCommentMutation, SaveCommentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SaveCommentMutation, SaveCommentMutationVariables>(SaveCommentDocument, options);
+      }
+export type SaveCommentMutationHookResult = ReturnType<typeof useSaveCommentMutation>;
+export type SaveCommentMutationResult = Apollo.MutationResult<SaveCommentMutation>;
+export type SaveCommentMutationOptions = Apollo.BaseMutationOptions<SaveCommentMutation, SaveCommentMutationVariables>;
 export const GetRecipesDocument = gql`
     query getRecipes {
   getRecipes {
@@ -414,13 +465,28 @@ export const GetRecipeDocument = gql`
       description
     }
     likes {
-      name
+      username
     }
     user {
       username
     }
     tags {
       name
+    }
+    comments {
+      idComment
+      comment
+      likes {
+        username
+      }
+      user {
+        username
+        name
+        lastName
+      }
+    }
+    bookmarkedBy {
+      username
     }
   }
 }

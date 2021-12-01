@@ -23,7 +23,7 @@ const RecipeCard = ({ className = "", recipe, onClick, ...rest }: Props) => {
             <div className={styles.content}>
                 <p className={styles.name}>{name}</p>
                 <p className={styles.description}>{description}</p>
-                <div className={styles.tags}>
+                <div className={styles.tags} onClick={e => e.stopPropagation()}>
                     {
                         tags.map(({ name }) => <Tag key={name} title={name} />)
                     }

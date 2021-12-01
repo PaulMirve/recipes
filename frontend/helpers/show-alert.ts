@@ -11,3 +11,15 @@ export const showAlert = (options: SweetAlertOptions) => {
         }
     });
 }
+
+export const loadingAlert = () => {
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+        title: "Loading...",
+        customClass: {
+            popup: styles.alert
+        },
+        allowOutsideClick: false
+    });
+    return MySwal;
+}

@@ -1,7 +1,7 @@
 import styles from '@sass/pages/recipe.module.scss';
 import client from 'client';
 import Heading from 'components/Heading';
-import { GetRecipeIdsQuery, GetRecipeQuery, GetRecipeQueryVariables, Recipe } from 'generated/graphql';
+import { Comment as CommentType, GetRecipeIdsQuery, GetRecipeQuery, GetRecipeQueryVariables, Recipe, useSaveCommentMutation } from 'generated/graphql';
 import { getRecipeIdsQuery, getRecipeQuery } from 'graphql/recipe.resolver';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { ParsedUrlQuery } from 'querystring';
@@ -11,10 +11,13 @@ import Icon from 'components/Icon';
 import { ListItem } from 'components/ListItem';
 import Checkbox from 'components/Checkbox';
 import React, { useState } from 'react';
-import { showAlert } from 'helpers/show-alert';
+import { loadingAlert, showAlert } from 'helpers/show-alert';
 import Tooltip from 'components/Tooltip';
-import { TextArea } from 'components/TextArea';
+import * as Yup from 'yup'
 import Comment from 'components/Comment';
+import Button from 'components/Button';
+import { Form, Formik } from 'formik';
+import { FormikTextArea } from 'components/TextArea/FormikTextArea';
 interface Props {
     recipe: Recipe
 }
@@ -39,8 +42,10 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ({ params }) 
 }
 
 const Recipe = ({ recipe }: Props) => {
-    const { photo, tags, name, likes, user: { username }, dateCreated, description, ingredients, steps } = recipe;
+    const { photo, tags, name, likes, user: { username }, dateCreated, description, ingredients, steps, comments, bookmarkedBy, idRecipe } = recipe;
     const [stepsChecked, setStepsChecked] = useState<boolean[]>([])
+    const [commentsList, setCommentsList] = useState<CommentType[]>(comments)
+    const [saveComment] = useSaveCommentMutation();
 
     const onCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
         const stepsCheck = [...stepsChecked];
@@ -52,6 +57,35 @@ const Recipe = ({ recipe }: Props) => {
                 text: 'Did you like it? Lave a comment and a like!',
                 icon: 'success'
             });
+        }
+    }
+
+    const onCommentSubmit = async ({ comment }: { comment: string }) => {
+        const loading = loadingAlert();
+        loading.showLoading();
+
+        try {
+            const { data } = await saveComment({
+                variables: {
+                    comment: {
+                        comment,
+                        idRecipe
+                    }
+                }
+            });
+            if (data?.saveComment) {
+                const _comment = data.saveComment as CommentType;
+                setCommentsList(prev => [_comment, ...prev])
+                loading.hideLoading();
+                showAlert({
+                    title: 'Comment added successfully',
+                    text: 'Your comment has been added!',
+                    icon: 'success'
+                });
+            }
+
+        } catch (err) {
+
         }
     }
 
@@ -107,11 +141,36 @@ const Recipe = ({ recipe }: Props) => {
             </div>
             <div className={styles.comments}>
                 <Heading className="mb-sm" variant="h5" fontFamily="body" fontWeight="bold">Comments</Heading>
-                <TextArea name="comment" placeholder="Leave a comment" />
+                <div >
+                    <Formik
+                        initialValues={{
+                            comment: ''
+                        }}
+                        validationSchema={Yup.object({
+                            comment: Yup.string().required('El comentario no puede estar vacío')
+                        })}
+                        onSubmit={(values, { resetForm }) => {
+                            onCommentSubmit(values);
+                            resetForm();
+                        }}>
+                        {
+                            formik => (
+                                <Form className={styles.commentForm}>
+                                    <FormikTextArea name="comment" placeholder="Leave a comment" />
+                                    <Button type="submit" className="mt-sm">Comment</Button>
+                                </Form>
+                            )
+                        }
+                    </Formik>
+                </div>
                 <div className={styles.commentsBox}>
-                    <Comment likes={2} username="Paul Miranda">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eos est maxime inventore delectus quaerat veritatis, dolor praesentium autem doloremque illo aliquam, sit dolore odio minima placeat assumenda? Nostrum, provident fuga.
-                    </Comment>
+                    {
+                        commentsList.map(({ idComment, comment, likes, user: { username, name, lastName } }) => (
+                            <Comment key={idComment} idComment={idComment} likes={likes.length} name={`${name} ${lastName}`} username={username}>
+                                {comment}
+                            </Comment>
+                        ))
+                    }
                 </div>
             </div>
         </div>

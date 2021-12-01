@@ -48,13 +48,28 @@ query getRecipe($idRecipe: Int!) {
       description
     }
     likes {
-      name
+      username
     }
     user {
       username
     }
     tags {
       name
+    }
+    comments{
+      idComment
+      comment
+      likes{
+        username
+      }
+      user{
+        username
+        name
+        lastName
+      }
+    }
+    bookmarkedBy{
+      username
     }
   }
 }

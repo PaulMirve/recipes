@@ -123,4 +123,17 @@ $font-size: 1.8rem;
 
 .commentsBox {
     margin-top: 4rem;
+
+    & > *{
+        margin-top: 2.5rem;
+    }
+}
+
+.commentForm {
+    display: flex;
+    flex-direction: column;
+
+    & button{
+        justify-self: flex-end;
+    }
 }
