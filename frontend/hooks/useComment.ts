@@ -1,5 +1,5 @@
 import { Comment, useSaveCommentMutation } from "generated/graphql"
-import { loadingAlert, showAlert } from "helpers/show-alert"
+import { loadingAlert, showAlert, showErrorAlert } from "helpers/show-alert"
 import { useRouter } from "next/dist/client/router"
 import { useState } from "react"
 import { useGlobalContext } from "./useGlobalContext"
@@ -36,11 +36,7 @@ export const useComment = ({ idRecipe, comments }: { idRecipe: number, comments:
                 }
 
             } catch (err) {
-                showAlert({
-                    title: 'Ups! Something happened!',
-                    text: 'An error has happened, please contact the system administrator.',
-                    icon: 'error'
-                });
+                showErrorAlert();
             }
         } else {
             router.push('/login');

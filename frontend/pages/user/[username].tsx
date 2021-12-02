@@ -8,6 +8,7 @@ import { ParsedUrlQuery } from 'querystring'
 import Avatar from 'components/Avatar'
 import Icon from 'components/Icon'
 import RecipeCard from 'components/RecipeCard'
+import { useFollow } from 'hooks/useFollow'
 
 interface Props {
     user: User
@@ -15,6 +16,7 @@ interface Props {
 
 const UserDetails = ({ user }: Props) => {
     const { username, name, lastName, followers, following, recipes } = user;
+    const { follow, isFollowed, isMe } = useFollow({ username, followers });
     return (
         <div className={styles.main}>
             <div className={styles.box}>
@@ -22,9 +24,19 @@ const UserDetails = ({ user }: Props) => {
             </div>
             <div className={styles.metadataWrapper}>
                 <div className={styles.metadata}>
-                    <span className={styles.username}>
+                    <span className={`${styles.username} ${isMe && styles.usernameCentered}`}>
                         <Heading fontWeight="bold" >{username}</Heading>
-                        <div className={styles.follow}>Follow <Icon.PersonAddOutline /></div>
+                        {!isMe &&
+                            <>
+                                {
+                                    isFollowed ?
+                                        <div onClick={follow} className={styles.follow}>Unfollow <Icon.PersonAddOutline /></div>
+                                        :
+                                        <div onClick={follow} className={styles.follow}>Follow <Icon.PersonAddOutline /></div>
+                                }
+
+                            </>
+                        }
                     </span>
                     <span className={styles.followers}><p>{followers.length}</p> followers <Icon.People /></span>
                     <span className={styles.following}><p>{following.length} following </p><Icon.PeopleOutline /></span>

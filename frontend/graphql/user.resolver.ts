@@ -27,3 +27,11 @@ query getUser($username: String!) {
   }
 }
 `;
+
+export const followUserMutation = gql`
+mutation FollowUser($username:String!){
+  followUser(username:$username){
+    username
+  }
+}
+`;

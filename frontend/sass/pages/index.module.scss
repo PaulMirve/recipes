@@ -1,5 +1,104 @@
 @use '@sass/abstract/mixins'as *;
+@use '@sass/abstract/variables'as *;
 
 .main {
-    @include padding;
+    padding: 12rem 0;
+}
+
+.hero {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto auto 1fr;
+    padding: 0 12rem;
+    grid-template-areas:
+        "title frame"
+        "paragraph frame"
+        "button frame";
+
+    @include respond(tab-port) {
+        text-align: center;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "title"
+            "frame"
+            "paragraph"
+            "button";
+    }
+
+
+    &__title {
+        grid-area: title;
+    }
+
+    &__paragraph {
+        grid-area: paragraph;
+    }
+
+    &__button {
+        grid-area: button;
+        align-self: start;
+        width: 60rem;
+
+        @include respond(tab-port) {
+            width: 100%;
+        }
+    }
+
+    &__frame {
+        grid-area: frame;
+    }
+}
+
+.section1 {
+    margin-top: 20rem;
+}
+
+.section2 {
+    margin-top: 40rem;
+    padding: 10rem 0;
+    clip-path: polygon(0 0, 100% 10%, 100% 90%, 0% 100%);
+    background-color: $color-primary;
+    height: 90rem;
+    display: grid;
+    grid-template-columns: 12rem repeat(2, 1fr) 12rem;
+    grid-template-areas:
+        ". title title ."
+        ". frame paragraph ."
+        ". frame button .";
+    gap: 4rem;
+
+    @include respond(tab-port) {
+        height: 150rem;
+        grid-template-columns: 4rem 1fr 4rem;
+        grid-template-areas:
+            ". title ."
+            ". frame ."
+            ". paragraph ."
+            ". button .";
+        clip-path: polygon(0 0, 100% 5%, 100% 95%, 0% 100%);
+    }
+
+    &__title {
+        grid-area: title;
+    }
+
+    &__frame {
+        grid-area: frame;
+    }
+
+    &__paragraph {
+        grid-area: paragraph;
+    }
+
+    &__button {
+        grid-area: button;
+    }
+
+
+
+
+    &__text {
+        display: grid;
+        grid-template-rows: 1fr auto;
+    }
 }
