@@ -1,0 +1,71 @@
+@use '@sass/abstract/variables'as *;
+@use '@sass/abstract/mixins'as *;
+
+.footer {
+    padding: 6rem 12rem;
+    margin-top: 40rem;
+    background-color: $color-primary;
+
+    @include respond(tab-port) {
+        padding: 6rem 8rem;
+        margin-top: 20rem;
+    }
+}
+
+.frame {
+    display: flex;
+    justify-content: center;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+        "disclaimers links"
+        ". social";
+    font-size: 1.8rem;
+
+    & a {
+        text-decoration: none;
+        color: $color-black;
+        font-weight: 700;
+    }
+
+    @include respond(tab-port) {
+        text-align: center;
+        grid-template-columns: 1fr;
+        justify-items: center;
+        grid-template-areas:
+            "links"
+            "social"
+            "disclaimers";
+    }
+}
+
+.disclaimers {
+    grid-area: disclaimers;
+}
+
+.links {
+    grid-area: links;
+    display: flex;
+    gap: 1.5rem;
+    justify-self: flex-end;
+
+    @include respond(tab-port) {
+        justify-self: center;
+    }
+}
+
+.social {
+    grid-area: social;
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    justify-content: flex-end;
+
+    & svg {
+        width: 4rem;
+        cursor: pointer;
+    }
+}

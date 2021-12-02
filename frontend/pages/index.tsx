@@ -2,6 +2,7 @@ import styles from '@sass/pages/index.module.scss'
 import Button from 'components/Button'
 import Heading from 'components/Heading'
 import Paragraph from 'components/Paragraph'
+import Footer from 'layout/Footer'
 import Image from 'next/image'
 
 const Home = () => {
@@ -32,6 +33,16 @@ const Home = () => {
         </Paragraph>
         <Button className={styles.section2__button} variant="dark" fullWidth>start sharing</Button>
       </section>
+      <div className={styles.section3}>
+        <span className={styles.section3__frame}>
+          <Image src="/images/me.jpg" width={400} height={400} />
+        </span>
+        <Paragraph>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe iste quaerat sunt accusamus doloremque unde corrupti quibusdam aliquid dolores? Ea aspernatur mollitia fuga animi ducimus dolorem sunt, error quisquam modi!
+          Hic nemo quam officiis itaque suscipit reprehenderit quidem, dolore officia perspiciatis. Nulla vel dolores quidem consequatur nisi ipsum beatae sit quos numquam voluptates cum veniam, explicabo ad ducimus ipsa necessitatibus?
+        </Paragraph>
+      </div>
+      <Footer />
     </div>
   )
 }

@@ -16,8 +16,11 @@ import PeopleOutline from '@svg/people-outline.svg'
 import People from '@svg/people.svg'
 import PersonAddOutline from '@svg/person-add-outline.svg'
 import Person from '@svg/person.svg'
+import Github from '@svg/github.svg'
+import Linkedin from '@svg/linkedin.svg'
 
-type Icons = "Bell" | "Home" | 'PlusCircle' | "Menu" | "Photograph" | "Edit" | "Delete" | "Plus" | "ThumbUpOutline" | "ThumbUpFilled" | "Calendar" | "BookmarkOutline" | "BookmarkFilled" | "Check" | "PeopleOutline" | "People" | "PersonAddOutline" | "Person";
+type Icons = "Bell" | "Home" | 'PlusCircle' | "Menu" | "Photograph" | "Edit" | "Delete" | "Plus" | "ThumbUpOutline" | "ThumbUpFilled" | "Calendar" | "BookmarkOutline" | "BookmarkFilled" | "Check" | "PeopleOutline" | "People" | "PersonAddOutline" | "Person"
+    | "Github" | "Linkedin";
 
 const Icon: { [key in Icons]: React.FC<React.SVGProps<SVGSVGElement>> } = {
     Bell,
@@ -38,5 +41,7 @@ const Icon: { [key in Icons]: React.FC<React.SVGProps<SVGSVGElement>> } = {
     PeopleOutline,
     Person,
     PersonAddOutline,
+    Linkedin,
+    Github
 }
 export default Icon;
