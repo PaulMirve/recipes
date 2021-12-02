@@ -1,12 +1,11 @@
-import { Arg, Ctx, FieldResolver, Int, Mutation, Query, Resolver, Root, UseMiddleware } from "type-graphql";
+import bcrypt from 'bcrypt';
+import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root, UseMiddleware } from "type-graphql";
+import { AuthMiddleware } from "../../middlewares/auth.middleware";
+import ValidRolesMiddleware from "../../middlewares/role.middleware";
+import { ValidUsernameMiddleware } from "../../middlewares/valid-username.middleware";
+import { RoleEntity } from "../role/role.entity";
 import { UserEntity } from "./user.entity";
 import { User, UserInput } from "./user.types";
-import bcrypt from 'bcrypt';
-import { AuthMiddleware } from "../../middlewares/auth.middleware";
-import { Context } from "apollo-server-core";
-import ValidRolesMiddleware from "../../middlewares/role.middleware";
-import { RoleEntity } from "../role/role.entity";
-import { ValidIdUserMiddleware } from "../../middlewares/valid-idUser.middleware";
 
 @Resolver(of => User)
 export class UserResolver {
@@ -33,13 +32,13 @@ export class UserResolver {
     }
 
     @Mutation(returns => User)
-    @UseMiddleware(AuthMiddleware, ValidIdUserMiddleware)
+    @UseMiddleware(AuthMiddleware, ValidUsernameMiddleware)
     async followUser(
-        @Arg("idUser", () => Int) idUser: number,
+        @Arg("username", () => String) username: string,
         @Ctx("user") user: UserEntity
     ): Promise<User> {
         const userFollowed = await UserEntity.findOne({
-            where: { idUser },
+            where: { username },
             relations: ["followers"]
         });
 
