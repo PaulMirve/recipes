@@ -16,6 +16,13 @@ export class UserResolver {
         return UserEntity.find();
     }
 
+    @Query(returns => User)
+    getUser(
+        @Arg("username") username: string
+    ) {
+        return UserEntity.findOne({ username });
+    }
+
     @Mutation(returns => User)
     async saveUser(
         @Arg("user") userInput: UserInput
@@ -78,5 +85,14 @@ export class UserResolver {
             relations: ["bookmarks"]
         });
         return user.bookmarks;
+    }
+
+    @FieldResolver()
+    async recipes(@Root() { idUser }: UserEntity) {
+        const user = await UserEntity.findOne({
+            where: { idUser },
+            relations: ["recipes"]
+        });
+        return user.recipes;
     }
 }

@@ -19,7 +19,9 @@ export class User {
     @Field(of => [User])
     followers: User[];
     @Field(of => [Recipe])
-    bookmarks: Recipe[]
+    bookmarks: Recipe[];
+    @Field(of => [Recipe])
+    recipes: Recipe[];
 }
 
 @InputType()
