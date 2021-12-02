@@ -37,12 +37,12 @@ const Navbar = () => {
             </div>
             {
                 user ?
-                    <div className={styles.actions}>
+                    <div className={`${styles.actions} ${router.pathname.includes('user') && styles.black}`}>
                         <span>
                             <Icon.PlusCircle onClick={() => router.push('/recipes/add')} />
                             <Icon.Bell />
                         </span>
-                        <Avatar className={styles.avatar} name={`${user.name} ${user.lastName}`} />
+                        <Avatar className={`${styles.avatar} ${styles.avatarBlack}`} name={`${user.name} ${user.lastName}`} />
                     </div>
                     :
                     <div className={styles.actions}>

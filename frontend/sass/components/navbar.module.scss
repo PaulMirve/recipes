@@ -10,7 +10,6 @@
     position: fixed;
     width: 100%;
     z-index: 10;
-    background-color: $color-white;
 
     & a {
         text-decoration: none;
@@ -22,12 +21,22 @@
     }
 }
 
+.black {
+    & svg {
+        color: $color-black !important;
+    }
+}
+
+.avatarBlack{
+    background-color: $color-white;
+}
+
 .actions {
     display: flex;
     gap: 3rem;
     align-items: center;
 
-    & span{
+    & span {
         display: flex;
         gap: 1rem;
     }

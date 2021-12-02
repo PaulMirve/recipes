@@ -1,0 +1,38 @@
+@use '@sass/abstract/mixins'as *;
+@use '@sass/abstract/variables'as *;
+
+.main {
+    &::before {
+        content: "";
+        height: 40vh;
+        width: 100%;
+        background-color: $color-primary;
+        display: block;
+    }
+}
+
+.box {
+    display: grid;
+    justify-content: center;
+    transform: translateY(-50%);
+}
+
+.metadata {
+    & span {
+        display: flex;
+
+        & svg{
+            width: 3rem;
+            aspect-ratio: 1;
+        }
+    }
+}
+
+.username {}
+
+.avatar {
+    font-size: 8rem;
+    height: 20rem;
+    width: 20rem;
+    border: 10px solid $color-white;
+}

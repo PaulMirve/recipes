@@ -12,8 +12,12 @@ import Calendar from '@svg/calendar.svg'
 import BookmarkOutline from '@svg/bookmark-outline.svg'
 import BookmarkFilled from '@svg/bookmark-filled.svg'
 import Check from '@svg/check.svg'
+import PeopleOutline from '@svg/people-outline.svg'
+import People from '@svg/people.svg'
+import PersonAddOutline from '@svg/person-add-outline.svg'
+import Person from '@svg/person.svg'
 
-type Icons = "Bell" | "Home" | 'PlusCircle' | "Menu" | "Photograph" | "Edit" | "Delete" | "Plus" | "ThumbUpOutline" | "ThumbUpFilled" | "Calendar" | "BookmarkOutline" | "BookmarkFilled" | "Check";
+type Icons = "Bell" | "Home" | 'PlusCircle' | "Menu" | "Photograph" | "Edit" | "Delete" | "Plus" | "ThumbUpOutline" | "ThumbUpFilled" | "Calendar" | "BookmarkOutline" | "BookmarkFilled" | "Check" | "PeopleOutline" | "People" | "PersonAddOutline" | "Person";
 
 const Icon: { [key in Icons]: React.FC<React.SVGProps<SVGSVGElement>> } = {
     Bell,
@@ -29,6 +33,10 @@ const Icon: { [key in Icons]: React.FC<React.SVGProps<SVGSVGElement>> } = {
     Calendar,
     BookmarkOutline,
     BookmarkFilled,
-    Check
+    Check,
+    People,
+    PeopleOutline,
+    Person,
+    PersonAddOutline,
 }
 export default Icon;

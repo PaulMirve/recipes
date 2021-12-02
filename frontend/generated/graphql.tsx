@@ -109,6 +109,7 @@ export type Query = {
   getRecipeComments: Array<Comment>;
   getRecipes: Array<Recipe>;
   getUnits: Array<Unit>;
+  getUser: User;
   getUsers: Array<User>;
   isAuthenticated: User;
 };
@@ -121,6 +122,11 @@ export type QueryGetRecipeArgs = {
 
 export type QueryGetRecipeCommentsArgs = {
   idRecipe: Scalars['Int'];
+};
+
+
+export type QueryGetUserArgs = {
+  username: Scalars['String'];
 };
 
 export type Recipe = {
@@ -182,10 +188,12 @@ export type Unit = {
 
 export type User = {
   __typename?: 'User';
+  bookmarks: Array<Recipe>;
   followers: Array<User>;
   following: Array<User>;
   lastName: Scalars['String'];
   name: Scalars['String'];
+  recipes: Array<Recipe>;
   role: Role;
   username: Scalars['String'];
 };
@@ -259,6 +267,13 @@ export type GetUnitsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetUnitsQuery = { __typename?: 'Query', getUnits: Array<{ __typename?: 'Unit', idUnit: string, name: string }> };
+
+export type GetUserQueryVariables = Exact<{
+  username: Scalars['String'];
+}>;
+
+
+export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'User', username: string, name: string, lastName: string, followers: Array<{ __typename?: 'User', username: string }>, following: Array<{ __typename?: 'User', username: string }>, recipes: Array<{ __typename?: 'Recipe', name: string, description: string, photo: string, tags: Array<{ __typename?: 'Tag', name: string }> }> } };
 
 
 export const LoginDocument = gql`
@@ -680,3 +695,54 @@ export function useGetUnitsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<G
 export type GetUnitsQueryHookResult = ReturnType<typeof useGetUnitsQuery>;
 export type GetUnitsLazyQueryHookResult = ReturnType<typeof useGetUnitsLazyQuery>;
 export type GetUnitsQueryResult = Apollo.QueryResult<GetUnitsQuery, GetUnitsQueryVariables>;
+export const GetUserDocument = gql`
+    query getUser($username: String!) {
+  getUser(username: $username) {
+    username
+    name
+    lastName
+    followers {
+      username
+    }
+    following {
+      username
+    }
+    recipes {
+      name
+      description
+      photo
+      tags {
+        name
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetUserQuery__
+ *
+ * To run a query within a React component, call `useGetUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserQuery({
+ *   variables: {
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useGetUserQuery(baseOptions: Apollo.QueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
+      }
+export function useGetUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
+        }
+export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
+export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
+export type GetUserQueryResult = Apollo.QueryResult<GetUserQuery, GetUserQueryVariables>;
