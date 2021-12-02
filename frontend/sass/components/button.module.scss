@@ -13,11 +13,16 @@
     transition: transform 0.2s ease;
     cursor: pointer;
 
-    &--secondary {
-        background-color: $color-black;
-    }
-
     &:hover {
         transform: scale(1.04);
     }
+}
+
+.dark {
+    background-color: $color-black;
+    color: $color-white;
+}
+
+.light {
+    background-color: $color-white;
 }

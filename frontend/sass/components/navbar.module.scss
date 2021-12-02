@@ -10,6 +10,7 @@
     position: fixed;
     width: 100%;
     z-index: 10;
+    background-color: $color-white;
 
     & a {
         text-decoration: none;
@@ -21,13 +22,17 @@
     }
 }
 
+.navbarPrimary {
+    background-color: $color-primary;
+}
+
 .black {
     & svg {
         color: $color-black !important;
     }
 }
 
-.avatarBlack{
+.avatarBlack {
     background-color: $color-white;
 }
 

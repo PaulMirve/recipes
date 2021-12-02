@@ -26,7 +26,7 @@ const Navbar = () => {
     }
 
     return (
-        <nav className={styles.navbar}>
+        <nav className={`${styles.navbar} ${router.pathname.includes('user') && styles.navbarPrimary}`}>
             <Link href='/recipes'>
                 <a> <Image src='/logo.png' width={120} height={50} /></a>
             </Link>
@@ -47,7 +47,11 @@ const Navbar = () => {
                     :
                     <div className={styles.actions}>
                         <Link href='/login'><a>Login</a></Link>
-                        <Button onClick={() => router.push('/signup')}>Sign Up</Button>
+                        <Button
+                            variant={router.pathname.includes('user') ? 'dark' : 'primary'}
+                            onClick={() => router.push('/signup')}>
+                            Sign Up
+                        </Button>
                     </div>
             }
             <Icon.Menu className={styles.menu} />

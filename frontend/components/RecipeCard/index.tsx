@@ -1,16 +1,17 @@
 import styles from '@sass/components/recipe-card.module.scss'
-import { Recipe } from 'generated/graphql'
-import { ComponentPropsWithoutRef } from 'react'
-import Image from 'next/image'
-import Heading from 'components/Heading'
-import { useRouter } from 'next/dist/client/router'
 import Tag from 'components/Tag'
+import { Recipe } from 'generated/graphql'
+import { useRouter } from 'next/dist/client/router'
+import Image from 'next/image'
+import { ComponentPropsWithoutRef } from 'react'
+import Link from 'next/link'
 
 interface Props extends ComponentPropsWithoutRef<'div'> {
-    recipe: Recipe
+    recipe: Recipe,
+    showUsername?: boolean
 }
 
-const RecipeCard = ({ className = "", recipe, onClick, ...rest }: Props) => {
+const RecipeCard = ({ className = "", recipe, onClick, showUsername = true, ...rest }: Props) => {
     const { idRecipe, name, description, tags, photo, user: { username } } = recipe;
     const router = useRouter();
     return (
@@ -18,7 +19,11 @@ const RecipeCard = ({ className = "", recipe, onClick, ...rest }: Props) => {
             onClick={() => router.push(`/recipes/${idRecipe}`)}
             className={`${styles.card} ${className}`}
             {...rest}>
-            <div className={styles.username}>{username}</div>
+            {showUsername &&
+                <div onClick={e => e.stopPropagation()} className={styles.username}>
+                    <Link href={`/user/${username}`}><a>{username}</a></Link>
+                </div>
+            }
             <Image src={photo} width={400} height={400} className={styles.photo} />
             <div className={styles.content}>
                 <p className={styles.name}>{name}</p>

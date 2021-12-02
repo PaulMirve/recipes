@@ -14,12 +14,14 @@ import { Comment as CommentType, GetRecipeQuery, GetRecipeQueryVariables, Recipe
 import { getRecipeQuery } from 'graphql/recipe.resolver';
 import { loadingAlert, showAlert } from 'helpers/show-alert';
 import { useBookmark } from 'hooks/useBookmark';
+import { useComment } from 'hooks/useComment';
 import { useLikes } from 'hooks/useLikes';
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import { ParsedUrlQuery } from 'querystring';
 import React, { useState } from 'react';
 import * as Yup from 'yup';
+import Link from 'next/link'
 interface Props {
     recipe: Recipe
 }
@@ -33,8 +35,7 @@ interface Params extends ParsedUrlQuery {
 const Recipe = ({ recipe }: Props) => {
     const { photo, tags, name, user: { username }, dateCreated, description, ingredients, steps, comments, idRecipe } = recipe;
     const [stepsChecked, setStepsChecked] = useState<boolean[]>([])
-    const [commentsList, setCommentsList] = useState<CommentType[]>([...comments].sort((a, b) => Date.parse(a.dateCreated) - Date.parse(b.dateCreated)).reverse())
-    const [saveComment] = useSaveCommentMutation();
+    const { commentsList, addComment } = useComment({ idRecipe, comments });
     const { onLikeRecipe, isRecipeLiked, likesCount } = useLikes(recipe)
     const { bookmarkRecipe, isRecipeBookmarked } = useBookmark(recipe);
 
@@ -48,35 +49,6 @@ const Recipe = ({ recipe }: Props) => {
                 text: 'Did you like it? Lave a comment and a like!',
                 icon: 'success'
             });
-        }
-    }
-
-    const onCommentSubmit = async ({ comment }: { comment: string }) => {
-        const loading = loadingAlert();
-        loading.showLoading();
-
-        try {
-            const { data } = await saveComment({
-                variables: {
-                    comment: {
-                        comment,
-                        idRecipe
-                    }
-                }
-            });
-            if (data?.saveComment) {
-                const _comment = data.saveComment as CommentType;
-                setCommentsList(prev => [_comment, ...prev])
-                loading.hideLoading();
-                showAlert({
-                    title: 'Comment added successfully',
-                    text: 'Your comment has been added!',
-                    icon: 'success'
-                });
-            }
-
-        } catch (err) {
-
         }
     }
 
@@ -111,7 +83,7 @@ const Recipe = ({ recipe }: Props) => {
                         <Icon.Calendar />
                         {dateCreated}
                     </span>
-                    <b>{username}</b>
+                    <Link href={`/user/${username}`}><a className={styles.username}><b>{username}</b></a></Link>
                 </div>
                 <p className={styles.description}>{description}</p>
                 <div className={styles.ingredients}>
@@ -144,7 +116,7 @@ const Recipe = ({ recipe }: Props) => {
                             comment: Yup.string().required('El comentario no puede estar vacío')
                         })}
                         onSubmit={(values, { resetForm }) => {
-                            onCommentSubmit(values);
+                            addComment(values);
                             resetForm();
                         }}>
                         {

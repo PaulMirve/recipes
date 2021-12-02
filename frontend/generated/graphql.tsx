@@ -273,7 +273,7 @@ export type GetUserQueryVariables = Exact<{
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'User', username: string, name: string, lastName: string, followers: Array<{ __typename?: 'User', username: string }>, following: Array<{ __typename?: 'User', username: string }>, recipes: Array<{ __typename?: 'Recipe', name: string, description: string, photo: string, tags: Array<{ __typename?: 'Tag', name: string }> }> } };
+export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'User', username: string, name: string, lastName: string, followers: Array<{ __typename?: 'User', username: string }>, following: Array<{ __typename?: 'User', username: string }>, recipes: Array<{ __typename?: 'Recipe', idRecipe: number, name: string, description: string, photo: string, tags: Array<{ __typename?: 'Tag', name: string }>, user: { __typename?: 'User', username: string } }> } };
 
 
 export const LoginDocument = gql`
@@ -708,11 +708,15 @@ export const GetUserDocument = gql`
       username
     }
     recipes {
+      idRecipe
       name
       description
       photo
       tags {
         name
+      }
+      user {
+        username
       }
     }
   }

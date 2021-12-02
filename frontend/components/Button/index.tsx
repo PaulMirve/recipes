@@ -2,15 +2,17 @@ import styles from '@sass/components/button.module.scss'
 import { ComponentPropsWithoutRef } from 'react'
 
 interface Props extends ComponentPropsWithoutRef<'button'> {
-    variant?: 'primary' | 'secondary',
+    variant?: 'primary' | 'dark' | 'light',
     fullWidth?: boolean
 }
 
 const Button = ({ children, variant, className = "", fullWidth, ...rest }: Props) => {
     const getVariant = () => {
         switch (variant) {
-            case 'secondary':
-                return styles['button--secondary'];
+            case 'dark':
+                return styles.dark;
+            case 'light':
+                return styles.light;
             default: {
                 return "";
             }

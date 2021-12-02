@@ -41,6 +41,11 @@
     font-weight: 600;
     padding: 0.4em 2em 0.4em 0.5em;
     border-bottom-right-radius: 5px;
+
+    & a {
+        text-decoration: none;
+        color: $color-black;
+    }
 }
 
 .photo {

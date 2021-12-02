@@ -17,22 +17,88 @@
     transform: translateY(-50%);
 }
 
-.metadata {
-    & span {
-        display: flex;
+.metadataWrapper {
+    display: grid;
+    place-items: center;
+}
 
-        & svg{
+.metadata {
+    display: grid;
+    justify-items: center;
+    grid-template-areas:
+        "username username"
+        "followers following";
+    transform: translateY(-90px);
+
+    & span {
+        & svg {
             width: 3rem;
             aspect-ratio: 1;
         }
     }
 }
 
-.username {}
+.username {
+    grid-area: username;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.8rem;
+    transform: translateX(28%);
+
+    @include respond(phone) {
+        flex-direction: column;
+        transform: translateX(0);
+    }
+}
+
+.follow {
+    background-color: $color-bone;
+    padding: 3px 2em;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+
+    &:hover {
+        transform: scale(1.02);
+    }
+}
+
+.followers {
+    grid-area: followers;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.8rem;
+
+}
+
+.following {
+    grid-area: following;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.8rem;
+}
 
 .avatar {
     font-size: 8rem;
     height: 20rem;
     width: 20rem;
     border: 10px solid $color-white;
+}
+
+.recipes {
+    padding: 0 12rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 7.5rem;
+    margin-bottom: 10rem;
+
+    @include respond(tab-land) {
+        grid-template-columns: 1fr;
+    }
 }

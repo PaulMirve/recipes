@@ -1,4 +1,5 @@
 @use '@sass/abstract/mixins'as *;
+@use '@sass/abstract/variables'as *;
 
 $font-size: 1.8rem;
 
@@ -39,7 +40,7 @@ $font-size: 1.8rem;
 .frame {
     grid-area: frame;
 
-    & img{
+    & img {
         object-fit: cover;
     }
 }
@@ -102,6 +103,11 @@ $font-size: 1.8rem;
     }
 }
 
+.username {
+    text-decoration: none;
+    color: $color-black;
+}
+
 .description {
     grid-area: description;
     font-size: $font-size;
@@ -128,7 +134,7 @@ $font-size: 1.8rem;
 .commentsBox {
     margin-top: 4rem;
 
-    & > *{
+    &>* {
         margin-top: 2.5rem;
     }
 }
@@ -137,7 +143,7 @@ $font-size: 1.8rem;
     display: flex;
     flex-direction: column;
 
-    & button{
+    & button {
         justify-self: flex-end;
     }
 }

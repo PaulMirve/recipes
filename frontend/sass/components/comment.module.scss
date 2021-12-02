@@ -30,7 +30,8 @@
 
 .username {
     display: block;
-    cursor: pointer;
+    text-decoration: none;
+    color: $color-black;
 }
 
 .avatar {

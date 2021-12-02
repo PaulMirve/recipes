@@ -13,11 +13,15 @@ query getUser($username: String!) {
       username
     }
     recipes {
+      idRecipe
       name
       description
       photo
       tags {
         name
+      }
+      user{
+        username
       }
     }
   }
