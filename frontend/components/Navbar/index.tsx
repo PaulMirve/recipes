@@ -1,24 +1,30 @@
 import styles from '@sass/components/navbar.module.scss'
 import Avatar from 'components/Avatar'
 import Button from 'components/Button'
+import Icon from 'components/Icon'
+import Menu from 'components/Menu/ìndex'
+import MobileMenu from 'components/MobileMenu'
 import { GlobalContext } from 'context/GlobalContext'
+import { randomRecipe } from 'helpers/random-recipe'
+import { useGlobalContext } from 'hooks/useGlobalContext'
 import { useRouter } from 'next/dist/client/router'
 import Image from 'next/image'
 import Link from 'next/link'
-import Icon from 'components/Icon'
-import { useContext, useState } from 'react'
-import client from 'client'
-import { getRecipeIdsQuery } from 'graphql/recipe.resolver'
-import { GetRecipeIdsQuery } from 'generated/graphql'
-import MobileMenu from 'components/MobileMenu'
-import { randomRecipe } from 'helpers/random-recipe'
+import React, { useContext, useState } from 'react'
 
 
 const Navbar = () => {
     const router = useRouter();
     const { user } = useContext(GlobalContext);
     const [isOpen, setIsOpen] = useState(false)
+    const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
+    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
+    const { logout } = useGlobalContext();
 
+    const handleMenuOpen = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        setAnchorEl(event.currentTarget);
+        setIsMenuOpen(true);
+    }
 
     return (
         <nav className={`${styles.navbar} ${router.pathname.includes('user') && styles.navbarPrimary}`}>
@@ -37,7 +43,17 @@ const Navbar = () => {
                             <Icon.PlusCircle onClick={() => router.push('/recipes/add')} />
                             <Icon.Bell />
                         </span>
-                        <Avatar className={`${styles.avatar} ${styles.avatarBlack}`} name={`${user.name} ${user.lastName}`} />
+                        <Avatar style={{ position: 'relative' }} onClick={handleMenuOpen} className={`${styles.avatar} ${styles.avatarBlack}`} name={`${user.name} ${user.lastName}`} />
+                        <Menu onClose={() => setIsMenuOpen(false)} anchorEl={anchorEl} open={isMenuOpen} >
+                            <span className={styles.menuIcon}>
+                                <Icon.PersonCircleOutline />
+                                <Link href={`/user/${user.username}`}><a>Profile</a></Link>
+                            </span>
+                            <span onClick={logout} className={styles.menuIcon}>
+                                <Icon.Logout />
+                                Logout
+                            </span>
+                        </Menu>
                     </div>
                     :
                     <div className={styles.actions}>
