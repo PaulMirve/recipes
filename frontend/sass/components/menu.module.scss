@@ -13,6 +13,14 @@
     visibility: visible;
 }
 
+.close {
+    visibility: hidden;
+}
+
+.onClose {
+    transform: scale(0) !important;
+}
+
 .menu {
     display: flex;
     flex-direction: column;
@@ -23,4 +31,11 @@
     position: absolute;
     box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
     padding: 2rem;
+    transform: scale(0);
+    transform-origin: top;
+    transition: transform 0.2s ease;
+}
+
+.menuOpen {
+    transform: scale(1);
 }
