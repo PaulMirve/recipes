@@ -131,3 +131,49 @@
         margin-top: 5rem;
     }
 }
+
+.section4 {
+    margin-top: 20rem;
+    position: relative;
+    clip-path: polygon(0 10%, 100% 0%, 100% 100%, 0% 100%);
+
+    @include respond(tab-port) {
+        height: 50vh;
+        clip-path: polygon(0 8%, 100% 0%, 100% 100%, 0% 100%);
+        margin-top: 10rem;
+    }
+
+    &__content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: grid;
+        place-items: center;
+        text-align: center;
+        padding: 0 50rem;
+
+        @include respond(tab-port) {
+            padding: 0 8rem;
+        }
+    }
+
+    &__title {
+        color: $color-primary;
+    }
+
+    &__text {
+        font-size: 1.8rem;
+        color: $color-white;
+        margin-top: 2rem;
+    }
+}
+
+.video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-color: black;
+}

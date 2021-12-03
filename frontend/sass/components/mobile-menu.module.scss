@@ -1,0 +1,43 @@
+@use '@sass/abstract/variables'as *;
+
+.isOpen {
+    visibility: visible;
+}
+
+.wrapper {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.main {
+    background-color: $color-white;
+    height: 100%;
+    width: 70%;
+    padding: 4rem 2rem;
+}
+
+.userInfo {
+    display: flex;
+    gap: 1rem;
+}
+
+.links {
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    & svg {
+        width: 4rem;
+    }
+}

@@ -5,6 +5,7 @@ import RecipeForm, { RecipeFormSubmitArgs } from 'layout/RecipeForm';
 import { useRouter } from 'next/dist/client/router';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import Head from 'next/head'
 
 const MySwal = withReactContent(Swal);
 
@@ -107,7 +108,13 @@ const AddRecipe = () => {
     }
 
     return (
-        <RecipeForm onFormSubmit={onFormSubmit} />
+        <>
+            <Head>
+                <title>ReciPies | Add recipe</title>
+            </Head>
+            <RecipeForm onFormSubmit={onFormSubmit} />
+        </>
+
     )
 }
 

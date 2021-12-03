@@ -4,10 +4,14 @@ import Heading from 'components/Heading'
 import Paragraph from 'components/Paragraph'
 import Footer from 'layout/Footer'
 import Image from 'next/image'
+import Head from 'next/head'
 
 const Home = () => {
   return (
     <div className={styles.main}>
+      <Head>
+        <title>ReciPies</title>
+      </Head>
       <header className={styles.hero}>
         <Heading className={styles.hero__title} variant='h1' fontWeight='bold'>Discover new flavors and recipes from around the world</Heading>
         <Paragraph className={`${styles.hero__paragraph} mt-sm`}>
@@ -33,7 +37,7 @@ const Home = () => {
         </Paragraph>
         <Button className={styles.section2__button} variant="dark" fullWidth>start sharing</Button>
       </section>
-      <div className={styles.section3}>
+      <section className={styles.section3}>
         <span className={styles.section3__frame}>
           <Image src="/images/me.jpg" width={400} height={400} />
         </span>
@@ -41,8 +45,28 @@ const Home = () => {
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe iste quaerat sunt accusamus doloremque unde corrupti quibusdam aliquid dolores? Ea aspernatur mollitia fuga animi ducimus dolorem sunt, error quisquam modi!
           Hic nemo quam officiis itaque suscipit reprehenderit quidem, dolore officia perspiciatis. Nulla vel dolores quidem consequatur nisi ipsum beatae sit quos numquam voluptates cum veniam, explicabo ad ducimus ipsa necessitatibus?
         </Paragraph>
-      </div>
-      <Footer />
+      </section>
+      <section className={styles.section4}>
+        <video autoPlay preload='none' muted loop id="myVideo" className={styles.video}>
+          <source src="/videos/cooking.mp4" type="video/mp4" />
+        </video>
+        <div className={styles.section4__content}>
+          <span>
+            <Heading
+              className={styles.section4__title}
+              variant='h1'
+              fontWeight='bold'
+              casing="uppercase">
+              Join now
+            </Heading>
+            <p className={styles.section4__text}>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam architecto culpa quibusdam corrupti laborum fuga dolorum velit est, adipisci magnam at fugit reiciendis vero ullam odio. Iusto provident excepturi nesciunt?
+            </p>
+            <Button className="mt-sm" fullWidth>Start sharing</Button>
+          </span>
+        </div>
+      </section>
+      <Footer style={{ marginTop: 0 }} />
     </div>
   )
 }

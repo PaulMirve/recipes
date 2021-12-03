@@ -4,10 +4,12 @@ import Icon from 'components/Icon'
 import { ComponentPropsWithoutRef } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/dist/client/router'
+import { useCommentLike } from 'hooks/useCommentLike'
+import { User } from 'generated/graphql'
 
 interface Props extends ComponentPropsWithoutRef<'div'> {
     comment?: string,
-    likes: number,
+    likes: User[],
     username: string,
     name: string,
     idComment: number
@@ -15,6 +17,7 @@ interface Props extends ComponentPropsWithoutRef<'div'> {
 
 const Comment = ({ children, comment, className = "", likes, username, name, idComment, ...props }: Props) => {
     const router = useRouter();
+    const { likeComment, likesCount, isLiked } = useCommentLike({ likes, idComment });
 
     return (
         <div className={`${styles.comment} ${className}`} {...props}>
@@ -28,8 +31,8 @@ const Comment = ({ children, comment, className = "", likes, username, name, idC
                 {comment ? comment : children}
             </span>
             <span className={styles.likes}>
-                <Icon.ThumbUpOutline />
-                {likes}
+                {isLiked ? <Icon.ThumbUpFilled onClick={likeComment} /> : <Icon.ThumbUpOutline onClick={likeComment} />}
+                {likesCount}
             </span>
         </div>
     )

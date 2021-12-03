@@ -16,6 +16,7 @@ export class UserResolver {
     }
 
     @Query(returns => User)
+    @UseMiddleware(ValidUsernameMiddleware)
     getUser(
         @Arg("username") username: string
     ) {

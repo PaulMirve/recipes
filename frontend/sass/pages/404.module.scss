@@ -1,0 +1,14 @@
+@use '@sass/abstract/mixins'as *;
+
+.main {
+    @include padding;
+}
+
+.content {
+    @include absCenter;
+    text-align: center;
+}
+
+.icon {
+    width: 36rem;
+}

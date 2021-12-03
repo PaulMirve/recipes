@@ -8,6 +8,7 @@ import { useLoginMutation, User } from 'generated/graphql'
 import { useRouter } from 'next/dist/client/router'
 import Image from 'next/image'
 import { FormEvent, useContext, useState } from 'react'
+import Head from 'next/head'
 
 const Login = () => {
     const { setUser } = useContext(GlobalContext);
@@ -32,6 +33,9 @@ const Login = () => {
     }
     return (
         <div className={styles.main}>
+            <Head>
+                <title>ReciPies | Login</title>
+            </Head>
             <Form onSubmit={(e) => handleSubmit(e)} className={styles.form}>
                 <Image src='/logo.png' width={200} height={90} />
                 <Heading>Login</Heading>

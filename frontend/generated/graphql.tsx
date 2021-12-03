@@ -232,6 +232,13 @@ export type GetRecipeCommentsQueryVariables = Exact<{
 
 export type GetRecipeCommentsQuery = { __typename?: 'Query', getRecipeComments: Array<{ __typename?: 'Comment', idComment: number, comment: string, user: { __typename?: 'User', username: string } }> };
 
+export type LikeCommentMutationVariables = Exact<{
+  idComment: Scalars['Int'];
+}>;
+
+
+export type LikeCommentMutation = { __typename?: 'Mutation', likeComment: { __typename?: 'Comment', idComment: number } };
+
 export type GetRecipesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -446,6 +453,39 @@ export function useGetRecipeCommentsLazyQuery(baseOptions?: Apollo.LazyQueryHook
 export type GetRecipeCommentsQueryHookResult = ReturnType<typeof useGetRecipeCommentsQuery>;
 export type GetRecipeCommentsLazyQueryHookResult = ReturnType<typeof useGetRecipeCommentsLazyQuery>;
 export type GetRecipeCommentsQueryResult = Apollo.QueryResult<GetRecipeCommentsQuery, GetRecipeCommentsQueryVariables>;
+export const LikeCommentDocument = gql`
+    mutation LikeComment($idComment: Int!) {
+  likeComment(idComment: $idComment) {
+    idComment
+  }
+}
+    `;
+export type LikeCommentMutationFn = Apollo.MutationFunction<LikeCommentMutation, LikeCommentMutationVariables>;
+
+/**
+ * __useLikeCommentMutation__
+ *
+ * To run a mutation, you first call `useLikeCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLikeCommentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [likeCommentMutation, { data, loading, error }] = useLikeCommentMutation({
+ *   variables: {
+ *      idComment: // value for 'idComment'
+ *   },
+ * });
+ */
+export function useLikeCommentMutation(baseOptions?: Apollo.MutationHookOptions<LikeCommentMutation, LikeCommentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LikeCommentMutation, LikeCommentMutationVariables>(LikeCommentDocument, options);
+      }
+export type LikeCommentMutationHookResult = ReturnType<typeof useLikeCommentMutation>;
+export type LikeCommentMutationResult = Apollo.MutationResult<LikeCommentMutation>;
+export type LikeCommentMutationOptions = Apollo.BaseMutationOptions<LikeCommentMutation, LikeCommentMutationVariables>;
 export const GetRecipesDocument = gql`
     query getRecipes {
   getRecipes {

@@ -5,6 +5,7 @@ import RecipeCard from "components/RecipeCard"
 import { GetRecipesQuery, Recipe } from "generated/graphql"
 import { getRecipesQuery } from "graphql/recipe.resolver"
 import { GetServerSideProps } from "next"
+import Head from 'next/head'
 interface Props {
     recipes: Recipe[]
 }
@@ -24,6 +25,9 @@ export const getServerSideProps: GetServerSideProps = async () => {
 const Recipes = ({ recipes }: Props) => {
     return (
         <div className={styles.recipes}>
+            <Head>
+                <title>ReciPies | Recipes</title>
+            </Head>
             <Heading variant='h2' fontWeight='bold'>DISCOVER</Heading>
             <div className={`${styles.discover} mt-sm`}>
                 {

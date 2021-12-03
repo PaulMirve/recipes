@@ -2,14 +2,13 @@ import styles from '@sass/components/footer.module.scss'
 import Icon from 'components/Icon'
 import Image from 'next/image'
 import Link from 'next/link'
+import { ComponentPropsWithoutRef } from 'react'
 
-interface Props {
 
-}
 
-const Footer = (props: Props) => {
+const Footer = ({ className = "", ...props }: ComponentPropsWithoutRef<'footer'>) => {
     return (
-        <footer className={styles.footer}>
+        <footer className={`${styles.footer} ${className}`} {...props}>
             <span className={styles.frame}>
                 <Image src='/logo.png' height={80} width={150} />
             </span>

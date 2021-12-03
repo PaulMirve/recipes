@@ -9,6 +9,7 @@ import Avatar from 'components/Avatar'
 import Icon from 'components/Icon'
 import RecipeCard from 'components/RecipeCard'
 import { useFollow } from 'hooks/useFollow'
+import Head from 'next/head'
 
 interface Props {
     user: User
@@ -19,6 +20,9 @@ const UserDetails = ({ user }: Props) => {
     const { follow, isFollowed, isMe } = useFollow({ username, followers });
     return (
         <div className={styles.main}>
+            <Head>
+                <title>ReciPies | {username}</title>
+            </Head>
             <div className={styles.box}>
                 <Avatar className={styles.avatar} name={`${name} ${lastName}`} />
             </div>
@@ -59,16 +63,26 @@ interface Params extends ParsedUrlQuery {
 
 export const getServerSideProps: GetServerSideProps<Props, Params> = async ({ params }) => {
     const { username } = params!;
-    const { data } = await client.query<GetUserQuery, GetUserQueryVariables>({
+    const user = await client.query<GetUserQuery, GetUserQueryVariables>({
         query: getUserQuery,
         variables: {
             username
         },
         fetchPolicy: 'no-cache'
-    });
+    })
+        .then(res => res.data.getUser as User)
+        .catch(err => null)
+    if (!user) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/404'
+            }
+        }
+    }
     return {
         props: {
-            user: data.getUser as User
+            user
         }
     }
 }

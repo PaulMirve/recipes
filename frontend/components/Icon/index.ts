@@ -18,9 +18,13 @@ import PersonAddOutline from '@svg/person-add-outline.svg'
 import Person from '@svg/person.svg'
 import Github from '@svg/github.svg'
 import Linkedin from '@svg/linkedin.svg'
+import AlertCircleOutline from '@svg/alert-circle-outline.svg'
+import BookOpen from '@svg/book-open.svg'
+import Eye from '@svg/eye.svg'
+import InformationCircle from '@svg/information-circle.svg'
+import Logout from '@svg/logout.svg'
 
-type Icons = "Bell" | "Home" | 'PlusCircle' | "Menu" | "Photograph" | "Edit" | "Delete" | "Plus" | "ThumbUpOutline" | "ThumbUpFilled" | "Calendar" | "BookmarkOutline" | "BookmarkFilled" | "Check" | "PeopleOutline" | "People" | "PersonAddOutline" | "Person"
-    | "Github" | "Linkedin";
+type Icons = "Bell" | "Home" | 'PlusCircle' | "Menu" | "Photograph" | "Edit" | "Delete" | "Plus" | "ThumbUpOutline" | "ThumbUpFilled" | "Calendar" | "BookmarkOutline" | "BookmarkFilled" | "Check" | "PeopleOutline" | "People" | "PersonAddOutline" | "Person" | "Github" | "Linkedin" | "AlertCircleOutline" | "BookOpen" | "Eye" | "InformationCircle" | "Logout";
 
 const Icon: { [key in Icons]: React.FC<React.SVGProps<SVGSVGElement>> } = {
     Bell,
@@ -42,6 +46,11 @@ const Icon: { [key in Icons]: React.FC<React.SVGProps<SVGSVGElement>> } = {
     Person,
     PersonAddOutline,
     Linkedin,
-    Github
+    Github,
+    AlertCircleOutline,
+    BookOpen,
+    Eye,
+    InformationCircle,
+    Logout
 }
 export default Icon;

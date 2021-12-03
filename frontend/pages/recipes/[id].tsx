@@ -10,18 +10,19 @@ import Tag from 'components/Tag';
 import { FormikTextArea } from 'components/TextArea/FormikTextArea';
 import Tooltip from 'components/Tooltip';
 import { Form, Formik } from 'formik';
-import { Comment as CommentType, GetRecipeQuery, GetRecipeQueryVariables, Recipe, useSaveCommentMutation } from 'generated/graphql';
+import { GetRecipeQuery, GetRecipeQueryVariables, Recipe } from 'generated/graphql';
 import { getRecipeQuery } from 'graphql/recipe.resolver';
-import { loadingAlert, showAlert } from 'helpers/show-alert';
+import { showAlert } from 'helpers/show-alert';
 import { useBookmark } from 'hooks/useBookmark';
 import { useComment } from 'hooks/useComment';
 import { useLikes } from 'hooks/useLikes';
 import { GetServerSideProps } from 'next';
+import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import React, { useState } from 'react';
 import * as Yup from 'yup';
-import Link from 'next/link'
 interface Props {
     recipe: Recipe
 }
@@ -54,6 +55,9 @@ const Recipe = ({ recipe }: Props) => {
 
     return (
         <div className={styles.recipe}>
+            <Head>
+                <title>ReciPies | {name}</title>
+            </Head>
             <div className={styles.info}>
                 <span className={styles.frame}>
                     <Image src={photo} height={600} width={600} />
@@ -132,7 +136,7 @@ const Recipe = ({ recipe }: Props) => {
                 <div className={styles.commentsBox}>
                     {
                         commentsList.map(({ idComment, comment, likes, user: { username, name, lastName } }) => (
-                            <Comment key={idComment} idComment={idComment} likes={likes.length} name={`${name} ${lastName}`} username={username}>
+                            <Comment key={idComment} idComment={idComment} likes={likes} name={`${name} ${lastName}`} username={username}>
                                 {comment}
                             </Comment>
                         ))
@@ -145,16 +149,28 @@ const Recipe = ({ recipe }: Props) => {
 
 export const getServerSideProps: GetServerSideProps<Props, Params> = async ({ params }) => {
     const { id } = params!;
-    const { data } = await client.query<GetRecipeQuery, GetRecipeQueryVariables>({
+    const recipe = await client.query<GetRecipeQuery, GetRecipeQueryVariables>({
         query: getRecipeQuery,
         variables: {
             idRecipe: Number(id)
         },
         fetchPolicy: 'no-cache'
-    });
+    })
+        .then(res => res.data.getRecipe as Recipe)
+        .catch(err => null);
+
+    if (!recipe) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/404'
+            }
+        }
+    }
+
     return {
         props: {
-            recipe: data.getRecipe as Recipe
+            recipe
         }
     }
 }

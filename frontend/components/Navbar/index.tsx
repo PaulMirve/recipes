@@ -6,15 +6,17 @@ import { useRouter } from 'next/dist/client/router'
 import Image from 'next/image'
 import Link from 'next/link'
 import Icon from 'components/Icon'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import client from 'client'
 import { getRecipeIdsQuery } from 'graphql/recipe.resolver'
 import { GetRecipeIdsQuery } from 'generated/graphql'
+import MobileMenu from 'components/MobileMenu'
 
 
 const Navbar = () => {
     const router = useRouter();
     const { user } = useContext(GlobalContext);
+    const [isOpen, setIsOpen] = useState(false)
 
     const onDiscover = async () => {
         const { data } = await client.query<GetRecipeIdsQuery>({
@@ -55,6 +57,7 @@ const Navbar = () => {
                     </div>
             }
             <Icon.Menu className={styles.menu} />
+            <MobileMenu />
         </nav>
     )
 }

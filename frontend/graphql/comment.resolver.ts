@@ -27,5 +27,12 @@ query GetRecipeComments($idRecipe: Int!) {
     }
   }
 }
-
 `
+
+export const likeCommentMutation = gql`
+mutation LikeComment($idComment: Int!) {
+  likeComment(idComment: $idComment) {
+    idComment
+  }
+}
+`;
