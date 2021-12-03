@@ -32,7 +32,7 @@
     }
 }
 
-.avatarBlack {
+.avatarWhite {
     background-color: $color-white;
 }
 
@@ -74,12 +74,6 @@
 
     @include respond(tab-port) {
         display: block;
-    }
-}
-
-.avatar {
-    @include respond(tab-port) {
-        display: none;
     }
 }
 

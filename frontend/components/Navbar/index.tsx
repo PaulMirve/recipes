@@ -43,7 +43,7 @@ const Navbar = () => {
                             <Icon.PlusCircle onClick={() => router.push('/recipes/add')} />
                             <Icon.Bell />
                         </span>
-                        <Avatar style={{ position: 'relative' }} onClick={handleMenuOpen} className={`${styles.avatar} ${styles.avatarBlack}`} name={`${user.name} ${user.lastName}`} />
+                        <Avatar style={{ position: 'relative' }} onClick={handleMenuOpen} className={`${router.pathname.includes('user') && styles.avatarWhite}`} name={`${user.name} ${user.lastName}`} />
                         <Menu onClose={() => setIsMenuOpen(false)} anchorEl={anchorEl} open={isMenuOpen} >
                             <span className={styles.menuIcon}>
                                 <Icon.PersonCircleOutline />
