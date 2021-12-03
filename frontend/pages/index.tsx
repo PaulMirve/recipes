@@ -48,7 +48,7 @@ const Home = () => {
       </section>
       <section className={styles.section4}>
         <video autoPlay preload='none' muted loop id="myVideo" className={styles.video}>
-          <source src="/videos/cooking.mp4" type="video/mp4" />
+          <source src="https://player.vimeo.com/external/412256959.hd.mp4?s=f152ad45bd1db888c85602aac8d51885083824bd&profile_id=171&oauth2_token_id=57447761" type="video/mp4" />
         </video>
         <div className={styles.section4__content}>
           <span>

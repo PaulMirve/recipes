@@ -11,6 +11,7 @@ import client from 'client'
 import { getRecipeIdsQuery } from 'graphql/recipe.resolver'
 import { GetRecipeIdsQuery } from 'generated/graphql'
 import MobileMenu from 'components/MobileMenu'
+import { randomRecipe } from 'helpers/random-recipe'
 
 
 const Navbar = () => {
@@ -18,14 +19,6 @@ const Navbar = () => {
     const { user } = useContext(GlobalContext);
     const [isOpen, setIsOpen] = useState(false)
 
-    const onDiscover = async () => {
-        const { data } = await client.query<GetRecipeIdsQuery>({
-            query: getRecipeIdsQuery
-        });
-        const ids = data.getRecipes;
-        const randomIndex = Math.floor(Math.random() * (ids.length));
-        router.push(`/recipes/${ids[randomIndex].idRecipe}`)
-    }
 
     return (
         <nav className={`${styles.navbar} ${router.pathname.includes('user') && styles.navbarPrimary}`}>
@@ -35,7 +28,7 @@ const Navbar = () => {
             <div className={styles.links}>
                 <Link href='/recipes'><a>Recipes</a></Link>
                 <Link href='/'><a>About</a></Link>
-                <span onClick={onDiscover}><a>Discover</a></span>
+                <span onClick={() => randomRecipe(router)}><a>Discover</a></span>
             </div>
             {
                 user ?
@@ -56,8 +49,8 @@ const Navbar = () => {
                         </Button>
                     </div>
             }
-            <Icon.Menu className={styles.menu} />
-            <MobileMenu />
+            <Icon.Menu onClick={() => setIsOpen(true)} className={styles.menu} />
+            <MobileMenu open={isOpen} onClose={() => setIsOpen(false)} />
         </nav>
     )
 }

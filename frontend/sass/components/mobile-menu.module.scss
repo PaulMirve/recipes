@@ -1,7 +1,19 @@
 @use '@sass/abstract/variables'as *;
 
-.isOpen {
-    visibility: visible;
+.open {
+    visibility: visible !important;
+
+    & .main {
+        transform: translateX(0);
+    }
+}
+
+.close {
+    visibility: hidden;
+}
+
+.onClose {
+    transform: translateX(-100%) !important;
 }
 
 .wrapper {
@@ -18,6 +30,8 @@
     height: 100%;
     width: 70%;
     padding: 4rem 2rem;
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
 }
 
 .userInfo {
