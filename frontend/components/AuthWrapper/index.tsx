@@ -3,7 +3,9 @@ import { useIsAuthenticatedQuery, User } from "generated/graphql"
 import { FC, useContext, useEffect } from "react";
 
 const AuthWrapper: FC = ({ children }) => {
-    const { data } = useIsAuthenticatedQuery();
+    const { data } = useIsAuthenticatedQuery({
+        fetchPolicy: 'no-cache'
+    });
     const { setUser } = useContext(GlobalContext)
 
     useEffect(() => {
