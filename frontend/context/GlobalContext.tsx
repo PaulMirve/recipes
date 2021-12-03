@@ -21,7 +21,6 @@ export const GlobalContextProvider: FC = ({ children }) => {
         localStorage.clear();
         setUser(null);
         router.push('/login');
-        location.reload();
     }
 
     return (

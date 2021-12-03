@@ -23,8 +23,9 @@ import BookOpen from '@svg/book-open.svg'
 import Eye from '@svg/eye.svg'
 import InformationCircle from '@svg/information-circle.svg'
 import Logout from '@svg/logout.svg'
+import Login from '@svg/login.svg'
 
-type Icons = "Bell" | "Home" | 'PlusCircle' | "Menu" | "Photograph" | "Edit" | "Delete" | "Plus" | "ThumbUpOutline" | "ThumbUpFilled" | "Calendar" | "BookmarkOutline" | "BookmarkFilled" | "Check" | "PeopleOutline" | "People" | "PersonAddOutline" | "Person" | "Github" | "Linkedin" | "AlertCircleOutline" | "BookOpen" | "Eye" | "InformationCircle" | "Logout";
+type Icons = "Bell" | "Home" | 'PlusCircle' | "Menu" | "Photograph" | "Edit" | "Delete" | "Plus" | "ThumbUpOutline" | "ThumbUpFilled" | "Calendar" | "BookmarkOutline" | "BookmarkFilled" | "Check" | "PeopleOutline" | "People" | "PersonAddOutline" | "Person" | "Github" | "Linkedin" | "AlertCircleOutline" | "BookOpen" | "Eye" | "InformationCircle" | "Logout" | "Login";
 
 const Icon: { [key in Icons]: React.FC<React.SVGProps<SVGSVGElement>> } = {
     Bell,
@@ -51,6 +52,7 @@ const Icon: { [key in Icons]: React.FC<React.SVGProps<SVGSVGElement>> } = {
     BookOpen,
     Eye,
     InformationCircle,
-    Logout
+    Logout,
+    Login
 }
 export default Icon;
