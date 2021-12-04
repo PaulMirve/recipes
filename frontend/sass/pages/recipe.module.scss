@@ -39,6 +39,7 @@ $font-size: 1.8rem;
 
 .frame {
     grid-area: frame;
+    position: relative;
 
     & img {
         object-fit: cover;
@@ -55,6 +56,10 @@ $font-size: 1.8rem;
         width: 5rem;
         aspect-ratio: 1;
         cursor: pointer;
+
+        @include respond(phone) {
+            display: none;
+        }
     }
 
     @include respond(tab-port) {
@@ -145,5 +150,17 @@ $font-size: 1.8rem;
 
     & button {
         justify-self: flex-end;
+    }
+}
+
+.bookmarkIcon {
+    position: absolute;
+    width: 10rem;
+    bottom: 5px;
+    right: 0;
+    display: none;
+
+    @include respond(phone){
+        display: block;
     }
 }

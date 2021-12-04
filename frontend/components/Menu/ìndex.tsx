@@ -14,7 +14,7 @@ const Menu = ({ anchorEl, open, onClose, children, className = "", ...props }: P
         if (anchorEl && menu.current) {
             const { top, left, height, width } = anchorEl.getBoundingClientRect();
             menu.current.style.top = `calc(${top}px + ${height}px + 5px)`;
-            menu.current.style.left = `calc(${left}px - ${width}px - 20px)`;
+            menu.current.style.left = `calc(${left}px - ${width}px)`;
         }
     }
 
