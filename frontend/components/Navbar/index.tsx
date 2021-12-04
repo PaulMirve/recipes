@@ -27,7 +27,7 @@ const Navbar = () => {
     }
 
     return (
-        <nav className={`${styles.navbar} ${router.pathname.includes('user') && styles.navbarPrimary}`}>
+        <nav className={`${styles.navbar} ${router.pathname.includes('login') || router.pathname.includes('signin') ? styles.transparent : ''} ${router.pathname.includes('user') && styles.navbarPrimary}`}>
             <Link href='/recipes'>
                 <a> <Image src='/logo.png' width={120} height={50} /></a>
             </Link>
@@ -60,7 +60,7 @@ const Navbar = () => {
                         <Link href='/login'><a>Login</a></Link>
                         <Button
                             variant={router.pathname.includes('user') ? 'dark' : 'primary'}
-                            onClick={() => router.push('/signup')}>
+                            onClick={() => router.push('/signin')}>
                             Sign Up
                         </Button>
                     </div>
