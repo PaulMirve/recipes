@@ -47,7 +47,7 @@ const Recipe = ({ recipe }: Props) => {
         if (stepsCheck.filter(step => step === true).length === steps.length) {
             showAlert({
                 title: 'Recipe completed!',
-                text: 'Did you like it? Lave a comment and a like!',
+                text: 'Did you like it? Leave a comment and a like!',
                 icon: 'success'
             });
         }
@@ -61,6 +61,10 @@ const Recipe = ({ recipe }: Props) => {
             <div className={styles.info}>
                 <span className={styles.frame}>
                     <Image src={photo} height={600} width={600} />
+                    {isRecipeBookmarked ?
+                        <Icon.BookmarkFilled className={styles.bookmarkIcon} onClick={bookmarkRecipe} />
+                        :
+                        <Icon.BookmarkOutline className={styles.bookmarkIcon} onClick={bookmarkRecipe} />}
                 </span>
                 <span className={styles.title}>
                     <Heading variant='h1' fontWeight='bold'>{name}</Heading>
