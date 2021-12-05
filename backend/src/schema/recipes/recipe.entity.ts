@@ -28,6 +28,9 @@ export class RecipeEntity extends BaseEntity {
     @Column({ name: "IdUser", nullable: false })
     idUser: number;
 
+    @Column({ name: 'Active', nullable: false, default: true })
+    active: boolean;
+
     @ManyToOne(() => UserEntity, user => user.recipes)
     @JoinColumn({ name: 'IdUser' })
     user: UserEntity;

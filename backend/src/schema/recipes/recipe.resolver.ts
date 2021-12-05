@@ -90,6 +90,22 @@ class RecipeResolver {
         return RecipeEntity.save(recipe);
     }
 
+    @Mutation(returns => Int)
+    @UseMiddleware(AuthMiddleware, ValidIdRecipeMiddleware)
+    async deleteRecipe(
+        @Arg("idRecipe", () => Int) idRecipe: number,
+        @Ctx("user") user: UserEntity
+    ) {
+        const recipe = await RecipeEntity.findOne({ idRecipe });
+        if (recipe.idUser != user.idUser) {
+            throw new Error("This recipe doesn't belong to you 😠");
+        }
+
+        recipe.active = false;
+        await RecipeEntity.save(recipe);
+        return idRecipe;
+    }
+
     @FieldResolver()
     ingredients(@Root() { idRecipe }: RecipeEntity) {
         return IngredientEntity.find({ idRecipe });
