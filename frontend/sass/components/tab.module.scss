@@ -1,0 +1,25 @@
+@use '@sass/abstract/variables'as *;
+
+.tab {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.8rem;
+    padding: 0.5em 1em;
+    border-radius: 10px 10px 0 0;
+    width: min-content;
+    font-weight: 500;
+    cursor: pointer;
+    border-bottom: 2px solid $color-bone;
+}
+
+.selected {
+    border-top: 4px solid $color-primary;
+    border-left: 2px solid $color-bone;
+    border-right: 2px solid $color-bone;
+    border-bottom: 0;
+}
+
+.icon {
+    width: 3rem;
+}
