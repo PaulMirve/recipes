@@ -7,6 +7,7 @@ import { uploadPhoto } from "../../helpers/upload-photo";
 import { IngredientEntity } from "../ingredient/ingredient.entity";
 import { StepEntity } from "../step/step.entity"; import { removeDuplicateTags } from "../../helpers/remove-duplicate-tags";
 import { ValidIdRecipeMiddleware } from "../../middlewares/valid-idRecipe.middleware";
+import { TagEntity } from "../tag/tag.entity";
 @Resolver(of => Recipe)
 class RecipeResolver {
     @Query(returns => [Recipe])
@@ -20,6 +21,17 @@ class RecipeResolver {
         @Arg("idRecipe", () => Int) idRecipe: number
     ) {
         return RecipeEntity.findOne({ idRecipe });
+    }
+
+    @Query(returns => [Recipe])
+    async getRecipesByTag(
+        @Arg("tagName") tagName: string
+    ) {
+        const tag = await TagEntity.findOne({
+            where: { name: tagName },
+            relations: ["recipes"]
+        });
+        return tag.recipes;
     }
 
     @Mutation(returns => Recipe)
