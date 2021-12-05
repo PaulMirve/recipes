@@ -30,7 +30,7 @@ const RecipeCard = ({ className = "", recipe, onClick, showUsername = true, ...r
                 <p className={styles.description}>{description}</p>
                 <div className={styles.tags} onClick={e => e.stopPropagation()}>
                     {
-                        tags.map(({ name }) => <Tag key={name} title={name} />)
+                        tags.map(({ name }) => <Tag link key={name} title={name} />)
                     }
                 </div>
             </div>

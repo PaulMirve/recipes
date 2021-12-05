@@ -1,0 +1,25 @@
+@use '@sass/abstract/mixins'as *;
+@use '@sass/abstract/variables'as *;
+
+.main {
+    @include padding;
+
+    @include respond(tab-port) {
+        padding: 12rem 4rem;
+    }
+}
+
+.recipes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    @include respond(tab-land) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.title {
+    @include respond(phone) {
+        text-align: center;
+    }
+}

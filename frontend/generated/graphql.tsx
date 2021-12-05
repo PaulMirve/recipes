@@ -108,6 +108,7 @@ export type Query = {
   getRecipe: Recipe;
   getRecipeComments: Array<Comment>;
   getRecipes: Array<Recipe>;
+  getRecipesByTag: Array<Recipe>;
   getUnits: Array<Unit>;
   getUser: User;
   getUsers: Array<User>;
@@ -123,6 +124,11 @@ export type QueryGetRecipeArgs = {
 
 export type QueryGetRecipeCommentsArgs = {
   idRecipe: Scalars['Int'];
+};
+
+
+export type QueryGetRecipesByTagArgs = {
+  tagName: Scalars['String'];
 };
 
 
@@ -280,6 +286,13 @@ export type BookmarkRecipeMutationVariables = Exact<{
 
 
 export type BookmarkRecipeMutation = { __typename?: 'Mutation', bookmarkRecipe: { __typename?: 'Recipe', idRecipe: number } };
+
+export type GetRecipesByTagQueryVariables = Exact<{
+  tagName: Scalars['String'];
+}>;
+
+
+export type GetRecipesByTagQuery = { __typename?: 'Query', getRecipesByTag: Array<{ __typename?: 'Recipe', idRecipe: number, name: string, description: string, numberOfPeople: number, photo: string, likes: Array<{ __typename?: 'User', name: string }>, user: { __typename?: 'User', username: string }, tags: Array<{ __typename?: 'Tag', name: string }> }> };
 
 export type SearchQueryVariables = Exact<{
   phrase: Scalars['String'];
@@ -732,6 +745,54 @@ export function useBookmarkRecipeMutation(baseOptions?: Apollo.MutationHookOptio
 export type BookmarkRecipeMutationHookResult = ReturnType<typeof useBookmarkRecipeMutation>;
 export type BookmarkRecipeMutationResult = Apollo.MutationResult<BookmarkRecipeMutation>;
 export type BookmarkRecipeMutationOptions = Apollo.BaseMutationOptions<BookmarkRecipeMutation, BookmarkRecipeMutationVariables>;
+export const GetRecipesByTagDocument = gql`
+    query getRecipesByTag($tagName: String!) {
+  getRecipesByTag(tagName: $tagName) {
+    idRecipe
+    name
+    description
+    numberOfPeople
+    photo
+    likes {
+      name
+    }
+    user {
+      username
+    }
+    tags {
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetRecipesByTagQuery__
+ *
+ * To run a query within a React component, call `useGetRecipesByTagQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRecipesByTagQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRecipesByTagQuery({
+ *   variables: {
+ *      tagName: // value for 'tagName'
+ *   },
+ * });
+ */
+export function useGetRecipesByTagQuery(baseOptions: Apollo.QueryHookOptions<GetRecipesByTagQuery, GetRecipesByTagQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetRecipesByTagQuery, GetRecipesByTagQueryVariables>(GetRecipesByTagDocument, options);
+      }
+export function useGetRecipesByTagLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRecipesByTagQuery, GetRecipesByTagQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetRecipesByTagQuery, GetRecipesByTagQueryVariables>(GetRecipesByTagDocument, options);
+        }
+export type GetRecipesByTagQueryHookResult = ReturnType<typeof useGetRecipesByTagQuery>;
+export type GetRecipesByTagLazyQueryHookResult = ReturnType<typeof useGetRecipesByTagLazyQuery>;
+export type GetRecipesByTagQueryResult = Apollo.QueryResult<GetRecipesByTagQuery, GetRecipesByTagQueryVariables>;
 export const SearchDocument = gql`
     query Search($phrase: String!) {
   search(phrase: $phrase) {

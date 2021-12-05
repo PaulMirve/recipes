@@ -75,7 +75,7 @@ const Recipe = ({ recipe }: Props) => {
                 <div className={styles.tags}>
                     {
                         tags.map(({ name }) => (
-                            <Tag key={name} title={name} />
+                            <Tag key={name} title={name} link />
                         ))
                     }
                 </div>

@@ -87,3 +87,24 @@ mutation BookmarkRecipe($idRecipe: Int!) {
   }
 }
 `;
+
+export const getRecipeByTagQuery = gql`
+query getRecipesByTag($tagName: String!) {
+  getRecipesByTag(tagName: $tagName) {
+    idRecipe
+    name
+    description
+    numberOfPeople
+    photo
+    likes{
+        name
+    }
+    user{
+        username
+    }
+    tags{
+        name
+    }
+  }
+}
+`;

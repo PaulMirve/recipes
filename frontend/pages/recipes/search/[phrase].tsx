@@ -10,6 +10,7 @@ import { ParsedUrlQuery } from 'querystring'
 import Head from 'next/head'
 import Heading from 'components/Heading'
 import Icon from 'components/Icon'
+import { useRouter } from 'next/dist/client/router'
 
 interface Props {
     users: User[],
@@ -18,6 +19,8 @@ interface Props {
 }
 
 const SearchRecipe = ({ users, recipes, tags }: Props) => {
+    const router = useRouter();
+
     return (
         <div className={styles.main}>
             <Head>
@@ -56,7 +59,7 @@ const SearchRecipe = ({ users, recipes, tags }: Props) => {
                 <TabPage value={3}>
                     <div className={styles.tags}>
                         {tags.map(tag => (
-                            <div className={styles.tag} key={tag.name}>
+                            <div onClick={() => router.push(`/tag/${tag.name}`)} className={styles.tag} key={tag.name}>
                                 <Heading variant='h5'>{tag.name}</Heading>
                                 <small>{tag.recipes.length} {tag.recipes.length > 1 ? 'recipes' : 'recipe'}</small>
                             </div>
