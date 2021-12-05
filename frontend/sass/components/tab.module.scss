@@ -10,16 +10,26 @@
     width: min-content;
     font-weight: 500;
     cursor: pointer;
-    border-bottom: 2px solid $color-bone;
+    border-bottom: 2px solid $color-grey;
 }
 
 .selected {
     border-top: 4px solid $color-primary;
-    border-left: 2px solid $color-bone;
-    border-right: 2px solid $color-bone;
+    border-left: 2px solid $color-grey;
+    border-right: 2px solid $color-grey;
     border-bottom: 0;
 }
 
 .icon {
     width: 3rem;
+}
+
+.results {
+    background-color: $color-primary;
+    height: 3rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
 }

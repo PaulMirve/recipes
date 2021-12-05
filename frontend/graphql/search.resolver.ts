@@ -22,6 +22,12 @@ query Search($phrase: String!) {
         name
       }
     }
+    ... on Tag {
+        name
+        recipes{
+          idRecipe
+        }
+    }
   }
 }
 

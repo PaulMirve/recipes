@@ -25,8 +25,10 @@ import InformationCircle from '@svg/information-circle.svg'
 import Logout from '@svg/logout.svg'
 import Login from '@svg/login.svg'
 import PersonCircleOutline from '@svg/person-circle-outline.svg'
+import Hashtag from '@svg/hashtag.svg'
+import EmojiSad from '@svg/emoji-sad.svg'
 
-export type Icons = "Bell" | "Home" | 'PlusCircle' | "Menu" | "Photograph" | "Edit" | "Delete" | "Plus" | "ThumbUpOutline" | "ThumbUpFilled" | "Calendar" | "BookmarkOutline" | "BookmarkFilled" | "Check" | "PeopleOutline" | "People" | "PersonAddOutline" | "Person" | "Github" | "Linkedin" | "AlertCircleOutline" | "BookOpen" | "Eye" | "InformationCircle" | "Logout" | "Login" | "PersonCircleOutline";
+export type Icons = "Bell" | "Home" | 'PlusCircle' | "Menu" | "Photograph" | "Edit" | "Delete" | "Plus" | "ThumbUpOutline" | "ThumbUpFilled" | "Calendar" | "BookmarkOutline" | "BookmarkFilled" | "Check" | "PeopleOutline" | "People" | "PersonAddOutline" | "Person" | "Github" | "Linkedin" | "AlertCircleOutline" | "BookOpen" | "Eye" | "InformationCircle" | "Logout" | "Login" | "PersonCircleOutline" | "Hashtag" | "EmojiSad";
 
 const Icon: { [key in Icons]: React.FC<React.SVGProps<SVGSVGElement>> } = {
     Bell,
@@ -55,6 +57,8 @@ const Icon: { [key in Icons]: React.FC<React.SVGProps<SVGSVGElement>> } = {
     InformationCircle,
     Logout,
     Login,
-    PersonCircleOutline
+    PersonCircleOutline,
+    Hashtag,
+    EmojiSad
 }
 export default Icon;

@@ -12,3 +12,21 @@
 .users {
     margin-top: 2rem;
 }
+
+.tags {
+    margin-top: 2rem;
+}
+
+.tag {
+    cursor: pointer;
+    background-color: $color-bone;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+    padding: 1em 2em;
+}
+
+.notFound {
+    text-align: center;
+    & svg {
+        width: 24rem;
+    }
+}

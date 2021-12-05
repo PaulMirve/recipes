@@ -167,7 +167,7 @@ export type Role = {
   name: Scalars['String'];
 };
 
-export type SearchResult = Recipe | User;
+export type SearchResult = Recipe | Tag | User;
 
 export type Step = {
   __typename?: 'Step';
@@ -181,6 +181,7 @@ export type StepInput = {
 export type Tag = {
   __typename?: 'Tag';
   name: Scalars['String'];
+  recipes: Array<Recipe>;
 };
 
 export type TagInput = {
@@ -285,7 +286,7 @@ export type SearchQueryVariables = Exact<{
 }>;
 
 
-export type SearchQuery = { __typename?: 'Query', search: Array<{ __typename?: 'Recipe', idRecipe: number, name: string, description: string, tags: Array<{ __typename?: 'Tag', name: string }> } | { __typename?: 'User', name: string, lastName: string, username: string, followers: Array<{ __typename?: 'User', username: string }>, following: Array<{ __typename?: 'User', username: string }> }> };
+export type SearchQuery = { __typename?: 'Query', search: Array<{ __typename?: 'Recipe', idRecipe: number, name: string, description: string, tags: Array<{ __typename?: 'Tag', name: string }> } | { __typename?: 'Tag', name: string, recipes: Array<{ __typename?: 'Recipe', idRecipe: number }> } | { __typename?: 'User', name: string, lastName: string, username: string, followers: Array<{ __typename?: 'User', username: string }>, following: Array<{ __typename?: 'User', username: string }> }> };
 
 export type GetUnitsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -751,6 +752,12 @@ export const SearchDocument = gql`
       description
       tags {
         name
+      }
+    }
+    ... on Tag {
+      name
+      recipes {
+        idRecipe
       }
     }
   }
