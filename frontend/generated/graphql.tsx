@@ -112,6 +112,7 @@ export type Query = {
   getUser: User;
   getUsers: Array<User>;
   isAuthenticated: User;
+  search: Array<SearchResult>;
 };
 
 
@@ -127,6 +128,11 @@ export type QueryGetRecipeCommentsArgs = {
 
 export type QueryGetUserArgs = {
   username: Scalars['String'];
+};
+
+
+export type QuerySearchArgs = {
+  phrase: Scalars['String'];
 };
 
 export type Recipe = {
@@ -160,6 +166,8 @@ export type Role = {
   __typename?: 'Role';
   name: Scalars['String'];
 };
+
+export type SearchResult = Recipe | User;
 
 export type Step = {
   __typename?: 'Step';
@@ -271,6 +279,13 @@ export type BookmarkRecipeMutationVariables = Exact<{
 
 
 export type BookmarkRecipeMutation = { __typename?: 'Mutation', bookmarkRecipe: { __typename?: 'Recipe', idRecipe: number } };
+
+export type SearchQueryVariables = Exact<{
+  phrase: Scalars['String'];
+}>;
+
+
+export type SearchQuery = { __typename?: 'Query', search: Array<{ __typename?: 'Recipe', idRecipe: number, name: string, description: string, tags: Array<{ __typename?: 'Tag', name: string }> } | { __typename?: 'User', name: string, lastName: string, username: string }> };
 
 export type GetUnitsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -716,6 +731,53 @@ export function useBookmarkRecipeMutation(baseOptions?: Apollo.MutationHookOptio
 export type BookmarkRecipeMutationHookResult = ReturnType<typeof useBookmarkRecipeMutation>;
 export type BookmarkRecipeMutationResult = Apollo.MutationResult<BookmarkRecipeMutation>;
 export type BookmarkRecipeMutationOptions = Apollo.BaseMutationOptions<BookmarkRecipeMutation, BookmarkRecipeMutationVariables>;
+export const SearchDocument = gql`
+    query Search($phrase: String!) {
+  search(phrase: $phrase) {
+    ... on User {
+      name
+      lastName
+      username
+    }
+    ... on Recipe {
+      idRecipe
+      name
+      description
+      tags {
+        name
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useSearchQuery__
+ *
+ * To run a query within a React component, call `useSearchQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchQuery({
+ *   variables: {
+ *      phrase: // value for 'phrase'
+ *   },
+ * });
+ */
+export function useSearchQuery(baseOptions: Apollo.QueryHookOptions<SearchQuery, SearchQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchQuery, SearchQueryVariables>(SearchDocument, options);
+      }
+export function useSearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchQuery, SearchQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchQuery, SearchQueryVariables>(SearchDocument, options);
+        }
+export type SearchQueryHookResult = ReturnType<typeof useSearchQuery>;
+export type SearchLazyQueryHookResult = ReturnType<typeof useSearchLazyQuery>;
+export type SearchQueryResult = Apollo.QueryResult<SearchQuery, SearchQueryVariables>;
 export const GetUnitsDocument = gql`
     query getUnits {
   getUnits {

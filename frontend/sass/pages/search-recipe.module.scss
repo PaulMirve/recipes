@@ -1,0 +1,6 @@
+@use '@sass/abstract/mixins'as *;
+@use '@sass/abstract/variables'as *;
+
+.main {
+    @include padding;
+}
