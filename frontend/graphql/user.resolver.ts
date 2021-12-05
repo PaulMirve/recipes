@@ -35,3 +35,11 @@ mutation FollowUser($username:String!){
   }
 }
 `;
+
+export const saveUserMutation = gql`
+mutation SaveUser($user:UserInput!){
+  saveUser(user: $user){
+      username
+  }
+}
+`;

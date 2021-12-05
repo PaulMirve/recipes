@@ -6,8 +6,13 @@ import * as Yup from 'yup'
 import Image from 'next/image'
 import Heading from 'components/Heading'
 import Head from 'next/head'
+import { useSaveUserMutation } from 'generated/graphql'
+import { useRouter } from 'next/dist/client/router'
 
 const SignIn = () => {
+    const [signIn] = useSaveUserMutation();
+    const router = useRouter();
+
     return (
         <div className={styles.main}>
             <Head>
@@ -20,34 +25,52 @@ const SignIn = () => {
                 <Heading centered>Sing In</Heading>
                 <Formik
                     initialValues={{
-                        firstName: '',
+                        name: '',
                         lastName: '',
+                        email: '',
                         username: '',
                         password: ''
                     }}
                     validationSchema={Yup.object({
-                        firstName: Yup.string().required('The first name is required'),
+                        name: Yup.string().required('The first name is required'),
                         lastName: Yup.string().required('The last name is required'),
+                        email: Yup.string().email('The email is invalid').required('The email is required'),
                         username: Yup.string().required('The username is required'),
                         password: Yup.string().required('The password is required'),
                     })}
-                    onSubmit={() => {
-
+                    onSubmit={async (user, { setErrors }) => {
+                        try {
+                            await signIn({
+                                variables: {
+                                    user
+                                }
+                            });
+                            router.push('/login');
+                        } catch (err: any) {
+                            const errors: { [key: string]: string } = {};
+                            err.graphQLErrors[0].extensions.exception.validationErrors.forEach((validationErr: any) => {
+                                Object.values(validationErr.constraints).forEach((message: any) => {
+                                    errors[validationErr.property] = message;
+                                });
+                            });
+                            setErrors(errors);
+                        }
                     }}>
                     {
                         formk => (
                             <Form className={styles.form}>
-                                <FormikTextInput className="mt-sm" label="First Name" name="firstName" />
+                                <FormikTextInput className="mt-sm" label="First Name" name="name" />
                                 <FormikTextInput label="Last Name" name="lastName" />
+                                <FormikTextInput label="Email" name="email" />
                                 <FormikTextInput label="Username" name="username" />
-                                <FormikTextInput label="Password" name="password" />
-                                <Button className="mt-sm" fullWidth>Sign In</Button>
+                                <FormikTextInput type="password" label="Password" name="password" />
+                                <Button type="submit" className="mt-sm" fullWidth>Sign In</Button>
                             </Form>
                         )
                     }
                 </Formik>
             </div>
-        </div>
+        </div >
     )
 }
 

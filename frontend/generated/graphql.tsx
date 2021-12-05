@@ -189,6 +189,7 @@ export type Unit = {
 export type User = {
   __typename?: 'User';
   bookmarks: Array<Recipe>;
+  email: Scalars['String'];
   followers: Array<User>;
   following: Array<User>;
   lastName: Scalars['String'];
@@ -199,6 +200,7 @@ export type User = {
 };
 
 export type UserInput = {
+  email: Scalars['String'];
   lastName: Scalars['String'];
   name: Scalars['String'];
   password: Scalars['String'];
@@ -288,6 +290,13 @@ export type FollowUserMutationVariables = Exact<{
 
 
 export type FollowUserMutation = { __typename?: 'Mutation', followUser: { __typename?: 'User', username: string } };
+
+export type SaveUserMutationVariables = Exact<{
+  user: UserInput;
+}>;
+
+
+export type SaveUserMutation = { __typename?: 'Mutation', saveUser: { __typename?: 'User', username: string } };
 
 
 export const LoginDocument = gql`
@@ -830,3 +839,36 @@ export function useFollowUserMutation(baseOptions?: Apollo.MutationHookOptions<F
 export type FollowUserMutationHookResult = ReturnType<typeof useFollowUserMutation>;
 export type FollowUserMutationResult = Apollo.MutationResult<FollowUserMutation>;
 export type FollowUserMutationOptions = Apollo.BaseMutationOptions<FollowUserMutation, FollowUserMutationVariables>;
+export const SaveUserDocument = gql`
+    mutation SaveUser($user: UserInput!) {
+  saveUser(user: $user) {
+    username
+  }
+}
+    `;
+export type SaveUserMutationFn = Apollo.MutationFunction<SaveUserMutation, SaveUserMutationVariables>;
+
+/**
+ * __useSaveUserMutation__
+ *
+ * To run a mutation, you first call `useSaveUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSaveUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [saveUserMutation, { data, loading, error }] = useSaveUserMutation({
+ *   variables: {
+ *      user: // value for 'user'
+ *   },
+ * });
+ */
+export function useSaveUserMutation(baseOptions?: Apollo.MutationHookOptions<SaveUserMutation, SaveUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SaveUserMutation, SaveUserMutationVariables>(SaveUserDocument, options);
+      }
+export type SaveUserMutationHookResult = ReturnType<typeof useSaveUserMutation>;
+export type SaveUserMutationResult = Apollo.MutationResult<SaveUserMutation>;
+export type SaveUserMutationOptions = Apollo.BaseMutationOptions<SaveUserMutation, SaveUserMutationVariables>;

@@ -6,17 +6,15 @@
     background-image: url('../../public/images/food-3.jpg');
     background-size: cover;
     height: 100vh;
+    display: grid;
+    place-items: center;
 }
 
 .wrapper {
     background-color: $color-white;
     padding: 8rem;
     border-radius: 10px;
-    position: absolute;
-    right: 12rem;
-    top: 50%;
     width: 55rem;
-    transform: translateY(-50%);
 
     @include respond(tab-port) {
         width: auto;
