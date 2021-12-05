@@ -1,16 +1,23 @@
 import { createUnionType } from "type-graphql";
+import { RecipeEntity } from "../recipes/recipe.entity";
 import { Recipe } from "../recipes/recipe.types";
+import { TagEntity } from "../tag/tag.entity";
+import { Tag } from "../tag/tag.types";
+import { UserEntity } from "../user/user.entity";
 import { User } from "../user/user.types";
 
 export const searchResultUnion = createUnionType({
     name: 'SearchResult',
-    types: () => [User, Recipe] as const,
+    types: () => [User, Recipe, Tag] as const,
     resolveType: value => {
-        if ("username" in value) {
+        if (value instanceof UserEntity) {
             return User;
         }
-        if ("numberOfPeople" in value) {
+        if (value instanceof RecipeEntity) {
             return Recipe;
+        }
+        if (value instanceof TagEntity) {
+            return Tag;
         }
         return undefined;
     }

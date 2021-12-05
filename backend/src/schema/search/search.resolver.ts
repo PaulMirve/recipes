@@ -1,5 +1,6 @@
 import { Arg, Query, Resolver } from "type-graphql";
 import { RecipeEntity } from "../recipes/recipe.entity";
+import { TagEntity } from "../tag/tag.entity";
 import { UserEntity } from "../user/user.entity";
 import { searchResultUnion } from "./search.types";
 
@@ -20,6 +21,10 @@ export class SearchResolver {
             .orWhere("recipe.description ilike :description", { description: `%${phrase}%` })
             .orWhere("tags.name ilike :name", { name: `%${phrase}%` })
             .getMany();
-        return [...users, ...recipes];
+        const tags = await TagEntity
+            .createQueryBuilder("tag")
+            .where("tag.name ilike :name", { name: `%${phrase}%` })
+            .getMany();
+        return [...users, ...recipes, ...tags];
     }
 }
