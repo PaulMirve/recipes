@@ -1,0 +1,14 @@
+@use '@sass/abstract/variables'as *;
+
+.main {
+    background-color: $color-bone;
+    padding: 1em 2em;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.tags {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}

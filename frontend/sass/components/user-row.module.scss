@@ -1,0 +1,26 @@
+@use '@sass/abstract/variables'as *;
+
+.main {
+    background-color: $color-bone;
+    padding: 1em 2em;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 2rem;
+}
+
+.metadata {
+    display: flex;
+    gap: 4rem;
+}
+
+.follow {
+    display: flex;
+    align-items: center;
+
+    & svg {
+        width: 4rem;
+    }
+}

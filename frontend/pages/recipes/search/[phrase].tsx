@@ -1,6 +1,8 @@
 import styles from '@sass/pages/search-recipe.module.scss'
 import client from 'client'
+import RecipeRow from 'components/RecipeRow'
 import { Tab, Tabs, TabsWrapper, TabPage } from 'components/Tabs'
+import UserRow from 'components/UserRow'
 import { Recipe, SearchQuery, SearchQueryVariables, User } from 'generated/graphql'
 import { searchQuery } from 'graphql/search.resolver'
 import { GetServerSideProps } from 'next'
@@ -16,23 +18,23 @@ const SearchRecipe = ({ users, recipes }: Props) => {
         <div className={styles.main}>
             <TabsWrapper initialValue={1}>
                 <Tabs>
-                    <Tab value={1} icon="Person" label="User" />
-                    <Tab value={2} icon="BookOpen" label="Recipes" />
+                    <Tab value={1} icon="BookOpen" label="Recipes" />
+                    <Tab value={2} icon="Person" label="User" />
                 </Tabs>
                 <TabPage value={1}>
-                    <div className={styles.users}>
+                    <div className={styles.recipes}>
                         {
-                            users.map(({ username }) => (
-                                <div key={username}>{username}</div>
+                            recipes.map((recipe) => (
+                                <RecipeRow key={recipe.idRecipe} recipe={recipe} />
                             ))
                         }
                     </div>
                 </TabPage>
                 <TabPage value={2}>
-                    <div className={styles.recipes}>
+                    <div className={styles.users}>
                         {
-                            recipes.map(({ idRecipe, name }) => (
-                                <div key={idRecipe}>{name}</div>
+                            users.map((user) => (
+                                <UserRow key={user.username} user={user} />
                             ))
                         }
                     </div>

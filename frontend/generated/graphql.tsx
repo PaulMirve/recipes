@@ -285,7 +285,7 @@ export type SearchQueryVariables = Exact<{
 }>;
 
 
-export type SearchQuery = { __typename?: 'Query', search: Array<{ __typename?: 'Recipe', idRecipe: number, name: string, description: string, tags: Array<{ __typename?: 'Tag', name: string }> } | { __typename?: 'User', name: string, lastName: string, username: string }> };
+export type SearchQuery = { __typename?: 'Query', search: Array<{ __typename?: 'Recipe', idRecipe: number, name: string, description: string, tags: Array<{ __typename?: 'Tag', name: string }> } | { __typename?: 'User', name: string, lastName: string, username: string, followers: Array<{ __typename?: 'User', username: string }>, following: Array<{ __typename?: 'User', username: string }> }> };
 
 export type GetUnitsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -738,6 +738,12 @@ export const SearchDocument = gql`
       name
       lastName
       username
+      followers {
+        username
+      }
+      following {
+        username
+      }
     }
     ... on Recipe {
       idRecipe

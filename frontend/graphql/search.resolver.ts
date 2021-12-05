@@ -7,6 +7,12 @@ query Search($phrase: String!) {
       name
       lastName
       username
+      followers{
+        username
+      }
+      following{
+        username
+      }
     }
     ... on Recipe {
       idRecipe
