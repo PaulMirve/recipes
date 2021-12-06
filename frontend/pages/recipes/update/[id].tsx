@@ -32,7 +32,7 @@ const UpdateRecipe = ({ idRecipe, ...props }: Props) => {
                     "photo": null,
                     "numberOfPeople": ${people},
                     "ingredients": [${ingredients.map(({ idIngredient, name, quantity, unit: { idUnit } }) => JSON.stringify({ idIngredient, name, quantity: Number(quantity), idUnit: Number(idUnit) }))}],
-                    "steps": [${steps.map(({ description }) => JSON.stringify({ description }))}],
+                    "steps": [${steps.map(({ description, idStep }) => JSON.stringify({ description, idStep }))}],
                     "tags": [${tags.map((tag) => JSON.stringify({ name: tag, idRecipe: 0 }))}]
                 }
             }
@@ -67,7 +67,8 @@ export const getServerSideProps: GetServerSideProps<Props, Params> = async ({ pa
             query: getRecipeQuery,
             variables: {
                 idRecipe: Number(id)
-            }
+            },
+            fetchPolicy: 'no-cache'
         })
             .then(res => res.data.getRecipe as Recipe)
             .catch(err => null);

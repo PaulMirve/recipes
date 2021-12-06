@@ -205,6 +205,11 @@ export type StepInput = {
   description: Scalars['String'];
 };
 
+export type StepUpdateInput = {
+  description: Scalars['String'];
+  idStep: Scalars['Int'];
+};
+
 export type Tag = {
   __typename?: 'Tag';
   name: Scalars['String'];
@@ -229,7 +234,7 @@ export type UpdateRecipeInput = {
   name: Scalars['String'];
   numberOfPeople: Scalars['Int'];
   photo: Scalars['Upload'];
-  steps: Array<StepInput>;
+  steps: Array<StepUpdateInput>;
   tags: Array<TagInput>;
 };
 

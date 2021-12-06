@@ -14,6 +14,7 @@ interface Props {
 
 export const StepsForms = ({ steps, setSteps }: Props) => {
     const [stepsInitialValues, setStepsInitialValues] = useState({
+        idStep: 0,
         description: ''
     })
     const [updateSteps, setUpdateSteps] = useState<boolean>(false)
@@ -29,10 +30,11 @@ export const StepsForms = ({ steps, setSteps }: Props) => {
         setUpdateSteps(true);
         setSelectedStep(step);
         setStepsInitialValues({
+            idStep: step.idStep,
             description: step.description
         });
     }
-
+console.log(steps)
     return (
         <div className={styles.steps}>
             <div className={styles.steps__form}>
@@ -41,16 +43,17 @@ export const StepsForms = ({ steps, setSteps }: Props) => {
                     validationSchema={Yup.object({
                         description: Yup.string().required('A step description is required')
                     })}
-                    onSubmit={({ description }, { resetForm }) => {
+                    onSubmit={({ description, idStep }, { resetForm }) => {
                         if (!updateSteps) {
-                            setSteps(prev => [...prev, { description }]);
+                            setSteps(prev => [...prev, { description, idStep }]);
                         } else {
                             const _steps = [...steps];
                             const stepIndex = steps.indexOf(selectedStep!);
-                            _steps[stepIndex] = { description };
+                            _steps[stepIndex] = { description, idStep };
                             setSteps(_steps);
                             setStepsInitialValues({
-                                description: ''
+                                description: '',
+                                idStep: 0
                             });
                             setUpdateSteps(false);
                             setSelectedStep(null);
