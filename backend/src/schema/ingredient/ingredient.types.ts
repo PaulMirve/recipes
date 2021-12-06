@@ -3,6 +3,8 @@ import { Unit } from "../unit/unit.types";
 
 @ObjectType()
 export class Ingredient {
+    @Field(of => Int)
+    idIngredient: number;
     @Field(of => String)
     name: string;
     @Field(of => Int)
@@ -13,6 +15,17 @@ export class Ingredient {
 
 @InputType()
 export class IngredientInput {
+    @Field(of => String)
+    name: string;
+    @Field(of => Int)
+    quantity: number;
+    @Field(of => Int)
+    idUnit: number;
+}
+@InputType()
+export class IngredientUpdateInput {
+    @Field(of => Int)
+    idIngredient: number;
     @Field(of => String)
     name: string;
     @Field(of => Int)

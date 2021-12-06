@@ -1,6 +1,6 @@
 import { Arg, Ctx, FieldResolver, Int, Mutation, Query, Resolver, Root, UseMiddleware } from "type-graphql";
 import { RecipeEntity } from "./recipe.entity";
-import { Recipe, RecipeInput } from "./recipe.types";
+import { Recipe, RecipeInput, UpdateRecipeInput } from "./recipe.types";
 import { AuthMiddleware } from "../../middlewares/auth.middleware";
 import { UserEntity } from "../user/user.entity";
 import { uploadPhoto } from "../../helpers/upload-photo";
@@ -104,6 +104,17 @@ class RecipeResolver {
         recipe.active = false;
         await RecipeEntity.save(recipe);
         return idRecipe;
+    }
+
+    @Mutation(returns => Recipe)
+    @UseMiddleware(AuthMiddleware)
+    async updateRecipe(
+        @Arg("recipe") recipeInput: UpdateRecipeInput
+    ) {
+        const { photo, tags, steps, idRecipe, ...updatedRecipe } = recipeInput;
+        const recipe = await RecipeEntity.findOne({ idRecipe });
+        RecipeEntity.merge(recipe, updatedRecipe);
+        return RecipeEntity.save(recipe);
     }
 
     @FieldResolver()
