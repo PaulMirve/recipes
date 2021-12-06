@@ -56,7 +56,7 @@ export class RecipeEntity extends BaseEntity {
     })
     tags: TagEntity[];
 
-    @OneToMany(() => IngredientEntity, ingredient => ingredient.recipe, { cascade: true, onUpdate: 'CASCADE' })
+    @OneToMany(() => IngredientEntity, ingredient => ingredient.recipe, { cascade: true })
     ingredients: IngredientEntity[];
 
     @OneToMany(() => StepEntity, step => step.recipe, { cascade: true })

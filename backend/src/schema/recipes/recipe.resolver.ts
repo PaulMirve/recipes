@@ -8,6 +8,7 @@ import { IngredientEntity } from "../ingredient/ingredient.entity";
 import { StepEntity } from "../step/step.entity"; import { removeDuplicateTags } from "../../helpers/remove-duplicate-tags";
 import { ValidIdRecipeMiddleware } from "../../middlewares/valid-idRecipe.middleware";
 import { TagEntity } from "../tag/tag.entity";
+import { upgradeIngredients } from "../../helpers/update-ingredients";
 @Resolver(of => Recipe)
 class RecipeResolver {
     @Query(returns => [Recipe])
@@ -111,9 +112,12 @@ class RecipeResolver {
     async updateRecipe(
         @Arg("recipe") recipeInput: UpdateRecipeInput
     ) {
-        const { photo, tags, steps, idRecipe, ...updatedRecipe } = recipeInput;
-        const recipe = await RecipeEntity.findOne({ idRecipe });
-        RecipeEntity.merge(recipe, updatedRecipe);
+        const { photo, tags, steps, idRecipe, ingredients, ...updatedRecipe } = recipeInput;
+        const recipe = await RecipeEntity.findOne({
+            where: { idRecipe },
+            relations: ["ingredients"]
+        });
+        recipe.ingredients = await upgradeIngredients(recipe.ingredients, ingredients);
         return RecipeEntity.save(recipe);
     }
 
