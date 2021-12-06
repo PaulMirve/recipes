@@ -6,7 +6,7 @@ import TagInput from 'components/TagInput'
 import { FormikTextArea } from 'components/TextArea/FormikTextArea'
 import { FormikTextInput } from 'components/TextInput'
 import { Form, Formik } from 'formik'
-import { Ingredient, Step, useGetUnitsQuery } from 'generated/graphql'
+import { Ingredient, Step, Tag, useGetUnitsQuery } from 'generated/graphql'
 import { useState } from 'react'
 import * as Yup from 'yup'
 import { IngredientsForm } from './IngredientsForm'
@@ -26,15 +26,19 @@ export interface RecipeFormSubmitArgs {
 }
 
 interface Props {
+    name?: string,
     tags?: string[],
     ingredients?: Ingredient[],
     steps?: Step[],
+    photo?: string,
+    numberOfPeople?: number,
+    description?: string,
     onFormSubmit: (args: RecipeFormSubmitArgs) => void
 }
 
-const RecipeForm = ({ tags: _tags = [], ingredients: _ingredients = [], steps: _steps = [], onFormSubmit }: Props) => {
+const RecipeForm = ({ tags: _tags = [], ingredients: _ingredients = [], steps: _steps = [], onFormSubmit, name = '', description = '', numberOfPeople = 1, photo: recipePhoto }: Props) => {
 
-    const [photo, setPhoto] = useState<string | undefined>();
+    const [photo, setPhoto] = useState<string | undefined>(recipePhoto);
     const [photoFile, setPhotoFile] = useState<Blob>()
     const [tags, setTags] = useState<string[]>(_tags)
     const [ingredients, setIngredients] = useState<Ingredient[]>(_ingredients)
@@ -57,9 +61,9 @@ const RecipeForm = ({ tags: _tags = [], ingredients: _ingredients = [], steps: _
             <Heading variant="h1" fontWeight='bold'>Add new recipe</Heading>
             <Formik
                 initialValues={{
-                    name: '',
-                    people: 1,
-                    description: ''
+                    name,
+                    people: numberOfPeople,
+                    description
                 }}
                 validationSchema={Yup.object({
                     name: Yup.string().required('The name of the recipe is required'),

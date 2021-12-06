@@ -18,7 +18,8 @@ export const IngredientsForm = ({ ingredients, setIngredients, units }: Props) =
     const [ingredientsInitialValues, setIngredientsInitialValues] = useState({
         name: '',
         quantity: 0,
-        idUnit: 0
+        idUnit: 0,
+        idIngredient: 0
     })
     const [selectedIngredient, setSelectedIngredient] = useState<Ingredient | null>(null)
     const [updateIngredients, setUpdateIngredients] = useState<boolean>(false)
@@ -30,13 +31,14 @@ export const IngredientsForm = ({ ingredients, setIngredients, units }: Props) =
     }
 
     const onIngredientUpdate = (ingredient: Ingredient) => {
-        const { name, quantity, unit: { idUnit } } = ingredient;
+        const { name, quantity, unit: { idUnit }, idIngredient } = ingredient;
         setUpdateIngredients(true);
         setSelectedIngredient(ingredient);
         setIngredientsInitialValues({
             name,
             quantity,
-            idUnit: Number(idUnit)
+            idUnit: Number(idUnit),
+            idIngredient
         });
     }
 
@@ -45,19 +47,20 @@ export const IngredientsForm = ({ ingredients, setIngredients, units }: Props) =
             <div className={styles.ingredients__form}>
                 <Formik
                     initialValues={ingredientsInitialValues}
-                    onSubmit={({ name, quantity, idUnit }, { resetForm }) => {
+                    onSubmit={({ name, quantity, idUnit, idIngredient }, { resetForm }) => {
                         const unit = units.find(u => u.idUnit === idUnit.toString())!;
                         if (!updateIngredients) {
-                            setIngredients(prev => [...prev, { name, quantity, unit }]);
+                            setIngredients(prev => [...prev, { name, quantity, unit, idIngredient }]);
                         } else {
                             const ingredientIndex = ingredients.indexOf(selectedIngredient!);
                             const _ingredients = [...ingredients];
-                            _ingredients[ingredientIndex] = { name, quantity, unit };
+                            _ingredients[ingredientIndex] = { name, quantity, unit, idIngredient };
                             setIngredients(_ingredients);
                             setIngredientsInitialValues({
                                 name: '',
                                 quantity: 0,
-                                idUnit: 0
+                                idUnit: 0,
+                                idIngredient: 0
                             });
                             setUpdateIngredients(false);
                             setSelectedIngredient(null);

@@ -33,12 +33,20 @@ export type CommentInput = {
 
 export type Ingredient = {
   __typename?: 'Ingredient';
+  idIngredient: Scalars['Int'];
   name: Scalars['String'];
   quantity: Scalars['Int'];
   unit: Unit;
 };
 
 export type IngredientInput = {
+  idUnit: Scalars['Int'];
+  name: Scalars['String'];
+  quantity: Scalars['Int'];
+};
+
+export type IngredientUpdateInput = {
+  idIngredient: Scalars['Int'];
   idUnit: Scalars['Int'];
   name: Scalars['String'];
   quantity: Scalars['Int'];
@@ -53,6 +61,7 @@ export type Login = {
 export type Mutation = {
   __typename?: 'Mutation';
   bookmarkRecipe: Recipe;
+  deleteRecipe: Scalars['Int'];
   followUser: User;
   likeComment: Comment;
   likeRecipe: Recipe;
@@ -60,10 +69,16 @@ export type Mutation = {
   saveComment: Comment;
   saveRecipe: Recipe;
   saveUser: User;
+  updateRecipe: Recipe;
 };
 
 
 export type MutationBookmarkRecipeArgs = {
+  idRecipe: Scalars['Int'];
+};
+
+
+export type MutationDeleteRecipeArgs = {
   idRecipe: Scalars['Int'];
 };
 
@@ -101,6 +116,11 @@ export type MutationSaveRecipeArgs = {
 
 export type MutationSaveUserArgs = {
   user: UserInput;
+};
+
+
+export type MutationUpdateRecipeArgs = {
+  recipe: UpdateRecipeInput;
 };
 
 export type Query = {
@@ -178,6 +198,7 @@ export type SearchResult = Recipe | Tag | User;
 export type Step = {
   __typename?: 'Step';
   description: Scalars['String'];
+  idStep: Scalars['Int'];
 };
 
 export type StepInput = {
@@ -199,6 +220,17 @@ export type Unit = {
   __typename?: 'Unit';
   idUnit: Scalars['String'];
   name: Scalars['String'];
+};
+
+export type UpdateRecipeInput = {
+  description: Scalars['String'];
+  idRecipe: Scalars['Int'];
+  ingredients: Array<IngredientUpdateInput>;
+  name: Scalars['String'];
+  numberOfPeople: Scalars['Int'];
+  photo: Scalars['Upload'];
+  steps: Array<StepInput>;
+  tags: Array<TagInput>;
 };
 
 export type User = {
@@ -271,7 +303,7 @@ export type GetRecipeQueryVariables = Exact<{
 }>;
 
 
-export type GetRecipeQuery = { __typename?: 'Query', getRecipe: { __typename?: 'Recipe', idRecipe: number, name: string, description: string, numberOfPeople: number, photo: string, dateCreated: string, ingredients: Array<{ __typename?: 'Ingredient', name: string, quantity: number, unit: { __typename?: 'Unit', name: string } }>, steps: Array<{ __typename?: 'Step', description: string }>, likes: Array<{ __typename?: 'User', username: string }>, user: { __typename?: 'User', username: string }, tags: Array<{ __typename?: 'Tag', name: string }>, comments: Array<{ __typename?: 'Comment', idComment: number, comment: string, likes: Array<{ __typename?: 'User', username: string }>, user: { __typename?: 'User', username: string, name: string, lastName: string } }>, bookmarkedBy: Array<{ __typename?: 'User', username: string }> } };
+export type GetRecipeQuery = { __typename?: 'Query', getRecipe: { __typename?: 'Recipe', idRecipe: number, name: string, description: string, numberOfPeople: number, photo: string, dateCreated: string, ingredients: Array<{ __typename?: 'Ingredient', idIngredient: number, name: string, quantity: number, unit: { __typename?: 'Unit', idUnit: string, name: string } }>, steps: Array<{ __typename?: 'Step', idStep: number, description: string }>, likes: Array<{ __typename?: 'User', username: string }>, user: { __typename?: 'User', username: string }, tags: Array<{ __typename?: 'Tag', name: string }>, comments: Array<{ __typename?: 'Comment', idComment: number, comment: string, likes: Array<{ __typename?: 'User', username: string }>, user: { __typename?: 'User', username: string, name: string, lastName: string } }>, bookmarkedBy: Array<{ __typename?: 'User', username: string }> } };
 
 export type LikeRecipeMutationVariables = Exact<{
   idRecipe: Scalars['Int'];
@@ -615,13 +647,16 @@ export const GetRecipeDocument = gql`
     photo
     dateCreated
     ingredients {
+      idIngredient
       name
       quantity
       unit {
+        idUnit
         name
       }
     }
     steps {
+      idStep
       description
     }
     likes {
