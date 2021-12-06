@@ -13,3 +13,11 @@ export class StepInput {
     @Field(of => String)
     description: string;
 }
+
+@InputType()
+export class StepUpdateInput {
+    @Field(of => Int)
+    idStep: number;
+    @Field(of => String)
+    description: string;
+}

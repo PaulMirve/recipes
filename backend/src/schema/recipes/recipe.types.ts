@@ -1,7 +1,7 @@
 import { Field, InputType, Int, ObjectType } from "type-graphql";
 import { FileUpload, GraphQLUpload } from 'graphql-upload';
 import { Ingredient, IngredientInput, IngredientUpdateInput } from "../ingredient/ingredient.types";
-import { Step, StepInput } from "../step/step.types";
+import { Step, StepInput, StepUpdateInput } from "../step/step.types";
 import { IsInt, IsNotEmpty } from "class-validator";
 import { Tag, TagInput } from "../tag/tag.types";
 import { User } from "../user/user.types";
@@ -77,8 +77,8 @@ export class UpdateRecipeInput {
     photo: FileUpload;
     @Field(of => [IngredientUpdateInput])
     ingredients: IngredientUpdateInput[];
-    @Field(of => [StepInput])
-    steps: StepInput[];
+    @Field(of => [StepUpdateInput])
+    steps: StepUpdateInput[];
     @Field(of => [TagInput])
     tags: TagInput[];
 }

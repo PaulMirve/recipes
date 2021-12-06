@@ -8,7 +8,8 @@ import { IngredientEntity } from "../ingredient/ingredient.entity";
 import { StepEntity } from "../step/step.entity"; import { removeDuplicateTags } from "../../helpers/remove-duplicate-tags";
 import { ValidIdRecipeMiddleware } from "../../middlewares/valid-idRecipe.middleware";
 import { TagEntity } from "../tag/tag.entity";
-import { upgradeIngredients } from "../../helpers/update-ingredients";
+import { updateIngredients } from "../../helpers/update-ingredients";
+import { updateSteps } from "../../helpers/update-steps";
 @Resolver(of => Recipe)
 class RecipeResolver {
     @Query(returns => [Recipe])
@@ -115,9 +116,10 @@ class RecipeResolver {
         const { photo, tags, steps, idRecipe, ingredients, ...updatedRecipe } = recipeInput;
         const recipe = await RecipeEntity.findOne({
             where: { idRecipe },
-            relations: ["ingredients"]
+            relations: ["ingredients", "steps"]
         });
-        recipe.ingredients = await upgradeIngredients(recipe.ingredients, ingredients);
+        recipe.ingredients = await updateIngredients(recipe.ingredients, ingredients);
+        recipe.steps = await updateSteps(recipe.steps, steps);
         return RecipeEntity.save(recipe);
     }
 
