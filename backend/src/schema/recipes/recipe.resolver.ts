@@ -11,6 +11,7 @@ import { TagEntity } from "../tag/tag.entity";
 import { updateIngredients } from "../../helpers/update-ingredients";
 import { updateSteps } from "../../helpers/update-steps";
 import { updateTags } from "../../helpers/update-tags";
+import { updatePhoto } from "../../helpers/update-photo";
 @Resolver(of => Recipe)
 class RecipeResolver {
     @Query(returns => [Recipe])
@@ -114,14 +115,18 @@ class RecipeResolver {
     async updateRecipe(
         @Arg("recipe") recipeInput: UpdateRecipeInput
     ) {
-        const { photo, tags, steps, idRecipe, ingredients, ...updatedRecipe } = recipeInput;
+        const { photo, tags, steps, idRecipe, ingredients, name, description, numberOfPeople } = recipeInput;
         const recipe = await RecipeEntity.findOne({
             where: { idRecipe },
             relations: ["ingredients", "steps", "tags"]
         });
+        recipe.name = name;
+        recipe.description = description;
+        recipe.numberOfPeople = numberOfPeople;
         recipe.ingredients = await updateIngredients(recipe.ingredients, ingredients);
         recipe.steps = await updateSteps(recipe.steps, steps);
         recipe.tags = await removeDuplicateTags(updateTags(recipe.tags, tags));
+        // recipe.photo = await updatePhoto(recipe.photo, photo);
         return RecipeEntity.save(recipe);
     }
 
