@@ -34,7 +34,7 @@ export const StepsForms = ({ steps, setSteps }: Props) => {
             description: step.description
         });
     }
-console.log(steps)
+    
     return (
         <div className={styles.steps}>
             <div className={styles.steps__form}>
