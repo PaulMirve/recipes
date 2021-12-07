@@ -101,7 +101,8 @@ class RecipeResolver {
         @Ctx("user") user: UserEntity
     ) {
         const recipe = await RecipeEntity.findOne({ idRecipe });
-        if (recipe.idUser != user.idUser) {
+
+        if (recipe.idUser !== user.idUser) {
             throw new Error("This recipe doesn't belong to you 😠");
         }
 
@@ -113,13 +114,19 @@ class RecipeResolver {
     @Mutation(returns => Recipe)
     @UseMiddleware(AuthMiddleware)
     async updateRecipe(
-        @Arg("recipe") recipeInput: UpdateRecipeInput
+        @Arg("recipe") recipeInput: UpdateRecipeInput,
+        @Ctx("user") user: UserEntity
     ) {
         const { photo, tags, steps, idRecipe, ingredients, name, description, numberOfPeople } = recipeInput;
         const recipe = await RecipeEntity.findOne({
             where: { idRecipe },
             relations: ["ingredients", "steps", "tags"]
         });
+
+        if (recipe.idUser !== user.idUser) {
+            throw new Error("This recipe doesn't belong to you 😠");
+        }
+
         recipe.name = name;
         recipe.description = description;
         recipe.numberOfPeople = numberOfPeople;
