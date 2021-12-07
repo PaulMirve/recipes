@@ -7,6 +7,7 @@
     right: 0;
     bottom: 0;
     visibility: hidden;
+    z-index: 11;
 }
 
 .open {
@@ -29,10 +30,12 @@
     border-radius: 5px;
     position: absolute;
     box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
-    padding: 2rem 2em;
+    padding: 2rem 1.5em;
     transform: scale(0);
     transform-origin: top;
     transition: transform 0.2s ease;
+    width: 20rem;
+    font-size: 1.8rem;
 }
 
 .menuOpen {

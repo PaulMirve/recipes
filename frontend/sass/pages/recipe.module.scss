@@ -52,6 +52,15 @@ $font-size: 1.8rem;
     gap: 2rem;
     align-items: flex-end;
 
+    & span {
+        display: flex;
+        align-items: center;
+
+        & svg {
+            width: 4rem;
+        }
+    }
+
     & svg {
         width: 5rem;
         aspect-ratio: 1;
@@ -160,7 +169,13 @@ $font-size: 1.8rem;
     right: 0;
     display: none;
 
-    @include respond(phone){
+    @include respond(phone) {
         display: block;
     }
+}
+
+.menuIcon {
+    display: flex;
+    gap: 1rem;
+    cursor: pointer;
 }

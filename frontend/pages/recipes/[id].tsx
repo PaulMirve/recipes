@@ -6,6 +6,7 @@ import Comment from 'components/Comment';
 import Heading from 'components/Heading';
 import Icon from 'components/Icon';
 import { ListItem } from 'components/ListItem';
+import Menu from 'components/Menu/ìndex';
 import Tag from 'components/Tag';
 import { FormikTextArea } from 'components/TextArea/FormikTextArea';
 import Tooltip from 'components/Tooltip';
@@ -15,8 +16,10 @@ import { getRecipeQuery } from 'graphql/recipe.resolver';
 import { showAlert } from 'helpers/show-alert';
 import { useBookmark } from 'hooks/useBookmark';
 import { useComment } from 'hooks/useComment';
+import { useGlobalContext } from 'hooks/useGlobalContext';
 import { useLikes } from 'hooks/useLikes';
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/dist/client/router';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -39,6 +42,10 @@ const Recipe = ({ recipe }: Props) => {
     const { commentsList, addComment } = useComment({ idRecipe, comments });
     const { onLikeRecipe, isRecipeLiked, likesCount } = useLikes(recipe)
     const { bookmarkRecipe, isRecipeBookmarked } = useBookmark(recipe);
+    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
+    const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
+    const { user } = useGlobalContext();
+    const router = useRouter();
 
     const onCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
         const stepsCheck = [...stepsChecked];
@@ -51,6 +58,27 @@ const Recipe = ({ recipe }: Props) => {
                 icon: 'success'
             });
         }
+    }
+
+    const handleDelete = () => {
+        showAlert({
+            title: 'Delete recipe',
+            text: 'Are you sure you want to delete this recipe?',
+            icon: 'question',
+            confirmButtonText: 'Yes, delete it.',
+            confirmButtonColor: '#3085d6',
+            showCancelButton: true,
+            cancelButtonText: 'No, cancel.',
+            cancelButtonColor: '#d33',
+        }, (result) => {
+            if (result.isConfirmed) {
+                showAlert({
+                    title: 'Deleted!',
+                    text: 'The recipe has been deleted successfully!',
+                    icon: 'success'
+                })
+            }
+        });
     }
 
     return (
@@ -67,10 +95,32 @@ const Recipe = ({ recipe }: Props) => {
                         <Icon.BookmarkOutline className={styles.bookmarkIcon} onClick={bookmarkRecipe} />}
                 </span>
                 <span className={styles.title}>
-                    <Heading variant='h1' fontWeight='bold'>{name}</Heading>
+                    <span>
+                        <Heading variant='h1' fontWeight='bold'>{name}</Heading>
+                        {user?.username === username &&
+                            <>
+                                <span onClick={(e) => {
+                                    setIsMenuOpen(true);
+                                    setAnchorEl(e.currentTarget);
+                                }}>
+                                    <Icon.DotVertical />
+                                </span>
+                                <Menu onClose={() => setIsMenuOpen(false)} open={isMenuOpen} anchorEl={anchorEl}>
+                                    <span onClick={() => router.push(`/recipes/update/${idRecipe}`)} className={styles.menuIcon}>
+                                        <Icon.Edit />
+                                        Edit
+                                    </span>
+                                    <span onClick={handleDelete} className={styles.menuIcon}>
+                                        <Icon.Delete />
+                                        Delete
+                                    </span>
+                                </Menu>
+                            </>}
+                    </span>
                     <Tooltip text='Bookmark'>
                         {isRecipeBookmarked ? <Icon.BookmarkFilled onClick={bookmarkRecipe} /> : <Icon.BookmarkOutline onClick={bookmarkRecipe} />}
                     </Tooltip>
+
                 </span>
                 <div className={styles.tags}>
                     {
