@@ -2,8 +2,10 @@ import axios from "axios"
 import client from "client"
 import { GetRecipeQuery, GetRecipeQueryVariables, Ingredient, Recipe, Step } from "generated/graphql"
 import { getRecipeQuery } from "graphql/recipe.resolver"
+import { showAlert, showErrorAlert } from "helpers/show-alert"
 import RecipeForm, { RecipeFormSubmitArgs } from "layout/RecipeForm"
 import { GetServerSideProps } from "next"
+import { useRouter } from "next/dist/client/router"
 import Head from 'next/head'
 import { ParsedUrlQuery } from "querystring"
 
@@ -20,6 +22,8 @@ interface Props {
 }
 
 const UpdateRecipe = ({ idRecipe, username, ...props }: Props) => {
+    const router = useRouter();
+
     const onFormSubmit = async ({ name, description, people, photo, photoFile, steps, ingredients, tags }: RecipeFormSubmitArgs) => {
         let formData = new FormData();
         formData.append("operations", `
@@ -41,12 +45,33 @@ const UpdateRecipe = ({ idRecipe, username, ...props }: Props) => {
         `);
         formData.append("map", `{ "0": ["variables.recipe.photo"] }`);
         formData.append("0", photoFile!);
-
-        await axios.post('http://localhost:8081/graphql', formData, {
-            headers: {
-                authorization: localStorage.getItem('token') || ""
+        try {
+            const { data } = await axios.post('http://localhost:8081/graphql', formData, {
+                headers: {
+                    authorization: localStorage.getItem('token') || ""
+                }
+            });
+            console.log(data)
+            if (data.errors) {
+                showAlert({
+                    title: 'Ups!',
+                    text: "It seems like this recipe doesn't belong to you 👀.",
+                    icon: 'info'
+                }, () => {
+                    router.push(`/recipes/${idRecipe}`);
+                });
+            } else {
+                showAlert({
+                    title: 'Recipe updated',
+                    text: 'The recipe has been updated successfully!'
+                }, () => {
+                    router.push(`/recipes/${idRecipe}`);
+                });
             }
-        });
+        } catch (err) {
+            showErrorAlert()
+        }
+
     }
     return (
         <>
