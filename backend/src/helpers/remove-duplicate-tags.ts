@@ -1,7 +1,7 @@
 import { TagEntity } from "../schema/tag/tag.entity";
 import { TagInput } from "../schema/tag/tag.types";
 
-export const removeDuplicateTags = async (tags: TagInput[]): Promise<TagEntity[]> => {
+export const removeDuplicateTags = async (tags: TagInput[] | TagEntity[]): Promise<TagEntity[]> => {
     const dbTags = await TagEntity.find();
     return tags.map((tag) => {
         const dbTag = dbTags.find(t => t.name === tag.name);

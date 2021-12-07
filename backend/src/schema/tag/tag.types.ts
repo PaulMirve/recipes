@@ -20,4 +20,5 @@ export class TagInput {
     @Field(of => Int)
     @IsRecipeExist()
     idRecipe: number;
+
 }

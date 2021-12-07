@@ -10,6 +10,7 @@ import { ValidIdRecipeMiddleware } from "../../middlewares/valid-idRecipe.middle
 import { TagEntity } from "../tag/tag.entity";
 import { updateIngredients } from "../../helpers/update-ingredients";
 import { updateSteps } from "../../helpers/update-steps";
+import { updateTags } from "../../helpers/update-tags";
 @Resolver(of => Recipe)
 class RecipeResolver {
     @Query(returns => [Recipe])
@@ -116,10 +117,11 @@ class RecipeResolver {
         const { photo, tags, steps, idRecipe, ingredients, ...updatedRecipe } = recipeInput;
         const recipe = await RecipeEntity.findOne({
             where: { idRecipe },
-            relations: ["ingredients", "steps"]
+            relations: ["ingredients", "steps", "tags"]
         });
         recipe.ingredients = await updateIngredients(recipe.ingredients, ingredients);
         recipe.steps = await updateSteps(recipe.steps, steps);
+        recipe.tags = await removeDuplicateTags(updateTags(recipe.tags, tags));
         return RecipeEntity.save(recipe);
     }
 
