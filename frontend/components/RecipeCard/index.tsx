@@ -5,6 +5,8 @@ import { useRouter } from 'next/dist/client/router'
 import Image from 'next/image'
 import { ComponentPropsWithoutRef } from 'react'
 import Link from 'next/link'
+import Icon from 'components/Icon'
+import { useGlobalContext } from 'hooks/useGlobalContext'
 
 interface Props extends ComponentPropsWithoutRef<'div'> {
     recipe: Recipe,
@@ -14,6 +16,8 @@ interface Props extends ComponentPropsWithoutRef<'div'> {
 const RecipeCard = ({ className = "", recipe, onClick, showUsername = true, ...rest }: Props) => {
     const { idRecipe, name, description, tags, photo, user: { username } } = recipe;
     const router = useRouter();
+    const { user } = useGlobalContext();
+
     return (
         <div
             onClick={() => router.push(`/recipes/${idRecipe}`)}
@@ -24,6 +28,10 @@ const RecipeCard = ({ className = "", recipe, onClick, showUsername = true, ...r
                     <Link href={`/user/${username}`}><a>{username}</a></Link>
                 </div>
             }
+            {user?.username === username && <Icon.DotVertical onClick={(e) => {
+                e.stopPropagation();
+                router.push(`/recipes/update/${idRecipe}`);
+            }} className={styles.icon} />}
             <Image src={photo} width={400} height={400} className={styles.photo} />
             <div className={styles.content}>
                 <p className={styles.name}>{name}</p>

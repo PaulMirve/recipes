@@ -4,8 +4,8 @@ import { GetRecipeQuery, GetRecipeQueryVariables, Ingredient, Recipe, Step } fro
 import { getRecipeQuery } from "graphql/recipe.resolver"
 import RecipeForm, { RecipeFormSubmitArgs } from "layout/RecipeForm"
 import { GetServerSideProps } from "next"
-import { ParsedUrlQuery } from "querystring"
 import Head from 'next/head'
+import { ParsedUrlQuery } from "querystring"
 
 interface Props {
     idRecipe: number,
@@ -15,10 +15,11 @@ interface Props {
     description: string,
     numberOfPeople: number,
     tags: string[],
-    photo: string
+    photo: string,
+    username: string
 }
 
-const UpdateRecipe = ({ idRecipe, ...props }: Props) => {
+const UpdateRecipe = ({ idRecipe, username, ...props }: Props) => {
     const onFormSubmit = async ({ name, description, people, photo, photoFile, steps, ingredients, tags }: RecipeFormSubmitArgs) => {
         let formData = new FormData();
         formData.append("operations", `
@@ -63,6 +64,7 @@ interface Params extends ParsedUrlQuery {
 export const getServerSideProps: GetServerSideProps<Props, Params> = async ({ params }) => {
     if (params) {
         const { id } = params;
+
         const recipe = await client.query<GetRecipeQuery, GetRecipeQueryVariables>({
             query: getRecipeQuery,
             variables: {
@@ -81,10 +83,12 @@ export const getServerSideProps: GetServerSideProps<Props, Params> = async ({ pa
                 }
             }
         }
+
         const { tags, ...rest } = recipe;
         return {
             props: {
                 tags: tags.map(tag => tag.name),
+                username: recipe.user.username,
                 ...rest
             }
         }
