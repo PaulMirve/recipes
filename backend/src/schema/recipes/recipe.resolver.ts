@@ -40,8 +40,9 @@ class RecipeResolver {
 
     @Query(returns => [Recipe])
     @UseMiddleware(AuthMiddleware)
-    async getRecipesFromPeopleFollowing(
+    async getRecipesFromFollowedPeople(
         @Arg("skip", () => Int, { nullable: true }) skip: number = 0,
+        @Arg("limit", () => Int, { nullable: true }) limit: number = 15,
         @Ctx("user") { idUser }: UserEntity
     ) {
         const user = await UserEntity.findOne({
@@ -52,7 +53,7 @@ class RecipeResolver {
             .where("recipe.idUser IN (:...following)", { following: user.following.map(usr => usr.idUser), })
             .orderBy("recipe.dateCreated", "DESC")
             .skip(skip)
-            .take(15)
+            .take(limit)
             .getMany();
 
         return recipes;
