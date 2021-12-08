@@ -129,6 +129,7 @@ export type Query = {
   getRecipeComments: Array<Comment>;
   getRecipes: Array<Recipe>;
   getRecipesByTag: Array<Recipe>;
+  getRecipesFromFollowedPeople: Array<Recipe>;
   getUnits: Array<Unit>;
   getUser: User;
   getUsers: Array<User>;
@@ -149,6 +150,12 @@ export type QueryGetRecipeCommentsArgs = {
 
 export type QueryGetRecipesByTagArgs = {
   tagName: Scalars['String'];
+};
+
+
+export type QueryGetRecipesFromFollowedPeopleArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -330,6 +337,21 @@ export type GetRecipesByTagQueryVariables = Exact<{
 
 
 export type GetRecipesByTagQuery = { __typename?: 'Query', getRecipesByTag: Array<{ __typename?: 'Recipe', idRecipe: number, name: string, description: string, numberOfPeople: number, photo: string, likes: Array<{ __typename?: 'User', name: string }>, user: { __typename?: 'User', username: string }, tags: Array<{ __typename?: 'Tag', name: string }> }> };
+
+export type GetRecipesFromFollowedPeopleQueryVariables = Exact<{
+  skip?: InputMaybe<Scalars['Int']>;
+  limit?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type GetRecipesFromFollowedPeopleQuery = { __typename?: 'Query', getRecipesFromFollowedPeople: Array<{ __typename?: 'Recipe', idRecipe: number, name: string, description: string, numberOfPeople: number, photo: string, likes: Array<{ __typename?: 'User', name: string }>, user: { __typename?: 'User', username: string }, tags: Array<{ __typename?: 'Tag', name: string }> }> };
+
+export type DeleteRecipeMutationVariables = Exact<{
+  idRecipe: Scalars['Int'];
+}>;
+
+
+export type DeleteRecipeMutation = { __typename?: 'Mutation', deleteRecipe: number };
 
 export type SearchQueryVariables = Exact<{
   phrase: Scalars['String'];
@@ -833,6 +855,86 @@ export function useGetRecipesByTagLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type GetRecipesByTagQueryHookResult = ReturnType<typeof useGetRecipesByTagQuery>;
 export type GetRecipesByTagLazyQueryHookResult = ReturnType<typeof useGetRecipesByTagLazyQuery>;
 export type GetRecipesByTagQueryResult = Apollo.QueryResult<GetRecipesByTagQuery, GetRecipesByTagQueryVariables>;
+export const GetRecipesFromFollowedPeopleDocument = gql`
+    query GetRecipesFromFollowedPeople($skip: Int, $limit: Int) {
+  getRecipesFromFollowedPeople(skip: $skip, limit: $limit) {
+    idRecipe
+    name
+    description
+    numberOfPeople
+    photo
+    likes {
+      name
+    }
+    user {
+      username
+    }
+    tags {
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetRecipesFromFollowedPeopleQuery__
+ *
+ * To run a query within a React component, call `useGetRecipesFromFollowedPeopleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRecipesFromFollowedPeopleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRecipesFromFollowedPeopleQuery({
+ *   variables: {
+ *      skip: // value for 'skip'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useGetRecipesFromFollowedPeopleQuery(baseOptions?: Apollo.QueryHookOptions<GetRecipesFromFollowedPeopleQuery, GetRecipesFromFollowedPeopleQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetRecipesFromFollowedPeopleQuery, GetRecipesFromFollowedPeopleQueryVariables>(GetRecipesFromFollowedPeopleDocument, options);
+      }
+export function useGetRecipesFromFollowedPeopleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRecipesFromFollowedPeopleQuery, GetRecipesFromFollowedPeopleQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetRecipesFromFollowedPeopleQuery, GetRecipesFromFollowedPeopleQueryVariables>(GetRecipesFromFollowedPeopleDocument, options);
+        }
+export type GetRecipesFromFollowedPeopleQueryHookResult = ReturnType<typeof useGetRecipesFromFollowedPeopleQuery>;
+export type GetRecipesFromFollowedPeopleLazyQueryHookResult = ReturnType<typeof useGetRecipesFromFollowedPeopleLazyQuery>;
+export type GetRecipesFromFollowedPeopleQueryResult = Apollo.QueryResult<GetRecipesFromFollowedPeopleQuery, GetRecipesFromFollowedPeopleQueryVariables>;
+export const DeleteRecipeDocument = gql`
+    mutation DeleteRecipe($idRecipe: Int!) {
+  deleteRecipe(idRecipe: $idRecipe)
+}
+    `;
+export type DeleteRecipeMutationFn = Apollo.MutationFunction<DeleteRecipeMutation, DeleteRecipeMutationVariables>;
+
+/**
+ * __useDeleteRecipeMutation__
+ *
+ * To run a mutation, you first call `useDeleteRecipeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRecipeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRecipeMutation, { data, loading, error }] = useDeleteRecipeMutation({
+ *   variables: {
+ *      idRecipe: // value for 'idRecipe'
+ *   },
+ * });
+ */
+export function useDeleteRecipeMutation(baseOptions?: Apollo.MutationHookOptions<DeleteRecipeMutation, DeleteRecipeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteRecipeMutation, DeleteRecipeMutationVariables>(DeleteRecipeDocument, options);
+      }
+export type DeleteRecipeMutationHookResult = ReturnType<typeof useDeleteRecipeMutation>;
+export type DeleteRecipeMutationResult = Apollo.MutationResult<DeleteRecipeMutation>;
+export type DeleteRecipeMutationOptions = Apollo.BaseMutationOptions<DeleteRecipeMutation, DeleteRecipeMutationVariables>;
 export const SearchDocument = gql`
     query Search($phrase: String!) {
   search(phrase: $phrase) {

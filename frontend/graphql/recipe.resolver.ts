@@ -111,3 +111,30 @@ query getRecipesByTag($tagName: String!) {
   }
 }
 `;
+
+export const getRecipesFromFollowedPeopleQuery = gql`
+query GetRecipesFromFollowedPeople($skip: Int, $limit: Int) {
+  getRecipesFromFollowedPeople(skip: $skip, limit: $limit) {
+    idRecipe
+    name
+    description
+    numberOfPeople
+    photo
+    likes {
+      name
+    }
+    user {
+      username
+    }
+    tags {
+      name
+    }
+  }
+}
+`;
+
+export const deleteRecipeMutation = gql`
+mutation DeleteRecipe($idRecipe: Int!){
+  deleteRecipe(idRecipe: $idRecipe)
+}
+`;
