@@ -38,6 +38,26 @@ class RecipeResolver {
         return tag.recipes;
     }
 
+    @Query(returns => [Recipe])
+    @UseMiddleware(AuthMiddleware)
+    async getRecipesFromPeopleFollowing(
+        @Arg("skip", () => Int, { nullable: true }) skip: number = 0,
+        @Ctx("user") { idUser }: UserEntity
+    ) {
+        const user = await UserEntity.findOne({
+            where: { idUser },
+            relations: ["following"]
+        });
+        const recipes = await RecipeEntity.createQueryBuilder("recipe")
+            .where("recipe.idUser IN (:...following)", { following: user.following.map(usr => usr.idUser), })
+            .orderBy("recipe.dateCreated", "DESC")
+            .skip(skip)
+            .take(15)
+            .getMany();
+
+        return recipes;
+    }
+
     @Mutation(returns => Recipe)
     @UseMiddleware(AuthMiddleware)
     async saveRecipe(

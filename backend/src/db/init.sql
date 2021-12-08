@@ -8,7 +8,8 @@ create table if not exists "Users" (
     "LastName" varchar not null,
     "Username" varchar not null constraint "UQ_a842ddfeb687f3df0f862ca73ea" unique,
     "Password" varchar not null,
-    "IdRole" integer default 1 not null constraint "FK_c96757b482b5a4eb9f8cf217b9e" references "Roles"
+    "IdRole" integer default 1 not null constraint "FK_c96757b482b5a4eb9f8cf217b9e" references "Roles",
+    "Email" varchar not null constraint "UQ_884fdf47515c24dbbf6d89c2d84" unique
 );
 create table if not exists "Recipes" (
     "IdRecipe" serial constraint "PK_39ee6f6a31755bfdb4d2f1b6f57" primary key,
@@ -17,14 +18,8 @@ create table if not exists "Recipes" (
     "NumberOfPeople" integer not null,
     "Photo" varchar not null,
     "DateCreated" timestamp default now() not null,
-    "IdUser" integer not null constraint "FK_8386a7e1559575a2f5abcaae6ff" references "Users"
-);
-create table if not exists "Comments" (
-    "IdComment" serial constraint "PK_136dce126895d5665fe3ff0251c" primary key,
-    "Comment" varchar not null,
-    "DateCreated" timestamp default now() not null,
-    "IdRecipe" integer not null constraint "FK_ecd6dbaf4fa771387582028b14a" references "Recipes",
-    "IdUser" integer not null constraint "FK_73c5ad8394c6086d995d6d4546d" references "Users"
+    "IdUser" integer not null constraint "FK_8386a7e1559575a2f5abcaae6ff" references "Users",
+    "Active" boolean default true not null
 );
 create table if not exists "Units" (
     "IdUnit" serial constraint "PK_66715895bb7ac23c336c045bc06" primary key,
@@ -36,6 +31,13 @@ create table if not exists "Ingredients" (
     "Quantity" integer not null,
     "IdUnit" integer not null constraint "FK_3c60f2235210a63dc0fd72f31f9" references "Units",
     "IdRecipe" integer not null constraint "FK_d4ca48bb1f5ca17192959de9ff2" references "Recipes"
+);
+create table if not exists "Comments" (
+    "IdComment" serial constraint "PK_136dce126895d5665fe3ff0251c" primary key,
+    "Comment" varchar not null,
+    "DateCreated" timestamp default now() not null,
+    "IdRecipe" integer not null constraint "FK_ecd6dbaf4fa771387582028b14a" references "Recipes",
+    "IdUser" integer not null constraint "FK_73c5ad8394c6086d995d6d4546d" references "Users"
 );
 create table if not exists "UserHasFollowers" (
     "IdFollower" integer not null constraint "FK_84b2b1fa69a585818860354a03c" references "Users" on update cascade on delete cascade,
@@ -68,9 +70,19 @@ create index if not exists "IDX_97020aab3a86c99434a9c656c4" on "UserHasLikedComm
 create table if not exists "Steps" (
     "IdStep" serial constraint "PK_c829c56ffc0b3075eaeff4e8434" primary key,
     "Description" varchar not null,
-    "IdRecipe" integer not null,
-    "recipeIdRecipe" integer constraint "FK_410d1c354e896e30376174a39be" references "Recipes"
+    "IdRecipe" integer not null constraint "FK_31333fb27c203ab2e6a46efb4a3" references "Recipes"
 );
+create table if not exists "Tags" (
+    "IdTag" serial constraint "PK_7735c6d952ff4f229348ebc5d9b" primary key,
+    "Name" varchar not null
+);
+create table if not exists "RecipeHasTags" (
+    "IdRecipe" integer not null constraint "FK_0294b64d18c66b550ed9bb1d294" references "Recipes" on update cascade on delete cascade,
+    "IdTag" integer not null constraint "FK_ff77e0ca6d17417455b3522bfa5" references "Tags",
+    constraint "PK_40b08cf46e299e1ee07e487f990" primary key ("IdRecipe", "IdTag")
+);
+create index if not exists "IDX_0294b64d18c66b550ed9bb1d29" on "RecipeHasTags" ("IdRecipe");
+create index if not exists "IDX_ff77e0ca6d17417455b3522bfa" on "RecipeHasTags" ("IdTag");
 insert into "Roles" ("Name")
 values ('USER_ROLE'),
     ('ADMIN_ROLE');
