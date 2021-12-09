@@ -6,4 +6,9 @@ export class HiResolver {
     hi() {
         return 'Hello World!'
     }
+
+    @Query(of => String)
+    goodbye() {
+        return 'Goodbye World!'
+    }
 }
