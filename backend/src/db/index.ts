@@ -1,5 +1,12 @@
-import { createConnection } from 'typeorm'
-import path from 'path'
+import { createConnection } from 'typeorm';
+import { CommentEntity } from '../schema/comment/comment.entity';
+import { IngredientEntity } from '../schema/ingredient/ingredient.entity';
+import { RecipeEntity } from '../schema/recipes/recipe.entity';
+import { RoleEntity } from '../schema/role/role.entity';
+import { StepEntity } from '../schema/step/step.entity';
+import { TagEntity } from '../schema/tag/tag.entity';
+import { UnitEntity } from '../schema/unit/unit.entity';
+import { UserEntity } from '../schema/user/user.entity';
 
 const connect = async () => {
     try {
@@ -11,7 +18,14 @@ const connect = async () => {
             password: process.env.DB_PASSWORD,
             database: process.env.DB_DATABASE,
             entities: [
-                path.join(__dirname, '../schema/**/*.entity{.ts,.js}')
+                CommentEntity,
+                IngredientEntity,
+                RecipeEntity,
+                RoleEntity,
+                StepEntity,
+                TagEntity,
+                UnitEntity,
+                UserEntity
             ],
             //synchronize: true
         });
