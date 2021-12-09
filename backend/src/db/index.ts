@@ -1,12 +1,5 @@
-import { createConnection } from 'typeorm';
-import { CommentEntity } from '../schema/comment/comment.entity';
-import { IngredientEntity } from '../schema/ingredient/ingredient.entity';
-import { RecipeEntity } from '../schema/recipes/recipe.entity';
-import { RoleEntity } from '../schema/role/role.entity';
-import { StepEntity } from '../schema/step/step.entity';
-import { TagEntity } from '../schema/tag/tag.entity';
-import { UnitEntity } from '../schema/unit/unit.entity';
-import { UserEntity } from '../schema/user/user.entity';
+import { createConnection } from 'typeorm'
+import path from 'path'
 
 const connect = async () => {
     try {
@@ -18,14 +11,7 @@ const connect = async () => {
             password: process.env.DB_PASSWORD,
             database: process.env.DB_DATABASE,
             entities: [
-                CommentEntity,
-                IngredientEntity,
-                RecipeEntity,
-                RoleEntity,
-                StepEntity,
-                TagEntity,
-                UnitEntity,
-                UserEntity
+                path.join(__dirname, '../schema/**/*.entity.ts')
             ],
             //synchronize: true
         });
