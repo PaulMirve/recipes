@@ -1,25 +1,39 @@
-name: Push container to Heroku
+name: Deploy
 
 on:
   push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+    branches:
+      - master
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Login to Heroku Container registry
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          appdir: "backend"
+          usedocker: true
+          docker_build_args: |
+            DB_PORT
+            DB_USERNAME
+            DB_PASSWORD
+            DB_DATABASE
+            DB_HOST
+            PRIVATE_KEY
+            CLOUDINARY_CLOUD_NAME
+            CLOUDINARY_API_KEY
+            CLOUDINARY_API_SECRET
         env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:login
-      - name: Build and push
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web
-      - name: Release
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web
+          DB_PORT: ${{secrets.DB_PORT}}
+          DB_USERNAME: ${{secrets.DB_USERNAME}}
+          DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+          DB_DATABASE: ${{secrets.DB_DATABASE}}
+          DB_HOST: ${{secrets.DB_HOST}}
+          PRIVATE_KEY: ${{secrets.PRIVATE_KEY}}
+          CLOUDINARY_CLOUD_NAME: ${{secrets.CLOUDINARY_CLOUD_NAME}}
+          CLOUDINARY_API_KEY: ${{secrets.CLOUDINARY_API_KEY}}
+          CLOUDINARY_API_SECRET: ${{secrets.CLOUDINARY_API_SECRET}}
