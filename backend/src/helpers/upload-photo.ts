@@ -34,8 +34,9 @@ export const uploadPhoto = async (photo: FileUpload): Promise<string> => {
                 returnUrl = secure_url;
                 cleanupCallback();
                 resolve('Photo saved successfully');
-            } catch (error) {
+            } catch (error: any) {
                 console.log(`${error}`.red);
+                console.log(`${error.message}`.red);
                 reject('Error saving the photo');
             }
         });
