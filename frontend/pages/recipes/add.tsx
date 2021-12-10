@@ -56,7 +56,7 @@ const AddRecipe = () => {
             formData.append("map", `{ "0": ["variables.recipe.photo"] }`);
             formData.append("0", photoFile!);
             try {
-                await axios.post('http://localhost:8081/graphql', formData, {
+                await axios.post('https://recipes-backend1.herokuapp.com/graphql', formData, {
                     headers: {
                         authorization: localStorage.getItem('token') || ""
                     }
@@ -78,6 +78,7 @@ const AddRecipe = () => {
                 })
             } catch (err) {
                 Swal.hideLoading();
+                console.log(err)
                 alert(err);
             }
 
