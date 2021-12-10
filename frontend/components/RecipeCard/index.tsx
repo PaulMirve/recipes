@@ -40,3 +40,4 @@ const RecipeCard = ({ className = "", recipe, onClick, showUsername = true, ...r
 }
 
 export default RecipeCard
+ 

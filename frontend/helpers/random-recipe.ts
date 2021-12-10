@@ -9,5 +9,5 @@ export const randomRecipe = async (router: NextRouter) => {
     });
     const ids = data.getRecipes;
     const randomIndex = Math.floor(Math.random() * (ids.length));
-    router.push(`/recipes/${ids[randomIndex].idRecipe}`)
+    router.push(`/recipes/${ids[randomIndex]?.idRecipe}`)
 }

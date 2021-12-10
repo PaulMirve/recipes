@@ -12,7 +12,7 @@ const AuthWrapper: FC = ({ children }) => {
         if (data) {
             setUser(data.isAuthenticated as User);
         }
-    }, [data])
+    }, [data,setUser])
     return (
         <>
             {children}

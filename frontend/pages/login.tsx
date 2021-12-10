@@ -37,7 +37,7 @@ const Login = () => {
                 <title>ReciPies | Login</title>
             </Head>
             <Form onSubmit={(e) => handleSubmit(e)} className={styles.form}>
-                <Image src='/logo.png' width={200} height={90} />
+                <Image src='/logo.png' width={200} height={90} alt='Logo' />
                 <Heading>Login</Heading>
                 {error && <p className={styles.error}>Invalid username or password</p>}
                 <TextInput value={username} onChange={e => setUsername(e.target.value)} fullWidth label='Username' />

@@ -50,7 +50,7 @@ const Recipes = () => {
                     <div className={`${styles.discover} mt-sm`}>
                         {
                             friendsRecipesLoading ? <p>Loading...</p> :
-                                (friendsRecipes?.getRecipesFromFollowedPeople as Recipe[]).map((recipe) => {
+                                (friendsRecipes?.getRecipesFromFollowedPeople as Recipe[])?.map((recipe) => {
                                     return (
                                         <RecipeCard key={recipe.idRecipe} recipe={recipe} />
                                     );

@@ -19,7 +19,7 @@ const Home = () => {
         </Paragraph>
         <Button className={`${styles.hero__button} mt-sm`} >Discover new recipes</Button>
         <span className={styles.hero__frame}>
-          <Image src="/images/food-1.jpg" height={800} width={800} />
+          <Image src="/images/food-1.jpg" height={800} width={800} alt='Food 1' />
         </span>
       </header>
       <section className={styles.section1}>
@@ -28,7 +28,7 @@ const Home = () => {
       <section className={styles.section2}>
         <Heading className={styles.section2__title} centered casing='uppercase' fontWeight='bold' variant='h4'>Share your favorite recipes</Heading>
         <span className={styles.section2__frame}>
-          <Image src="/images/food-4.jpg" height={500} width={700} />
+          <Image src="/images/food-4.jpg" height={500} width={700} alt='Food 4' />
         </span>
         <Paragraph className={styles.section2__paragraph}>
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eaque modi beatae, fuga neque provident velit culpa minima voluptatem labore eius, error consequatur totam, ducimus minus molestias officiis iusto sed! Voluptas!
@@ -39,7 +39,7 @@ const Home = () => {
       </section>
       <section className={styles.section3}>
         <span className={styles.section3__frame}>
-          <Image src="/images/me.jpg" width={400} height={400} />
+          <Image src="/images/me.jpg" width={400} height={400} alt='Me' />
         </span>
         <Paragraph>
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe iste quaerat sunt accusamus doloremque unde corrupti quibusdam aliquid dolores? Ea aspernatur mollitia fuga animi ducimus dolorem sunt, error quisquam modi!

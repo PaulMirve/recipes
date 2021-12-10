@@ -11,7 +11,7 @@ const Error404 = () => {
         <div className={styles.main}>
             <div className={styles.content}>
                 <Icon.AlertCircleOutline className={styles.icon} />
-                <Heading>This page isn't available.</Heading>
+                <Heading>{`This page isn't available.`}</Heading>
                 <Paragraph>Please return to the main page.</Paragraph>
                 <Button onClick={() => router.push('/recipes')} fullWidth>Return</Button>
             </div>

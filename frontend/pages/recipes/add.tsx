@@ -90,8 +90,8 @@ const AddRecipe = () => {
                         <h4 style={{ marginBottom: '1rem' }}>The information of the recipe is incomplete:</h4>
                         <ul>
                             {
-                                errors.map(error => (
-                                    <li className={styles.errors}>{error}</li>
+                                errors.map((error, i) => (
+                                    <li key={i} className={styles.errors}>{error}</li>
                                 ))
                             }
                         </ul>

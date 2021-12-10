@@ -88,7 +88,7 @@ const Recipe = ({ recipe }: Props) => {
             </Head>
             <div className={styles.info}>
                 <span className={styles.frame}>
-                    <Image src={photo} height={600} width={600} />
+                    <Image src={photo} height={600} width={600} alt='Selected photo' />
                     {isRecipeBookmarked ?
                         <Icon.BookmarkFilled className={styles.bookmarkIcon} onClick={bookmarkRecipe} />
                         :

@@ -20,7 +20,7 @@ const SignIn = () => {
             </Head>
             <div className={styles.wrapper}>
                 <span className={styles.frame}>
-                    <Image src='/logo.png' width={180} height={80} />
+                    <Image src='/logo.png' width={180} height={80} alt='Logo' />
                 </span>
                 <Heading centered>Sing In</Heading>
                 <Formik

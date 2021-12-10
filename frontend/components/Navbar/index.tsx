@@ -29,7 +29,7 @@ const Navbar = () => {
     return (
         <nav className={`${styles.navbar} ${router.pathname.includes('login') || router.pathname.includes('signin') ? styles.transparent : ''} ${router.pathname.includes('user') && styles.navbarPrimary}`}>
             <Link href='/recipes'>
-                <a> <Image src='/logo.png' width={120} height={50} /></a>
+                <a> <Image src='/logo.png' width={120} height={50} alt='Logo' /></a>
             </Link>
             <div className={styles.links}>
                 <Link href='/recipes'><a>Recipes</a></Link>
