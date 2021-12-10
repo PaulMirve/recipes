@@ -5,13 +5,14 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./backend
+    image: paulmirve/recipes-backend
     environment:
       - DB_PORT=${DB_PORT}
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_DATABASE=${DB_DATABASE}
       - DB_HOST=${DB_HOST}
-      - PRIVATE_KEY=${PIRVATE_KEY}
+      - PRIVATE_KEY=${PRIVATE_KEY}
       - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
       - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
       - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}

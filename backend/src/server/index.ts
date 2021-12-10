@@ -15,7 +15,7 @@ export default class Server {
     constructor() {
         this.app = express();
         this.dbConnect();
-        this.port = 8081;
+        this.port = Number(process.env.PORT);
     }
 
     async dbConnect() {
