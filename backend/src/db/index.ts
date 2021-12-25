@@ -13,6 +13,12 @@ const connect = async () => {
             entities: [
                 path.join(__dirname, '../schema/**/*.entity{.ts,.js}')
             ],
+            ssl: true,
+            extra: {
+                ssl: {
+                    rejectUnauthorized: false,
+                },
+            }
             //synchronize: true
         });
         console.log('Database is connected ⚡'.blue);
