@@ -29,7 +29,7 @@ export default class Server {
 
     async start() {
         const app = express();
-        app.use(cors({origin: "https://cranky-hugle-e85a47.netlify.app/"}))
+        app.use(cors({origin: "https://cranky-hugle-e85a47.netlify.app"}))
         app.use(graphqlUploadExpress());
         const httpServer = http.createServer(app);
         const server = new ApolloServer({
