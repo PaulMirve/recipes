@@ -17,7 +17,7 @@ const authLink = setContext((_, { headers }) => {
     }
 });
 
-const httpLink = new HttpLink({ uri: 'https://recipes-backend1.herokuapp.com/graphql' });
+const httpLink = new HttpLink({ uri: 'https://recipes-production-b467.up.railway.app' });
 
 export default new ApolloClient({
     link: authLink.concat(httpLink),
