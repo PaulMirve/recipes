@@ -46,7 +46,7 @@ const UpdateRecipe = ({ idRecipe, username, ...props }: Props) => {
         formData.append("map", `{ "0": ["variables.recipe.photo"] }`);
         formData.append("0", photoFile!);
         try {
-            const { data } = await axios.post('https://recipes-backend1.herokuapp.com/graphql', formData, {
+            const { data } = await axios.post('https://recipes-production-b467.up.railway.app/graphql', formData, {
                 headers: {
                     authorization: localStorage.getItem('token') || ""
                 }
